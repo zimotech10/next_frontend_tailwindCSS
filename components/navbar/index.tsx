@@ -1,18 +1,25 @@
-import React from "react";
-import { useMediaQuery } from "@react-hook/media-query";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
+import logo from "../../public/images/horizontal-logo.png";
 
 const Navbar = () => {
-  // Use the useMediaQuery hook to check for screen width
-  const isMobile = useMediaQuery("(max-width: 767px)");
+  const [isMobile, setIsMobile] = useState(false);
 
-  return (
-    <div>
-      {/* Conditional rendering based on screen size */}
-      {isMobile ? <MobileNav /> : <DesktopNav />}
-    </div>
-  );
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return <div>{isMobile ? <MobileNav /> : <DesktopNav logo={logo.src} />}</div>;
 };
 
 export default Navbar;

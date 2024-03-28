@@ -48,10 +48,10 @@ const Hero = (
         </div>
       </div>
       <div
-        className="relative hidden md:block md:w-2/3"
+        className="relative flex items-center justify-end md:w-2/3"
         style={{ height: "100%" }}
       >
-        <Image src={props.image} layout="fill" objectFit="contain" alt="hero" />
+        <Image src={props.image} width={1000} height={1000} alt="hero" />
       </div>
     </div>
   );
