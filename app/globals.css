@@ -31,3 +31,11 @@ body {
     text-wrap: balance;
   }
 }
+
+@media screen and (min-width: 768px) {
+  #hero {
+    background: url("../public/images/explore-banner.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}
