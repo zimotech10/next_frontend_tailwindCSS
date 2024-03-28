@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import solanaIcon from "../../public/images/solana-logo.png";
+import Explore from "./Explore";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["500", "600", "700"],
