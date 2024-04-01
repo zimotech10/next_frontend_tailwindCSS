@@ -4,17 +4,14 @@ import Image from "next/image";
 import star from "../public/images/gradient-star.png";
 
 const electronica = localFont({ src: "../fonts/Electronica.otf" });
-
-const imageStyle = {
-  width: "60%",
-};
-
 const Hero = (
   props: React.PropsWithChildren<{
-    heading: any;
+    heading: string;
     desription: string;
     buttonText: string;
     image: string;
+    imgWidth: number;
+    imgHeight: number;
   }>
 ) => {
   return (
@@ -51,7 +48,12 @@ const Hero = (
         className="relative flex items-center justify-end"
         style={{ height: "100%" }}
       >
-        <Image src={props.image} width={1000} height={1000} alt="hero" />
+        <Image
+          src={props.image}
+          width={props.imgWidth}
+          height={props.imgHeight}
+          alt="hero"
+        />
       </div>
     </div>
   );
