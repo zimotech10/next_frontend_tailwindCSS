@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import solanaIcon from "../../public/images/solana-logo.png";
-import Explore from "./Explore";
+import Dropdown from "./Dropdown";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["500", "600", "700"],
@@ -23,7 +23,7 @@ const DesktopNav = (
 
   return (
     <div
-      className={`w-full sticky py-5 px-12 top-0 text-base justify-between flex flex-row items-center ${ipmSans.className}`}
+      className={`w-full sticky py-5 px-12 top-0 z-40 text-base justify-between flex flex-row items-center ${ipmSans.className}`}
     >
       <a href="/">
         <Image src={props.logo} width={150} height={150} alt="logo" />
@@ -55,6 +55,16 @@ const DesktopNav = (
               : "mingcute:down-line"
           }
         />
+        {hoveredItem === "explore" && (
+          <div className="top-16 absolute">
+            <Dropdown>
+              <div>NFT</div>
+              <div>Collections</div>
+              <div>Launchpad</div>
+              <div>Auction</div>
+            </Dropdown>
+          </div>
+        )}
       </div>
       <div
         className="px-8 flex flex-row items-center gap-1 font-semibold cursor-pointer "
@@ -69,6 +79,15 @@ const DesktopNav = (
               : "mingcute:down-line"
           }
         />
+        {hoveredItem === "creator" && (
+          <div className={`top-16 absolute `}>
+            <Dropdown>
+              <div>Apply as Launchpad</div>
+              <div>Submit a collection</div>
+              <div>Get Verified with AssureDefi</div>
+            </Dropdown>
+          </div>
+        )}
       </div>
       <div className="px-8 flex flex-row items-center gap-1 font-bold cursor-pointer ">
         <span className="bg-gradient-to-br from-amber-300 to-orange-400 bg-clip-text text-transparent">

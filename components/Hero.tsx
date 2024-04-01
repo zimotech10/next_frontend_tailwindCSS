@@ -48,7 +48,7 @@ const Hero = (
         </div>
       </div>
       <div
-        className="relative flex items-center justify-end md:w-2/3"
+        className="relative flex items-center justify-end"
         style={{ height: "100%" }}
       >
         <Image src={props.image} width={1000} height={1000} alt="hero" />

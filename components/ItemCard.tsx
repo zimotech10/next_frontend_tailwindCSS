@@ -29,6 +29,7 @@ const ItemCard = (
       className="w-40 md:w-72 flex flex-col p-2 gap-1 md:gap-3 md:p-4"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{ backgroundColor: "#0A0A0A" }}
     >
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
