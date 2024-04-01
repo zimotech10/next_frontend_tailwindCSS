@@ -39,3 +39,35 @@ body {
     background-size: 100% 100%;
   }
 }
+
+.checkbox-container {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  background-color: #000;
+  border-radius: 4px;
+  position: relative;
+}
+
+.checkbox.checked {
+  border-color: #ffb803;
+}
+
+.checkbox.checked .checkmark {
+  display: block;
+  color: #ffb803;
+}
+
+.checkmark {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+}
