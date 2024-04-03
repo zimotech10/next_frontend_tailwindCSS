@@ -6,7 +6,9 @@ import TabBar from "@/components/TabBar";
 import exploreImage from "../../public/images/explore-hero.png";
 import SearchBar from "@/components/SearchBar";
 import Filter from "@/components/Filter";
+import ItemCard from "@/components/ItemCard";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
+import { nfts } from "@/stores/mockData";
 
 const ExplorePage = () => {
   const [filter, setFilter] = useState(false);
@@ -22,7 +24,7 @@ const ExplorePage = () => {
       />
       <TabBar pathname="items" />
       <SearchBar placeholder="Search NFT by Title" />
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:gap-8 md:flex-row">
         <div className="hidden md:block">
           <Filter />
         </div>
@@ -53,6 +55,17 @@ const ExplorePage = () => {
               <Filter />
             </div>
           )}
+        </div>
+        <div className="flex gap-4 md:gap-6 flex-wrap justify-center">
+          {nfts.map((nft) => (
+            <ItemCard
+              key={nft.id}
+              name={nft.name}
+              image={nft.image.src}
+              collection={nft.collection}
+              price={nft.price}
+            />
+          ))}
         </div>
       </div>
     </div>

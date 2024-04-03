@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import SearchBar from "@/components/SearchBar";
 import domainHero from "@/public/images/domains-hero.png";
+import TabBar from "@/components/TabBar";
 
 const Domains = () => {
   return (
@@ -13,6 +14,7 @@ const Domains = () => {
         imgHeight={1100}
         imgWidth={1100}
       />
+      <TabBar pathname="domains" />
       <SearchBar placeholder="Search Domain by Title" />
     </div>
   );

@@ -42,8 +42,8 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
         <Icon icon="mingcute:down-line" width={20} />
         {sortModal && (
           <div
-            className="absolute top-10 z-50 p-3 flex flex-col gap-3 items-start"
-            style={{ width: "170px" }}
+            className="absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start"
+            style={{ width: "170px", backgroundColor: "#0B0A0A" }}
           >
             <button onClick={() => selectSort("Most Recent")}>
               Most Recent
