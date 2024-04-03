@@ -1,6 +1,8 @@
 import nft1 from "@/public/images/nft1.png";
 import nft2 from "@/public/images/nft2.png";
 import nft3 from "@/public/images/nft3.png";
+import cover from "@/public/images/collection-cover.png";
+import profile from "@/public/images/collection-profile.png";
 
 export const nfts = [
   {
@@ -65,5 +67,107 @@ export const nfts = [
     image: nft3,
     collection: "Name of Collection",
     price: "330 SOL",
+  },
+];
+
+export const collections = [
+  {
+    id: 14,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 15,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 16,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 17,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 18,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 19,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 20,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 21,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
+  },
+  {
+    id: 22,
+    name: "Jues Fles",
+    description:
+      "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+    image: profile,
+    coverImage: cover,
+    average: "-30 SOL",
+    floor: "20 SOL",
+    verified: true,
   },
 ];

@@ -33,8 +33,8 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
           />
         </div>
       </div>
-      <button
-        className="flex flex-row items-center w-fit relative py-2 h-11 px-3 rounded-2xl md:rounded-md gap-2 md:gap-4"
+      <div
+        className="flex flex-row items-center cursor-pointer w-fit relative py-2 h-11 px-3 rounded-2xl md:rounded-md gap-2 md:gap-4"
         style={{ backgroundColor: "#0B0A0A" }}
         onClick={() => setSortModal(!sortModal)}
       >
@@ -45,19 +45,17 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
             className="absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start"
             style={{ width: "170px", backgroundColor: "#0B0A0A" }}
           >
-            <button onClick={() => selectSort("Most Recent")}>
-              Most Recent
-            </button>
-            <button onClick={() => selectSort("Oldest")}>Oldest</button>
-            <button onClick={() => selectSort("Price: Low to High")}>
+            <div onClick={() => selectSort("Most Recent")}>Most Recent</div>
+            <div onClick={() => selectSort("Oldest")}>Oldest</div>
+            <div onClick={() => selectSort("Price: Low to High")}>
               Price: Low to High
-            </button>
-            <button onClick={() => selectSort("Price: High to Low")}>
+            </div>
+            <div onClick={() => selectSort("Price: High to Low")}>
               Price: High to Low
-            </button>
+            </div>
           </div>
         )}
-      </button>
+      </div>
     </div>
   );
 };

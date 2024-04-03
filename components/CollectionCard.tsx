@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IBM_Plex_Sans } from "next/font/google";
+import verifyIcon from "@/public/images/gold-verified.png";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["400", "600", "700"],
@@ -50,26 +53,34 @@ const CollectionCard = (
         width={isMobile ? 34 : 81}
         height={isMobile ? 34 : 81}
         alt="profile"
-        className="absolute top-5"
+        className="absolute top-12 md:top-32"
       />
-      <div className="flex flex-col justify-center items-center p-2 md:p-4">
+      <div className="flex flex-col justify-center items-center p-2 pt-4 md:pt-10 md:p-4">
         <div
-          className={`text-sm font-semibold md:text-2xl ${ipmSans.className}`}
+          className={`text-sm flex flex-row gap-1 items-center font-semibold md:text-2xl ${ipmSans.className}`}
         >
-          {props.name}
+          <span>{props.name}</span>
+          {props.isVerified && (
+            <Image
+              src={verifyIcon}
+              width={isMobile ? 6 : 15}
+              height={isMobile ? 6 : 15}
+              alt="verify"
+            />
+          )}
         </div>
-        <div className={`text-xs md:text-sm text-gray-600 text-center`}>
+        <div className={`text-xs md:text-sm text-gray-400 text-center`}>
           {props.description}
         </div>
         <div
-          className="flex flex-row justify-between text-gray-600"
+          className="flex w-full flex-row justify-between text-gray-400 pt-3 md:pt-6"
           style={{ fontSize: isMobile ? "10px" : "12px" }}
         >
           <span>Floor:</span>
           <span>30d Avg Price:</span>
         </div>
         <div
-          className="flex flex-row justify-between text-xs md:text-sm font-semibold"
+          className="flex w-full flex-row justify-between text-xs md:text-sm font-semibold"
           style={{ color: "#D48630" }}
         >
           <span>{props.floor}</span>

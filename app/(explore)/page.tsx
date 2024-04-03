@@ -25,7 +25,7 @@ const ExplorePage = () => {
       <TabBar pathname="items" />
       <SearchBar placeholder="Search NFT by Title" />
       <div className="flex flex-col md:gap-8 md:flex-row">
-        <div className="hidden md:block">
+        <div className="h-0 md:h-fit invisible md:visible">
           <Filter />
         </div>
         <div className="flex flex-row p-5 justify-between md:hidden relative">
