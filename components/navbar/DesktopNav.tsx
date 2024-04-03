@@ -56,7 +56,9 @@ const DesktopNav = (
           }
         />
         {hoveredItem === "explore" && (
-          <div className="top-16 absolute">
+          <div
+            className={`top-16 absolute ${hoveredItem ? "visible" : "hidden"}`}
+          >
             <Dropdown>
               <div>NFT</div>
               <div>Collections</div>
