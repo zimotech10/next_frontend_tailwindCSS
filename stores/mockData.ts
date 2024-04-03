@@ -171,3 +171,66 @@ export const collections = [
     verified: true,
   },
 ];
+
+export const domains = [
+  {
+    id: 23,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 24,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 25,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 26,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 27,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 28,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 29,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 30,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 31,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 32,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 33,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+  {
+    id: 34,
+    name: "Antim...ism.sol",
+    available: true,
+  },
+];
