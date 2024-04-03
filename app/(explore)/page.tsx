@@ -56,7 +56,7 @@ const ExplorePage = () => {
             </div>
           )}
         </div>
-        <div className="flex gap-4 md:gap-6 flex-wrap justify-center">
+        <div className="flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center">
           {nfts.map((nft) => (
             <ItemCard
               key={nft.id}

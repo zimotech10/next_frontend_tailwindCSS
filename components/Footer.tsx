@@ -19,7 +19,7 @@ const ipmSans = IBM_Plex_Sans({
 });
 
 const Footer = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
 

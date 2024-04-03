@@ -11,7 +11,7 @@ const ItemCard = (
     price: string;
   }>
 ) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [showButton, setShowButton] = useState(false);
 

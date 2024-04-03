@@ -6,7 +6,7 @@ import MobileNav from "./MobileNav";
 import logo from "../../public/images/horizontal-logo.png";
 
 const Navbar = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,7 +19,15 @@ const Navbar = () => {
     };
   }, []);
 
-  return <div>{isMobile ? <MobileNav /> : <DesktopNav logo={logo.src} />}</div>;
+  return (
+    <div>
+      {isMobile ? (
+        <MobileNav logo={logo.src} />
+      ) : (
+        <DesktopNav logo={logo.src} />
+      )}
+    </div>
+  );
 };
 
 export default Navbar;
