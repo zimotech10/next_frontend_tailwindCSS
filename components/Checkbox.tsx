@@ -12,7 +12,12 @@ const Checkbox = ({ label }: { label: string }) => {
   return (
     <div className="flex items-center">
       <div className="checkbox-container" onClick={toggleCheckbox}>
-        <input type="checkbox" checked={isChecked} className="hidden" />
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={toggleCheckbox} // Add onChange handler here
+          className="hidden"
+        />
         <div className={`checkbox ${isChecked ? "checked" : ""}`}>
           {isChecked && <span className="checkmark">&#10003;</span>}
         </div>
