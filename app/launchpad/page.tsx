@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import launchpadHero from "@/public/images/launchpad-hero.png";
-import { LiveMint } from "./_components/LiveMint";
+import { LiveSection } from "./_components/LiveSection";
+import PastSection from "./_components/PastSection";
 
 const page = () => {
   return (
@@ -13,7 +14,8 @@ const page = () => {
         imgHeight={600}
         imgWidth={600}
       />
-      <LiveMint />
+      <LiveSection />
+      <PastSection />
     </div>
   );
 };

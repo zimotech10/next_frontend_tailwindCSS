@@ -3,6 +3,7 @@ import nft2 from "@/public/images/nft2.png";
 import nft3 from "@/public/images/nft3.png";
 import cover from "@/public/images/collection-cover.png";
 import profile from "@/public/images/collection-profile.png";
+import liveImge from "@/public/images/live-mint-pfp.png";
 
 export const nfts = [
   {
@@ -232,5 +233,75 @@ export const domains = [
     id: 34,
     name: "Antim...ism.sol",
     available: true,
+  },
+];
+
+export const liveMints = [
+  {
+    id: 35,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: true,
+  },
+  {
+    id: 36,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: true,
+  },
+  {
+    id: 37,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: true,
+  },
+  {
+    id: 38,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: true,
+  },
+];
+
+export const pastMints = [
+  {
+    id: 35,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: false,
+  },
+  {
+    id: 36,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: false,
+  },
+  {
+    id: 37,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: false,
+  },
+  {
+    id: 38,
+    name: "Sark Furckry Society",
+    image: liveImge,
+    floor: 30,
+    items: 12,
+    live: false,
   },
 ];

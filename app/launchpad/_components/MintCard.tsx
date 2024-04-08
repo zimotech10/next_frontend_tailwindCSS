@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IBM_Plex_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import solanaIcon from "@/public/images/solana-logo.png";
 
 const ibmSans = IBM_Plex_Sans({
@@ -8,12 +11,15 @@ const ibmSans = IBM_Plex_Sans({
   subsets: ["latin"],
 });
 
-const LiveMintCard = (
+const ethnocentric = localFont({ src: "../../../fonts/ethnocentric.otf" });
+
+const MintCard = (
   props: React.PropsWithChildren<{
     name: string;
     image: string;
     floor: number;
     items: number;
+    live: boolean;
   }>
 ) => {
   const [isMobile, setIsMobile] = useState(true);
@@ -30,7 +36,7 @@ const LiveMintCard = (
   }, []);
 
   return (
-    <div className="flex flex-col w-52 md:w-72 p-2 md:p-3 gap-2 md:gap-3 items-center">
+    <div className="flex flex-col w-56 md:w-72 p-2 md:p-3 gap-2 md:gap-3 items-center cursor-pointer">
       <Image
         src={props.image}
         width={isMobile ? 183 : 254}
@@ -38,17 +44,34 @@ const LiveMintCard = (
         alt="image"
         className="rounded-md"
       />
-      <div className="text-base md:text-xl text-center">{props.name}</div>
       <div
-        className={`flex justify-center items-center rounded-md h-8 w-28 md:w-40 font-semibold py-1 px-2 text-xs md:text-base ${ibmSans.className}`}
-        style={{
-          color: "#50C24E",
-          background:
-            "linear-gradient(180deg, rgba(226, 226, 226, 0.06) 0%, rgba(226, 226, 226, 0.00) 100%)",
-        }}
+        className={`text-base md:text-xl text-center ${ethnocentric.className}`}
       >
-        Live
+        {props.name}
       </div>
+      {props.live ? (
+        <div
+          className={`flex justify-center items-center rounded-md h-8 w-28 md:w-40 font-semibold py-1 px-2 text-xs md:text-base ${ibmSans.className}`}
+          style={{
+            color: "#50C24E",
+            background:
+              "linear-gradient(180deg, rgba(226, 226, 226, 0.06) 0%, rgba(226, 226, 226, 0.00) 100%)",
+          }}
+        >
+          Live
+        </div>
+      ) : (
+        <div
+          className={`flex justify-center items-center rounded-md h-8 w-28 md:w-40 font-semibold py-1 px-2 text-xs md:text-base ${ibmSans.className}`}
+          style={{
+            color: "#FF856A",
+            background:
+              "linear-gradient(180deg, rgba(226, 226, 226, 0.06) 0%, rgba(226, 226, 226, 0.00) 100%)",
+          }}
+        >
+          Sold Out
+        </div>
+      )}
       <div className="flex flex-row justify-center items-center gap-4 md:gap-6">
         <div className="flex flex-col items-center">
           <span className="text-lg md:text-2xl font-bold">{props.items}</span>
@@ -86,4 +109,4 @@ const LiveMintCard = (
   );
 };
 
-export default LiveMintCard;
+export default MintCard;
