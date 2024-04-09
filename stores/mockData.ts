@@ -4,6 +4,10 @@ import nft3 from "@/public/images/nft3.png";
 import cover from "@/public/images/collection-cover.png";
 import profile from "@/public/images/collection-profile.png";
 import liveImge from "@/public/images/live-mint-pfp.png";
+import featured1 from "@/public/images/featured-mint1.png";
+import featured2 from "@/public/images/featured-mint2.png";
+import featured3 from "@/public/images/featured-mint4.png";
+import featured4 from "@/public/images/featured-mint4.png";
 
 export const nfts = [
   {
@@ -303,5 +307,108 @@ export const pastMints = [
     floor: 30,
     items: 12,
     live: false,
+  },
+];
+
+export const featuredMints = [
+  {
+    id: 39,
+    name: "Juez Fles",
+    image: featured1,
+    social: [
+      {
+        id: 1,
+        icon: "ic:baseline-facebook",
+        name: "facebook",
+        link: "",
+      },
+      {
+        id: 2,
+        icon: "fa6-brands:square-x-twitter",
+        name: "x",
+        link: "",
+      },
+      {
+        id: 3,
+        icon: "mdi:instagram",
+        name: "instagram",
+        link: "",
+      },
+    ],
+  },
+  {
+    id: 40,
+    name: "Juez Fles",
+    image: featured2,
+    social: [
+      {
+        id: 1,
+        icon: "ic:baseline-facebook",
+        name: "facebook",
+        link: "",
+      },
+      {
+        id: 2,
+        icon: "fa6-brands:square-x-twitter",
+        name: "x",
+        link: "",
+      },
+      {
+        id: 3,
+        icon: "mdi:instagram",
+        name: "instagram",
+        link: "",
+      },
+    ],
+  },
+  {
+    id: 41,
+    name: "Juez Fles",
+    image: featured3,
+    social: [
+      {
+        id: 1,
+        icon: "ic:baseline-facebook",
+        name: "facebook",
+        link: "",
+      },
+      {
+        id: 2,
+        icon: "fa6-brands:square-x-twitter",
+        name: "x",
+        link: "",
+      },
+      {
+        id: 3,
+        icon: "mdi:instagram",
+        name: "instagram",
+        link: "",
+      },
+    ],
+  },
+  {
+    id: 42,
+    name: "Juez Fles",
+    image: featured4,
+    social: [
+      {
+        id: 1,
+        icon: "ic:baseline-facebook",
+        name: "facebook",
+        link: "",
+      },
+      {
+        id: 2,
+        icon: "fa6-brands:square-x-twitter",
+        name: "x",
+        link: "",
+      },
+      {
+        id: 3,
+        icon: "mdi:instagram",
+        name: "instagram",
+        link: "",
+      },
+    ],
   },
 ];

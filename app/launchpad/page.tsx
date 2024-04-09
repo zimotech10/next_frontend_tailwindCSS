@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import launchpadHero from "@/public/images/launchpad-hero.png";
 import { LiveSection } from "./_components/LiveSection";
 import PastSection from "./_components/PastSection";
+import FeaturedSection from "./_components/FeaturedSection";
 
 const page = () => {
   return (
@@ -16,6 +17,7 @@ const page = () => {
       />
       <LiveSection />
       <PastSection />
+      <FeaturedSection />
     </div>
   );
 };

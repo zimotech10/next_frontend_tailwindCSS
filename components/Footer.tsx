@@ -8,6 +8,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import subscribeImage from "@/public/images/subscribe.png";
 import { socials } from "@/stores/constants";
+import { motion } from "framer-motion";
 
 const electronicaStencil = localFont({
   src: "../fonts/ElectronicaStencil.otf",
@@ -176,11 +177,11 @@ const Footer = () => {
         </div>
         <div className="flex flex-row gap-3">
           {socials.map((social) => (
-            <a
+            <motion.a
               href={social.link}
               key={social.id}
               target="_blank"
-              className="hover:scale-105"
+              whileHover={{ scale: 1.1 }}
             >
               <Image
                 src={social.icon}
@@ -188,7 +189,7 @@ const Footer = () => {
                 height={isMobile ? 32 : 36}
                 alt="social"
               />
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

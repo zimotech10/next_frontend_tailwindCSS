@@ -4,6 +4,8 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import solanaIcon from "../../public/images/solana-logo.png";
 import Dropdown from "./Dropdown";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["500", "600", "700"],
@@ -56,16 +58,27 @@ const DesktopNav = (
           }
         />
         {hoveredItem === "explore" && (
-          <div
-            className={`top-16 absolute ${hoveredItem ? "visible" : "hidden"}`}
+          <motion.div
+            className={`top-14 absolute`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
           >
             <Dropdown>
-              <div>NFT</div>
-              <div>Collections</div>
-              <div>Launchpad</div>
-              <div>Auction</div>
+              <Link className="hover:text-white" href="/">
+                NFT
+              </Link>
+              <Link className="hover:text-white" href="/collections">
+                Collections
+              </Link>
+              <Link className="hover:text-white" href="/launchpad">
+                Launchpad
+              </Link>
+              <Link className="hover:text-white" href="/">
+                Auction
+              </Link>
             </Dropdown>
-          </div>
+          </motion.div>
         )}
       </div>
       <div
@@ -82,13 +95,24 @@ const DesktopNav = (
           }
         />
         {hoveredItem === "creator" && (
-          <div className={`top-16 absolute `}>
+          <motion.div
+            className={`top-14 absolute`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             <Dropdown>
-              <div>Apply as Launchpad</div>
-              <div>Submit a collection</div>
-              <div>Get Verified with AssureDefi</div>
+              <Link href="/" className="hover:text-white">
+                Apply as Launchpad
+              </Link>
+              <Link href="/" className="hover:text-white">
+                Submit a collection
+              </Link>
+              <Link href="/" className="hover:text-white">
+                Get Verified with AssureDefi
+              </Link>
             </Dropdown>
-          </div>
+          </motion.div>
         )}
       </div>
       <div className="px-8 flex flex-row items-center gap-1 font-bold cursor-pointer ">
