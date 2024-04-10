@@ -8,6 +8,9 @@ import featured1 from "@/public/images/featured-mint1.png";
 import featured2 from "@/public/images/featured-mint2.png";
 import featured3 from "@/public/images/featured-mint4.png";
 import featured4 from "@/public/images/featured-mint4.png";
+import upcomingImg1 from "@/public/images/live-mint-pfp.png";
+import coverImg1 from "@/public/images/upcoming-cover1.png";
+import creatorImg from "@/public/images/collection.png";
 
 export const nfts = [
   {
@@ -410,5 +413,28 @@ export const featuredMints = [
         link: "",
       },
     ],
+  },
+];
+
+export const upcomingMints = [
+  {
+    id: 43,
+    name: "Under the Shades",
+    date: "2024-04-18",
+    time: "12:00",
+    creator: "@realmosesjames",
+    mainImage: upcomingImg1,
+    coverImage: coverImg1,
+    creatorImage: creatorImg,
+  },
+  {
+    id: 44,
+    name: "Under the Shades",
+    date: "2024-04-27",
+    time: "12:00",
+    creator: "@realmosesjames",
+    mainImage: upcomingImg1,
+    coverImage: coverImg1,
+    creatorImage: creatorImg,
   },
 ];

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Image from "next/image";
 import solanaIcon from "../public/images/solana-logo.png";
+import useScreen from "@/hooks/useScreen";
 
 const ItemCard = (
   props: React.PropsWithChildren<{
@@ -11,20 +12,9 @@ const ItemCard = (
     price: string;
   }>
 ) => {
-  const [isMobile, setIsMobile] = useState(true);
+  const isMobile = useScreen();
   const [isHovered, setIsHovered] = useState(false);
   const [showButton, setShowButton] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     if (isHovered) {

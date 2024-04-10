@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IBM_Plex_Sans } from "next/font/google";
 import verifyIcon from "@/public/images/gold-verified.png";
+import useScreen from "@/hooks/useScreen";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["400", "600", "700"],
@@ -21,17 +22,7 @@ const CollectionCard = (
     isVerified: boolean;
   }>
 ) => {
-  const [isMobile, setIsMobile] = useState(true);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const isMobile = useScreen();
   return (
     <div
       className="flex flex-col items-center justify-center relative"

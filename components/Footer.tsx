@@ -9,6 +9,7 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import subscribeImage from "@/public/images/subscribe.png";
 import { socials } from "@/stores/constants";
 import { motion } from "framer-motion";
+import useScreen from "@/hooks/useScreen";
 
 const electronicaStencil = localFont({
   src: "../fonts/ElectronicaStencil.otf",
@@ -20,20 +21,9 @@ const ipmSans = IBM_Plex_Sans({
 });
 
 const Footer = () => {
-  const [isMobile, setIsMobile] = useState(true);
+  const isMobile = useScreen();
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const apiKey =
     "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";

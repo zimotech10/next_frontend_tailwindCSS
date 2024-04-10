@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IBM_Plex_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import solanaIcon from "@/public/images/solana-logo.png";
+import useScreen from "@/hooks/useScreen";
 
 const ibmSans = IBM_Plex_Sans({
   weight: ["400", "600", "700"],
@@ -22,18 +23,7 @@ const MintCard = (
     live: boolean;
   }>
 ) => {
-  const [isMobile, setIsMobile] = useState(true);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const isMobile = useScreen();
 
   return (
     <div className="flex flex-col w-56 md:w-72 p-2 md:p-3 gap-2 md:gap-3 items-center cursor-pointer">

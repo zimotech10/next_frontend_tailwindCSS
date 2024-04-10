@@ -3,6 +3,7 @@ import launchpadHero from "@/public/images/launchpad-hero.png";
 import { LiveSection } from "./_components/LiveSection";
 import PastSection from "./_components/PastSection";
 import FeaturedSection from "./_components/FeaturedSection";
+import UpcomingSection from "./_components/UpcomingSection";
 
 const page = () => {
   return (
@@ -16,6 +17,7 @@ const page = () => {
         imgWidth={600}
       />
       <LiveSection />
+      <UpcomingSection />
       <PastSection />
       <FeaturedSection />
     </div>
