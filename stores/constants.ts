@@ -1,5 +1,5 @@
 import web from "@/public/images/web.svg";
-import x from "@/public/images/x.svg";
+import warpcast from "@/public/images/warpcast.svg";
 import telegram from "@/public/images/telegram.svg";
 import discord from "@/public/images/discord.svg";
 import medium from "@/public/images/medium.svg";
@@ -13,8 +13,8 @@ export const socials = [
   },
   {
     id: 2,
-    link: "https://x.com/lampapuy",
-    icon: x,
+    link: "https://warpcast.com/lampapuy",
+    icon: warpcast,
   },
   {
     id: 3,

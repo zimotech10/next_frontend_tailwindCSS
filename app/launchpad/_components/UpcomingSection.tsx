@@ -4,15 +4,12 @@ import React from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import UpcomingCard from "./UpcomingCard";
-import useScreen from "@/hooks/useScreen";
 import Link from "next/link";
 import { upcomingMints } from "@/stores/mockData";
 
 const ibmSans = IBM_Plex_Sans({ weight: ["600"], subsets: ["latin"] });
 
 const UpcomingSection = () => {
-  const isMobile = useScreen();
-
   return (
     <div className="flex flex-col pt-10 md:pt-20 gap-5 md:gap-14 p-5">
       <div className="flex flex-row justify-between">
@@ -28,7 +25,7 @@ const UpcomingSection = () => {
           </span>
         </div>
         <Link
-          href="/launchpad/upcoming-mint"
+          href="/launchpad/upcoming-mints"
           className="flex flex-row gap-3 items-center"
         >
           <span className="text-base font-medium text-white">View All</span>
@@ -40,18 +37,27 @@ const UpcomingSection = () => {
         </Link>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-2">
-        {upcomingMints.map((upcomingMint) => (
-          <UpcomingCard
+      <div className="flex flex-col justify-center items-center gap-2 md:gap-8">
+        {upcomingMints.slice(0, 2).map((upcomingMint) => (
+          <Link
+            href={{
+              pathname: `/launchpad/${encodeURIComponent(upcomingMint.name)}`,
+              query: {
+                id: upcomingMint.id,
+              },
+            }}
             key={upcomingMint.id}
-            time={upcomingMint.time}
-            name={upcomingMint.name}
-            date={upcomingMint.date}
-            mainImage={upcomingMint.mainImage.src}
-            coverImage={upcomingMint.coverImage.src}
-            creator={upcomingMint.creator}
-            creatorImage={upcomingMint.creatorImage.src}
-          />
+          >
+            <UpcomingCard
+              time={upcomingMint.time}
+              name={upcomingMint.name}
+              date={upcomingMint.date}
+              mainImage={upcomingMint.mainImage.src}
+              coverImage={upcomingMint.coverImage.src}
+              creator={upcomingMint.creator}
+              creatorImage={upcomingMint.creatorImage.src}
+            />
+          </Link>
         ))}
       </div>
     </div>

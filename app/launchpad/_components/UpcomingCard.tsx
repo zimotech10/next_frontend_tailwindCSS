@@ -60,16 +60,15 @@ const UpcomingCard = (
 
   return (
     <div
-      className="flex flex-col md:flex-row items-center md:items-start"
+      className="flex flex-col md:flex-row items-center md:items-start cursor-pointer"
       style={{ width: isMobile ? "360px" : "1005px" }}
     >
       <div
-        className="flex flex-col gap-8 pt-10 pb-8 px-3 md:pt-6 md:px-6 w-full rounded-t-3xl md:rounded-t-none md:rounded-tl-3xl md:rounded-bl-3xl"
+        className="flex flex-col gap-8 pt-10 pb-7 px-3 md:pt-6 md:px-6 w-full rounded-t-3xl md:rounded-t-none md:rounded-tl-3xl md:rounded-bl-3xl"
         style={{
-          backgroundImage: `url(${props.coverImage})`,
+          backgroundImage: `linear-gradient(0deg, #030404 9%, rgba(3, 4, 4, 0.64) 65.62%, rgba(3, 4, 4, 0.00) 100%), url(${props.coverImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          maskImage: "#181A1E",
         }}
       >
         <div

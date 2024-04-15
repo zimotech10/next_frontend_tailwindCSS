@@ -11,6 +11,10 @@ import featured4 from "@/public/images/featured-mint4.png";
 import upcomingImg1 from "@/public/images/live-mint-pfp.png";
 import coverImg1 from "@/public/images/upcoming-cover1.png";
 import creatorImg from "@/public/images/collection.png";
+import upcomingImg2 from "@/public/images/upcoming-image2.png";
+import upcomingImg3 from "@/public/images/upcoming-image3.png";
+import coverImg2 from "@/public/images/upcoming-cover2.png";
+import coverImg3 from "@/public/images/upcoming-cover3.png";
 
 export const nfts = [
   {
@@ -426,6 +430,8 @@ export const upcomingMints = [
     mainImage: upcomingImg1,
     coverImage: coverImg1,
     creatorImage: creatorImg,
+    about:
+      "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
   },
   {
     id: 44,
@@ -433,8 +439,22 @@ export const upcomingMints = [
     date: "2024-04-27",
     time: "12:00",
     creator: "@realmosesjames",
-    mainImage: upcomingImg1,
-    coverImage: coverImg1,
+    mainImage: upcomingImg2,
+    coverImage: coverImg2,
     creatorImage: creatorImg,
+    about:
+      "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
+  },
+  {
+    id: 45,
+    name: "Under the Shades",
+    date: "2024-04-27",
+    time: "12:00",
+    creator: "@realmosesjames",
+    mainImage: upcomingImg3,
+    coverImage: coverImg3,
+    creatorImage: creatorImg,
+    about:
+      "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
   },
 ];

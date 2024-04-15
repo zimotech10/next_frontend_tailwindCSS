@@ -5,7 +5,7 @@ import PastSection from "./_components/PastSection";
 import FeaturedSection from "./_components/FeaturedSection";
 import UpcomingSection from "./_components/UpcomingSection";
 
-const page = () => {
+const Launchpad = () => {
   return (
     <div className="md:p-20">
       <Hero
@@ -24,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Launchpad;
