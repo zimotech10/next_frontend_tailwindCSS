@@ -7,6 +7,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { upcomingMints } from "@/stores/mockData";
 import Image from "next/image";
+import Accordion from "@/components/Accordion";
 
 const getUpcomingMintById = (id: any) => {
   // Parse the ID as a number
@@ -70,7 +71,7 @@ const UpcomingMintDetailsPage = () => {
     <div className="flex flex-col items-center">
       {mint && (
         <div
-          className="flex flex-col py-28"
+          className="flex flex-col md:py-28"
           style={{ width: isMobile ? "360px" : "1005px" }}
         >
           <div
@@ -227,6 +228,9 @@ const UpcomingMintDetailsPage = () => {
               ABOUT
             </h1>
             <p className="font-normal text-base text-white">{mint.about}</p>
+          </div>
+          <div style={{ width: isMobile ? "100%" : "529px" }}>
+            <Accordion title="More about the project" content={mint.about} />
           </div>
         </div>
       )}

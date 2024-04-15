@@ -10,7 +10,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border border-gray-300 rounded-md mb-4">
+    <div className="rounded-md mb-4" style={{ background: "#0B0A0A" }}>
       <div
         className="flex justify-between items-center cursor-pointer p-4"
         onClick={() => setIsOpen(!isOpen)}
@@ -39,7 +39,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="p-4 border-t border-gray-300"
+            className="p-4"
           >
             {content}
           </motion.div>
