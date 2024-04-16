@@ -220,14 +220,27 @@ const UpcomingMintDetailsPage = () => {
               className="rounded-md"
             />
           </div>
-          <div
-            className="flex-col flex my-5 gap-4 md:mx-8"
-            style={{ width: isMobile ? "100%" : "500px" }}
-          >
-            <h1 className="font-normal text-xs" style={{ color: "#AFAFAF" }}>
-              ABOUT
-            </h1>
-            <p className="font-normal text-base text-white">{mint.about}</p>
+          <div className="flex flex-col-reverse items-center md:justify-between md:items-start md:flex-row">
+            <div
+              className="flex-col flex my-5 gap-4 md:mx-8"
+              style={{ width: isMobile ? "100%" : "500px" }}
+            >
+              <h1 className="font-normal text-xs" style={{ color: "#AFAFAF" }}>
+                ABOUT
+              </h1>
+              <p className="font-normal text-base text-white">{mint.about}</p>
+            </div>
+            <button
+              className="py-4 h-fit my-4 md:mr-2 text-black font-medium text-xl flex justify-center"
+              style={{
+                width: isMobile ? "294px" : "255px",
+                background:
+                  "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+                borderRadius: "40px",
+              }}
+            >
+              Visit Project Link
+            </button>
           </div>
           <div style={{ width: isMobile ? "100%" : "529px" }}>
             <Accordion title="More about the project" content={mint.about} />

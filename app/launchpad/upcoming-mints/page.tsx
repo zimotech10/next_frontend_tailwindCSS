@@ -3,6 +3,7 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import UpcomingCard from "../_components/UpcomingCard";
 import { upcomingMints } from "@/stores/mockData";
+import Link from "next/link";
 
 const ibmSans = IBM_Plex_Sans({ weight: ["600"], subsets: ["latin"] });
 
@@ -22,16 +23,26 @@ const UpcomingMint = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-8">
         {upcomingMints.map((upcomingMint) => (
-          <UpcomingCard
+          <Link
+            href={{
+              pathname: `/launchpad/${encodeURIComponent(upcomingMint.name)}`,
+              query: {
+                id: upcomingMint.id,
+              },
+            }}
             key={upcomingMint.id}
-            time={upcomingMint.time}
-            name={upcomingMint.name}
-            date={upcomingMint.date}
-            mainImage={upcomingMint.mainImage.src}
-            coverImage={upcomingMint.coverImage.src}
-            creator={upcomingMint.creator}
-            creatorImage={upcomingMint.creatorImage.src}
-          />
+          >
+            <UpcomingCard
+              key={upcomingMint.id}
+              time={upcomingMint.time}
+              name={upcomingMint.name}
+              date={upcomingMint.date}
+              mainImage={upcomingMint.mainImage.src}
+              coverImage={upcomingMint.coverImage.src}
+              creator={upcomingMint.creator}
+              creatorImage={upcomingMint.creatorImage.src}
+            />
+          </Link>
         ))}
       </div>
     </div>

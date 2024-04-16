@@ -254,7 +254,12 @@ export const liveMints = [
     image: liveImge,
     floor: 30,
     items: 12,
+    totalItems: 9999,
     live: true,
+    about:
+      '"The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls"',
+    endsaleDate: "2024-05-27",
+    endsaletime: "12:00",
   },
   {
     id: 36,
@@ -262,7 +267,12 @@ export const liveMints = [
     image: liveImge,
     floor: 30,
     items: 12,
+    totalItems: 9999,
     live: true,
+    about:
+      "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
+    endsaleDate: "2024-05-27",
+    endsaletime: "12:00",
   },
   {
     id: 37,
@@ -270,7 +280,12 @@ export const liveMints = [
     image: liveImge,
     floor: 30,
     items: 12,
+    totalItems: 9999,
     live: true,
+    about:
+      "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
+    endsaleDate: "2024-05-27",
+    endsaletime: "12:00",
   },
   {
     id: 38,
@@ -278,7 +293,12 @@ export const liveMints = [
     image: liveImge,
     floor: 30,
     items: 12,
+    totalItems: 9999,
     live: true,
+    about:
+      "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
+    endsaleDate: "2024-05-27",
+    endsaletime: "12:00",
   },
 ];
 
