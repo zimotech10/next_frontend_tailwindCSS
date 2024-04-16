@@ -3,6 +3,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { liveMints } from "@/stores/mockData";
 import MintCard from "./MintCard";
+import Link from "next/link";
 
 const ibmSans = IBM_Plex_Sans({ weight: ["600"], subsets: ["latin"] });
 
@@ -21,14 +22,22 @@ export const LiveSection = () => {
       </div>
       <div className="flex flex-row overflow-x-scroll overflow-y-hidden md:flex-wrap md:overflow-hidden md:gap-8 md:justify-center gap-3">
         {liveMints.map((liveMint) => (
-          <MintCard
+          <Link
+            href={{
+              pathname: `/launchpad/live-mint/${encodeURIComponent(
+                liveMint.id
+              )}`, // Updated route to match dynamic pattern
+            }}
             key={liveMint.id}
-            name={liveMint.name}
-            image={liveMint.image.src}
-            floor={liveMint.floor}
-            items={liveMint.items}
-            live={liveMint.live}
-          />
+          >
+            <MintCard
+              name={liveMint.name}
+              image={liveMint.image.src}
+              floor={liveMint.floor}
+              items={liveMint.items}
+              live={liveMint.live}
+            />
+          </Link>
         ))}
       </div>
     </div>

@@ -19,7 +19,7 @@ const getUpcomingMintById = (id: any) => {
 
 const ibmSans = IBM_Plex_Sans({ weight: ["600"], subsets: ["latin"] });
 
-const UpcomingMintDetailsPage = () => {
+const UpcomingMint = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -251,4 +251,4 @@ const UpcomingMintDetailsPage = () => {
   );
 };
 
-export default UpcomingMintDetailsPage;
+export default UpcomingMint;
