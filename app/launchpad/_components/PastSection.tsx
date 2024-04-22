@@ -3,6 +3,7 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import { pastMints } from "@/stores/mockData";
 import MintCard from "./MintCard";
+import Link from "next/link";
 
 const ibmSans = IBM_Plex_Sans({ weight: ["600"], subsets: ["latin"] });
 
@@ -17,14 +18,26 @@ const PastSection = () => {
       </div>
       <div className="flex flex-row overflow-x-scroll overflow-y-hidden md:flex-wrap md:overflow-hidden md:gap-8 md:justify-center gap-3">
         {pastMints.map((pastMint) => (
-          <MintCard
+          <Link
+            href={{
+              pathname: `/launchpad/past-mint/${encodeURIComponent(
+                pastMint.name
+              )}`,
+              query: {
+                id: pastMint.id,
+              },
+            }}
             key={pastMint.id}
-            name={pastMint.name}
-            image={pastMint.image.src}
-            floor={pastMint.floor}
-            items={pastMint.items}
-            live={pastMint.live}
-          />
+          >
+            <MintCard
+              key={pastMint.id}
+              name={pastMint.name}
+              image={pastMint.image.src}
+              floor={pastMint.floor}
+              items={pastMint.items}
+              live={pastMint.live}
+            />
+          </Link>
         ))}
       </div>
     </div>

@@ -41,7 +41,9 @@ const UpcomingSection = () => {
         {upcomingMints.slice(0, 2).map((upcomingMint) => (
           <Link
             href={{
-              pathname: `/launchpad/${encodeURIComponent(upcomingMint.name)}`,
+              pathname: `/launchpad/upcoming-mint/${encodeURIComponent(
+                upcomingMint.name
+              )}`,
               query: {
                 id: upcomingMint.id,
               },

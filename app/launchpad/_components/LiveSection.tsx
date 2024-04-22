@@ -25,8 +25,11 @@ export const LiveSection = () => {
           <Link
             href={{
               pathname: `/launchpad/live-mint/${encodeURIComponent(
-                liveMint.id
-              )}`, // Updated route to match dynamic pattern
+                liveMint.name
+              )}`,
+              query: {
+                id: liveMint.id,
+              },
             }}
             key={liveMint.id}
           >

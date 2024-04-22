@@ -1,9 +1,10 @@
 import React from "react";
 import { IBM_Plex_Sans } from "next/font/google";
 import FeaturedCard from "./FeaturedCard";
-import { featuredMints } from "@/stores/mockData";
+import { featuredMints, pastMints } from "@/stores/mockData";
 import featuredIcon from "@/public/vectors/featuredhead.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const ibmSans = IBM_Plex_Sans({ weight: ["600"], subsets: ["latin"] });
 
@@ -18,12 +19,24 @@ const FeaturedSection = () => {
       </div>
       <div className="flex flex-wrap justify-center gap-6 md:gap-8">
         {featuredMints.map((featured) => (
+          // <Link
+          //   href={{
+          //     pathname: `/launchpad/featured-mint/${encodeURIComponent(
+          //       featured.name
+          //     )}`,
+          //     query: {
+          //       id: featured.id,
+          //     },
+          //   }}
+          //   key={featured.id}
+          // >
           <FeaturedCard
             key={featured.id}
             name={featured.name}
             image={featured.image.src}
             socials={featured.social}
           />
+          // </Link>
         ))}
       </div>
     </div>
