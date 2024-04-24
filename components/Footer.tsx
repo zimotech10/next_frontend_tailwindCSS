@@ -66,7 +66,7 @@ const Footer = () => {
 
   return (
     <div
-      className="flex flex-col p-4 md:p-16"
+      className="flex flex-col p-4 md:p-16 relative"
       style={{ background: "#121212" }}
     >
       {showModal && (

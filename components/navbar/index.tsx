@@ -10,7 +10,7 @@ const Navbar = () => {
   const isMobile = useScreen();
 
   return (
-    <div>
+    <div className="z-50">
       {isMobile ? (
         <MobileNav logo={logo.src} />
       ) : (

@@ -8,7 +8,7 @@ const MobileNav = (
   }>
 ) => {
   return (
-    <div className="flex flex-row items-center justify-between p-3">
+    <div className="flex flex-row items-center justify-between p-3 z-50">
       <div className="flex flex-row gap-1 items-center">
         <Image src={props.logo} width={132} height={48} alt="logo" />
         <Icon icon="mingcute:search-line" width={20} height={20} />
