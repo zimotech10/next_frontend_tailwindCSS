@@ -7,9 +7,14 @@ import Image from "next/image";
 import phantomLogo from "@/public/images/phantom-logo.svg";
 import cryptoXlogo from "@/public/images/crypto-x-logo.png";
 
-const SignUp = () => {
+interface SignUpProps {
+  handleConnectModal: () => void;
+  isOpen: boolean;
+}
+
+const SignUp: React.FC<SignUpProps> = ({ handleConnectModal, isOpen }) => {
   return (
-    <Modal>
+    <Modal handleConnectModal={handleConnectModal} isOpen>
       <div className="flex flex-col p-0 md:p-6 gap-6 md:gap-5">
         <div className="flex flex-col md:px-6 gap-8 md:gap-4">
           <div className="flex flex-col">
@@ -61,7 +66,13 @@ const SignUp = () => {
             className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center rounded-3xl"
             style={{ border: "1px solid #F5F5F5" }}
           >
-            <Image src={cryptoXlogo} width={32} height={32} alt="logo" />
+            <Image
+              src={cryptoXlogo}
+              width={32}
+              height={32}
+              alt="logo"
+              className="rounded-lg"
+            />
             <div className="flex flex-col gap-2 items-start">
               <span className="font-semibold text-sm text-white">
                 Connect Crypto X

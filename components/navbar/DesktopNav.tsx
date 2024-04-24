@@ -6,6 +6,7 @@ import solanaIcon from "../../public/images/solana-logo.png";
 import Dropdown from "./Dropdown";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import SignUp from "../modals/SignUp";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["500", "600", "700"],
@@ -18,15 +19,23 @@ const DesktopNav = (
   }>
 ) => {
   const [hoveredItem, setHoveredItem] = useState("");
+  const [connectModal, setConnectModal] = useState(false);
 
   const handleHover = (item: string) => {
     setHoveredItem(item);
+  };
+
+  const handleConnectModal = () => {
+    setConnectModal(!connectModal);
   };
 
   return (
     <div
       className={`w-full sticky py-5 px-12 top-0 z-40 text-base justify-between flex flex-row items-center ${ipmSans.className}`}
     >
+      {connectModal && (
+        <SignUp handleConnectModal={handleConnectModal} isOpen={connectModal} />
+      )}
       <a href="/">
         <Image src={props.logo} width={150} height={150} alt="logo" />
       </a>
@@ -146,6 +155,7 @@ const DesktopNav = (
           width: "156px",
           background: "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
         }}
+        onClick={() => handleConnectModal()}
       >
         Connect Wallet
       </button>
