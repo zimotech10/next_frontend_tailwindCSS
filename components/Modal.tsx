@@ -48,12 +48,13 @@ const Modal: React.FC<ModalProps> = ({
           exit="hidden"
         >
           <motion.div
-            className="p-6 md:p-0 md:px-28 md:py-6 flex flex-row items-start justify-between"
+            className="p-6 md:p-0 md:px-28 md:py-6 flex flex-row items-start justify-center"
             style={{
               border: "1px solid rgba(255, 255, 255, 0.15)",
               borderRadius: "32px",
               background: "rgba(0, 0, 0, 0.05)",
               backdropFilter: "blur(25px)",
+              width: isMobile ? "332px" : "750px",
             }}
             variants={modalVariants}
             initial="hidden"
