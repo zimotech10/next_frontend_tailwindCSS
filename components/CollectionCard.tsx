@@ -5,23 +5,22 @@ import Image from "next/image";
 import { IBM_Plex_Sans } from "next/font/google";
 import verifyIcon from "@/public/images/gold-verified.png";
 import useScreen from "@/hooks/useScreen";
+import { Collection } from "@/models/Collection";
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["400", "600", "700"],
   subsets: ["latin"],
 });
 
-const CollectionCard = (
-  props: React.PropsWithChildren<{
-    name: string;
-    image: string;
-    coverImage: string;
-    description: string;
-    floor: string;
-    average: string;
-    isVerified: boolean;
-  }>
-) => {
+const CollectionCard: React.FC<Collection> = ({
+  name,
+  image,
+  coverImage,
+  description,
+  floor,
+  average,
+  isVerified,
+}) => {
   const isMobile = useScreen();
   return (
     <div
@@ -34,13 +33,13 @@ const CollectionCard = (
       }}
     >
       <Image
-        src={props.coverImage}
+        src={coverImage}
         width={isMobile ? 163 : 396}
         height={isMobile ? 70 : 167}
         alt="cover"
       />
       <Image
-        src={props.image}
+        src={image}
         width={isMobile ? 34 : 81}
         height={isMobile ? 34 : 81}
         alt="profile"
@@ -50,8 +49,8 @@ const CollectionCard = (
         <div
           className={`text-sm flex flex-row gap-1 items-center font-semibold md:text-2xl ${ipmSans.className}`}
         >
-          <span>{props.name}</span>
-          {props.isVerified && (
+          <span>{name}</span>
+          {isVerified && (
             <Image
               src={verifyIcon}
               width={isMobile ? 6 : 15}
@@ -61,7 +60,7 @@ const CollectionCard = (
           )}
         </div>
         <div className={`text-xs md:text-sm text-gray-400 text-center`}>
-          {props.description}
+          {description}
         </div>
         <div
           className="flex w-full flex-row justify-between text-gray-400 pt-3 md:pt-6"
@@ -74,8 +73,8 @@ const CollectionCard = (
           className="flex w-full flex-row justify-between text-xs md:text-sm font-semibold"
           style={{ color: "#D48630" }}
         >
-          <span>{props.floor}</span>
-          <span>{props.average}</span>
+          <span>{floor}</span>
+          <span>{average}</span>
         </div>
       </div>
     </div>

@@ -3,15 +3,9 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Image from "next/image";
 import solanaIcon from "../public/images/solana-logo.png";
 import useScreen from "@/hooks/useScreen";
+import { NFT } from "@/models/NFT";
 
-const ItemCard = (
-  props: React.PropsWithChildren<{
-    name: string;
-    image: string;
-    collection: string;
-    price: string;
-  }>
-) => {
+const ItemCard: React.FC<NFT> = ({ name, image, collection, price }) => {
   const isMobile = useScreen();
   const [isHovered, setIsHovered] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -42,9 +36,9 @@ const ItemCard = (
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
           <div className="font-medium text-xs md:text-sm text-neutral-500">
-            {props.collection}
+            {collection}
           </div>
-          <div className="font-medium text-xs md:text-base">{props.name}</div>
+          <div className="font-medium text-xs md:text-base">{name}</div>
         </div>
         <div>
           <Icon icon="mingcute:more-2-line" />
@@ -55,7 +49,7 @@ const ItemCard = (
         style={{ maxWidth: isMobile ? "139px" : "259px" }}
       >
         <Image
-          src={props.image}
+          src={image}
           width={isMobile ? 139 : 259}
           height={isMobile ? 160 : 299}
           alt="image"
@@ -94,7 +88,7 @@ const ItemCard = (
         <div className="text-xs text-neutral-400">Price</div>
         <div className="text-xs flex flex-row gap-1 md:text-sm">
           <Image src={solanaIcon} width={17} height={17} alt="solana" />
-          <span>{props.price}</span>
+          <span>{price}</span>
         </div>
       </div>
     </div>

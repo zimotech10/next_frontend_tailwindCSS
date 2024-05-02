@@ -71,10 +71,12 @@ const DesktopNav = (
         />
         {hoveredItem === "explore" && (
           <motion.div
-            className={`top-14 absolute`}
+            key="dropdown-explore"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            className={`top-14 absolute`}
           >
             <Dropdown>
               <Link className="hover:text-white" href="/">
@@ -108,10 +110,12 @@ const DesktopNav = (
         />
         {hoveredItem === "creator" && (
           <motion.div
-            className={`top-14 absolute`}
+            key="dropdown-creator"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            className={`top-14 absolute`}
           >
             <Dropdown>
               <Link href="/" className="hover:text-white">

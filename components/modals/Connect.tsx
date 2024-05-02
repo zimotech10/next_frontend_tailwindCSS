@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import phantomLogo from "@/public/images/phantom-logo.svg";
-import cryptoXlogo from "@/public/images/crypto-x-logo.png";
+import solfareLogo from "@/public/images/solfare.png";
 import localFont from "next/font/local";
 import { IBM_Plex_Sans } from "next/font/google";
 
@@ -82,44 +82,10 @@ const ConnectModal: React.FC<SignUpProps> = ({
             </div>
             <div className="flex flex-col gap-6">
               <button
-                className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center rounded-3xl"
+                className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
                 style={{ border: "1px solid #F5F5F5" }}
               >
-                <Image src={phantomLogo} width={32} height={32} alt="logo" />
-                <div className="flex flex-col items-start gap-2">
-                  <span className="font-semibold text-sm text-white">
-                    Connect Phantom Wallet
-                  </span>
-                  <span
-                    className="font-normal text-xs"
-                    style={{ color: "#AFAFAF" }}
-                  >
-                    Web and mobile wallet provider for Solana
-                  </span>
-                </div>
-              </button>
-              <button
-                className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center rounded-3xl"
-                style={{ border: "1px solid #F5F5F5" }}
-              >
-                <Image
-                  src={cryptoXlogo}
-                  width={32}
-                  height={32}
-                  alt="logo"
-                  className="rounded-lg"
-                />
-                <div className="flex flex-col gap-2 items-start">
-                  <span className="font-semibold text-sm text-white">
-                    Connect Crypto X
-                  </span>
-                  <span
-                    className="font-normal text-xs"
-                    style={{ color: "#AFAFAF" }}
-                  >
-                    Mobile wallet provider for Solana
-                  </span>
-                </div>
+                Connect Wallet
               </button>
             </div>
           </motion.div>
@@ -186,7 +152,7 @@ const ConnectModal: React.FC<SignUpProps> = ({
                 style={{ border: "1px solid #F5F5F5" }}
               >
                 <Image
-                  src={cryptoXlogo}
+                  src={solfareLogo}
                   width={32}
                   height={32}
                   alt="logo"
@@ -194,13 +160,13 @@ const ConnectModal: React.FC<SignUpProps> = ({
                 />
                 <div className="flex flex-col gap-2 items-start">
                   <span className="font-semibold text-sm text-white">
-                    Install Crypto X
+                    Install Solfare
                   </span>
                   <span
                     className="font-normal text-xs"
                     style={{ color: "#AFAFAF" }}
                   >
-                    Mobile wallet provider for Solana
+                    Mobile and Web wallet provider for Solana
                   </span>
                 </div>
               </button>
@@ -336,7 +302,7 @@ const ConnectModal: React.FC<SignUpProps> = ({
                 style={{ border: "1px solid #F5F5F5" }}
               >
                 <Image
-                  src={cryptoXlogo}
+                  src={solfareLogo}
                   width={32}
                   height={32}
                   alt="logo"
@@ -344,20 +310,20 @@ const ConnectModal: React.FC<SignUpProps> = ({
                 />
                 <div className="flex flex-col gap-2 items-start">
                   <span className="font-semibold text-sm text-white">
-                    Install Crypto X
+                    Install Solfare Wallet
                   </span>
                   <span
                     className="font-normal text-xs"
                     style={{ color: "#AFAFAF" }}
                   >
-                    Mobile wallet provider for Solana
+                    Mobile and Web wallet provider for Solana
                   </span>
                   <div
                     className="flex flex-row gap-2 text-xs"
                     style={{ color: "#FFB703" }}
                   >
-                    <span>*Mobile only</span>
-                    <span>*KYC required</span>
+                    <span>*Web, Mobile</span>
+                    <span>*No KYC needed</span>
                   </div>
                 </div>
               </button>
