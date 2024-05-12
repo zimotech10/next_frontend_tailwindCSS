@@ -10,6 +10,13 @@ import phantomLogo from "@/public/images/phantom-logo.svg";
 import solfareLogo from "@/public/images/solfare.png";
 import localFont from "next/font/local";
 import { IBM_Plex_Sans } from "next/font/google";
+import dynamic from "next/dynamic";
+
+const WalletMultiButtonDynamic = dynamic(
+  async () =>
+    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);
 
 const electronica = localFont({ src: "../../fonts/Electronica.otf" });
 const ibmSans = IBM_Plex_Sans({
@@ -84,8 +91,9 @@ const ConnectModal: React.FC<SignUpProps> = ({
               <button
                 className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
                 style={{ border: "1px solid #F5F5F5" }}
+                onClick={() => handleConnectModal()}
               >
-                Connect Wallet
+                <WalletMultiButtonDynamic>Connect</WalletMultiButtonDynamic>
               </button>
             </div>
           </motion.div>
@@ -327,7 +335,57 @@ const ConnectModal: React.FC<SignUpProps> = ({
                   </div>
                 </div>
               </button>
+              <button
+                className="text-sm font-semibold text-center"
+                style={{
+                  background:
+                    "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+                onClick={() => updateModalContent("finalConnect")}
+              >
+                I have completed Setup, Start
+              </button>
             </div>
+          </motion.div>
+        )}
+        {modalContent === "finalConnect" && (
+          <motion.div
+            key="content-finalConnect"
+            variants={variants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.5 }}
+            className="flex flex-col p-0 md:p-6 gap-6 md:gap-5 w-full"
+          >
+            <h1 className={`${electronica.className} text-lg md:text-2xl`}>
+              You made it, great!
+            </h1>
+            <span
+              className={`${ibmSans.className} font-normal text-xs md:text-base`}
+              style={{ color: "#AFAFAF" }}
+            >
+              3 of 3
+            </span>
+            <span
+              className={`${ibmSans.className} font-normal text-xs md:text-base`}
+              style={{ color: "#AFAFAF" }}
+            >
+              How about you show off that new wallet of yours by connecting to
+              LampapuyNFT first!
+            </span>
+            <button
+              className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
+              style={{ border: "1px solid #F5F5F5" }}
+              onClick={() => handleConnectModal()}
+            >
+              <WalletMultiButtonDynamic className="w-full">
+                Connect
+              </WalletMultiButtonDynamic>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

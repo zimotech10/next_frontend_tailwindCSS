@@ -1,19 +1,20 @@
-// components/Sidebar.js
 "use client";
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import logo from "@/public/small-logo.png";
-import textLogo from "@/public/lampapuy-text-logo.png";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import Link from "next/link";
 import privateLogo from "@/public/vectors/private.svg";
 import launchpadLogo from "@/public/vectors/launchpad.svg";
 import marketplaceLogo from "@/public/vectors/marketplace.svg";
+import localFont from "next/font/local";
+
+const electronica = localFont({ src: "../fonts/Electronica.otf" });
 
 const sidebarVariants = {
-  hidden: { width: "64px" },
+  hidden: { width: "62px" },
   visible: { width: "200px" },
 };
 
@@ -22,7 +23,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-full pt-4 bg-[#181818] z-40 text-white"
+      className="fixed left-0 top-0 h-full pt-3 bg-[#181818] z-40 text-white cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -39,11 +40,18 @@ export const Sidebar = () => {
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-normal text-lg"
+                  className={`font-normal text-lg ${electronica.className}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.02 }}
+                  style={{
+                    background:
+                      "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                  }}
                 >
                   LAMPAPUY
                 </motion.span>
@@ -60,7 +68,7 @@ export const Sidebar = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.02 }}
+                    transition={{ duration: 0.3 }}
                   >
                     Launchpad
                   </motion.span>
@@ -76,25 +84,25 @@ export const Sidebar = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.02 }}
+                    transition={{ duration: 0.3 }}
                   >
                     Marketplace
                   </motion.span>
                 )}
               </AnimatePresence>
             </Link>
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3 w-full">
               <Image src={privateLogo} alt="private" width={28} />
               <AnimatePresence>
                 {isHovered && (
                   <motion.span
-                    className="font-medium"
+                    className="font-medium w-full"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.02 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    Private Sale
+                    Private
                   </motion.span>
                 )}
               </AnimatePresence>

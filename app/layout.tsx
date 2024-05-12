@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/Footer";
 import { Sidebar } from "@/components/Sidebar";
+import { ConnectWallet } from "@/components/ConnectWallet";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,10 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <Sidebar />
-        {children}
-        <Footer />
+        <ConnectWallet>
+          <Navbar />
+          <Sidebar />
+          {children}
+          <Footer />
+        </ConnectWallet>
       </body>
     </html>
   );
