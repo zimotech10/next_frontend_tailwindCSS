@@ -88,11 +88,7 @@ const ConnectModal: React.FC<SignUpProps> = ({
               <Icon icon="pepicons-pencil:line-x" width="64" height="64" />
             </div>
             <div className="flex flex-col gap-6">
-              <button
-                className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
-                style={{ border: "1px solid #F5F5F5" }}
-                onClick={() => handleConnectModal()}
-              >
+              <button onClick={() => handleConnectModal()}>
                 <WalletMultiButtonDynamic>Connect</WalletMultiButtonDynamic>
               </button>
             </div>
@@ -377,11 +373,7 @@ const ConnectModal: React.FC<SignUpProps> = ({
               How about you show off that new wallet of yours by connecting to
               LampapuyNFT first!
             </span>
-            <button
-              className="w-full px-4 py-2 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
-              style={{ border: "1px solid #F5F5F5" }}
-              onClick={() => handleConnectModal()}
-            >
+            <button onClick={() => handleConnectModal()}>
               <WalletMultiButtonDynamic className="w-full">
                 Connect
               </WalletMultiButtonDynamic>
