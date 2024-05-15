@@ -32,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="w-full h-full fixed top-0 left-0 flex flex-row items-center justify-center z-30"
+          className="w-full h-full fixed top-0 left-0 flex flex-row items-center justify-center"
           style={{
             background: isMobile
               ? `url(${connectBgMobile.src})`
@@ -41,6 +41,7 @@ const Modal: React.FC<ModalProps> = ({
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
+            zIndex: "120",
           }}
           variants={backdropVariants}
           initial="hidden"

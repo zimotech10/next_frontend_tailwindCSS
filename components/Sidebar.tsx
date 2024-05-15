@@ -23,7 +23,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-full pt-3 bg-[#181818] z-40 text-white cursor-pointer"
+      className="fixed left-0 top-0 h-full pt-3 bg-[#181818] z-40 text-white cursor-pointer hidden md:block"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

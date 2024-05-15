@@ -56,7 +56,7 @@ const ConnectModal: React.FC<SignUpProps> = ({
             animate="animate"
             exit="exit"
             transition={{ duration: 0.5 }}
-            className="flex flex-col p-0 md:p-6 gap-6 md:gap-5"
+            className="flex flex-col md:p-6 gap-6 md:gap-5"
           >
             <div className="flex flex-col md:px-6 gap-8 md:gap-4">
               <div className="flex flex-col">

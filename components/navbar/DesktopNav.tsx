@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -14,13 +14,8 @@ const DesktopNav = (
     logo: string;
   }>
 ) => {
-  const [hoveredItem, setHoveredItem] = useState("");
   const [connectModal, setConnectModal] = useState(false);
   const wallet = useWallet();
-
-  const handleHover = (item: string) => {
-    setHoveredItem(item);
-  };
 
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
