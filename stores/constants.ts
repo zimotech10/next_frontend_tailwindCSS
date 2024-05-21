@@ -23,7 +23,7 @@ export const socials = [
   },
   {
     id: 4,
-    link: "https://discord.gg/lampapuy",
+    link: "w",
     icon: discord,
   },
   {

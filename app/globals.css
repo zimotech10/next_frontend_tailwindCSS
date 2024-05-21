@@ -82,6 +82,7 @@ button.wallet-adapter-button-trigger {
   border: 1px solid var(--Brand-Gold-Gradient, #ffea7f);
   color: #ffea7f;
   width: 100%;
+  position: relative;
 }
 
 button.wallet-adapter-button-trigger:hover {

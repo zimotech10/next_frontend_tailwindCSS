@@ -1,21 +1,4 @@
-import { Collection } from "@/models/Collection";
-import { NFT } from "@/models/NFT";
 import React from "react";
-
-interface Profile {
-  name: string;
-  username: string;
-  image: string;
-  address: string;
-  about: string;
-  socials: {
-    x: string;
-    facebook: string;
-    instagram: string;
-  };
-  nfts: NFT[];
-  collections: Collection[];
-}
 
 const ProfileCard = () => {
   return (

@@ -21,6 +21,7 @@ const Collections = () => {
       <div className="flex flex-wrap py-5 justify-center gap-2 md:gap-4">
         {collections.map((collection) => (
           <CollectionCard
+            id={collection.id}
             key={collection.id}
             name={collection.name}
             description={collection.description}

@@ -59,6 +59,7 @@ const ExplorePage = () => {
         <div className="flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center">
           {nfts.map((nft) => (
             <ItemCard
+              id={nft.id}
               key={nft.id}
               name={nft.name}
               image={nft.image.src}

@@ -15,6 +15,9 @@ import upcomingImg2 from "@/public/images/upcoming-image2.png";
 import upcomingImg3 from "@/public/images/upcoming-image3.png";
 import coverImg2 from "@/public/images/upcoming-cover2.png";
 import coverImg3 from "@/public/images/upcoming-cover3.png";
+import userProfile from "@/public/images/user-profile.png";
+import { socials } from "./constants";
+import { Profile } from "@/models/Profile";
 
 export const nfts = [
   {
@@ -570,3 +573,92 @@ export const upcomingMints = [
       "The New Explorers Club” is a PFP, utility and club membership project by the team behind the Portals Metaverse.The project builds on three pillars: PFP in 2D & Avatar in 3D (dedicated to artwork for both) Genesis Pod - a cozy apartment space in the Portals Metaverse New Explorers Club - a home for adventurous souls",
   },
 ];
+
+const mockCreatorProfile: Profile = {
+  name: "Jamal Musa",
+  username: "@realmusajamal",
+  image: userProfile.src,
+  address: "8GvK3yD8JGn6J4Q4R4T4U4V4W4X4Y4Z4",
+  about: `Hello my name is Lucas i'm 23 years old and i'm known in game as FROZENNN .i've started coaching 8months ago now and i've already coached many ERL pro players. I'm now a professional coach for @FCNantesEsports in Read More.`,
+  socials: {
+    x: "twiiter.com",
+    facebook: "facebook.com",
+    instagram: "instagram.com",
+  },
+  nfts: [
+    {
+      id: 5,
+      name: "NFT Name",
+      image: nft1.src,
+      collection: "Name of Collection",
+      price: "330 SOL",
+    },
+    {
+      id: 6,
+      name: "NFT Name",
+      image: nft2.src,
+      collection: "Name of Collection",
+      price: "330 SOL",
+    },
+    {
+      id: 7,
+      name: "NFT Name",
+      image: nft3.src,
+      collection: "Name of Collection",
+      price: "330 SOL",
+    },
+    {
+      id: 8,
+      name: "NFT Name",
+      image: nft1.src,
+      collection: "Name of Collection",
+      price: "330 SOL",
+    },
+  ],
+  collections: [
+    {
+      id: 14,
+      name: "Jues Fles",
+      description:
+        "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+      image: profile.src,
+      coverImage: cover.src,
+      average: "-30 SOL",
+      floor: "20 SOL",
+      isVerified: true,
+    },
+    {
+      id: 15,
+      name: "Jues Fles",
+      description:
+        "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+      image: profile.src,
+      coverImage: cover.src,
+      average: "-30 SOL",
+      floor: "20 SOL",
+      isVerified: true,
+    },
+    {
+      id: 16,
+      name: "Jues Fles",
+      description:
+        "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+      image: profile.src,
+      coverImage: cover.src,
+      average: "-30 SOL",
+      floor: "20 SOL",
+      isVerified: true,
+    },
+    {
+      id: 17,
+      name: "Jues Fles",
+      description:
+        "Blipmaps are a collection of 444 randomly generated NFTs on the blockchain.",
+      image: profile.src,
+      coverImage: cover.src,
+      average: "-30 SOL",
+      floor: "20 SOL",
+      isVerified: true,
+    },
+  ],
+};

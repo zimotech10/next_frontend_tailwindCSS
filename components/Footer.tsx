@@ -5,15 +5,18 @@ import localFont from "next/font/local";
 import Image from "next/image";
 import logo from "@/public/big-logo.png";
 import { IBM_Plex_Sans } from "next/font/google";
-import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import subscribeImage from "@/public/images/subscribe.png";
+import subsribesvg from "@/public/vectors/subscribe.svg";
 import { socials } from "@/stores/constants";
 import { motion } from "framer-motion";
 import useScreen from "@/hooks/useScreen";
+import { Icon } from "@iconify-icon/react/dist/iconify.js";
+import Link from "next/link";
 
 const electronicaStencil = localFont({
   src: "../fonts/ElectronicaStencil.otf",
 });
+
+const electronica = localFont({ src: "../fonts/Electronica.otf" });
 
 const ipmSans = IBM_Plex_Sans({
   weight: ["400", "600"],
@@ -65,10 +68,7 @@ const Footer = () => {
   };
 
   return (
-    <div
-      className="flex flex-col p-4 md:p-16 relative"
-      style={{ background: "#121212" }}
-    >
+    <div className="flex flex-col p-4 md:p-16 relative bg-black md:mx-36">
       {showModal && (
         <div className="w-full h-full fixed top-0 left-0 flex items-center justify-center font-inter z-40 modal">
           <div className="w-9/12 md:w-4/12 p-7 justify-center gap-2 md:gap-4 items-center flex flex-col modal-card">
@@ -82,105 +82,101 @@ const Footer = () => {
           </div>
         </div>
       )}
-      <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col">
+      <div className="flex flex-col md:flex-row w-full md:items-end items-center md:justify-between">
+        <div className="flex flex-col items-center md:items-start md:w-1/2 md:p-5">
           <Image
             src={logo}
-            width={isMobile ? 200 : 400}
+            width={isMobile ? 200 : 288}
             height={isMobile ? 72 : 144}
             alt="logo"
           />
-          <div
-            className={`text-lg md:text-2xl ${electronicaStencil.className}`}
-          >
-            The first Community Coin of the Solana Ecosystem
+          <div className="text-xl pb-5 md:ml-4">
+            Subscribe to our newsletter
           </div>
-          <div
-            className={`text-xs font-normal md:text-base ${ipmSans.className}`}
-            style={{ color: "#DACBB6" }}
-          >
-            We strive to build Community-Oriented Projects around the $LPP Coin.
-          </div>
-          <div className="flex flex-col md:items-end md:flex-row py-7 md:py-14 md:gap-2">
-            <div
-              className={`text-base md:text-2xl font-semibold ${ipmSans.className}`}
+          <div className="flex flex-col relative">
+            <form
+              className="flex p-1"
+              onSubmit={handleSubscribe}
+              style={{
+                width: "289px",
+              }}
             >
-              Contact Us
-            </div>
-            <a
-              href="mailto:DAO@Lampapuy.com"
-              className="flex flex-row gap-1 items-center"
-              style={{ color: "#D48630" }}
-              target="_blank"
-            >
-              <Icon icon="tabler:mail" />
-              <span className="text-base">DAO@Lampapuy.com</span>
-            </a>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                className="p-4 md:mr-0 text-white bg-black"
+                placeholder="your@mail.com"
+                onChange={handleInput}
+              />
+              <button
+                type="submit"
+                className="p-2 w-full text-black rounded-e-xl"
+                style={{
+                  background:
+                    "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+                }}
+              >
+                <Icon icon="ic:round-keyboard-arrow-right" />
+              </button>
+            </form>
           </div>
         </div>
-        <div className="flex flex-col justify-end relative md:ml-28">
-          <Image
-            src={subscribeImage}
-            width={isMobile ? 118 : 214}
-            height={isMobile ? 118 : 214}
-            alt="subscribe"
-            className="absolute right-0 bottom-12 md:bottom-24 md:right-24"
-          />
-          <form
-            className="flex border md:mb-10 md:mt-44 p-1 justify-between"
-            onSubmit={handleSubscribe}
+        <div className="flex flex-col gap-2 md:p-5 px-5 items-center md:items-start">
+          <div
+            className={`text-lg ${electronica.className}`}
             style={{
-              borderRadius: "40px",
-              border: "0.5px solid #FFEA7F",
-              width: isMobile ? "356px" : "506px",
+              background:
+                "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
             }}
           >
-            <input
-              type="email"
-              name="email"
-              value={email}
-              className="p-4 md:mr-0 text-white"
-              placeholder="your@mail.com"
-              onChange={handleInput}
-              style={{
-                background: "#121212",
-                borderRadius: "40px",
-                width: isMobile ? "full" : "340px",
-              }}
-            />
-            <button
-              type="submit"
-              className="md:px-8 md:m-2 text-xs p-2 md:text-base text-gray-800 font-bold rounded-3xl md:p-4 uppercase "
-              style={{ background: "#D48630" }}
-            >
-              Subscribe
-            </button>
-          </form>
+            About
+          </div>
+          <div className="flex flex-row gap-12 md:gap-16">
+            <Link href="https://bictory.foundation/" target="_blank">
+              Partnership
+            </Link>
+            <div>FAQs</div>
+            <div>Docs</div>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col-reverse md:flex-row justify-center gap-2 pt-2 items-center md:justify-between">
-        <div
-          className={`${ipmSans.className} font-normal md:text-sm text-xs`}
-          style={{ color: "#BDBDBD" }}
-        >
-          All Rights Reseved Lampapuy © 2024
+      <div className="flex flex-col-reverse md:flex-row justify-between">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-10">
+          <div className="flex flex-row md:gap-10 gap-8 py-5 md:py-0 justify-center items-center">
+            <Link href="/">Terms & Conditions</Link>{" "}
+            <Link href="/">Privacy Policy</Link>
+          </div>
+          <Link
+            href="/"
+            className="flex items-center justify-center underline text-[#FFB703]"
+          >
+            <Icon icon="system-uicons:chain" />
+            View Contract
+          </Link>
         </div>
-        <div className="flex flex-row gap-3">
-          {socials.map((social) => (
-            <motion.a
-              href={social.link}
-              key={social.id}
-              target="_blank"
-              whileHover={{ scale: 1.1 }}
-            >
-              <Image
-                src={social.icon}
-                width={isMobile ? 32 : 36}
-                height={isMobile ? 32 : 36}
-                alt="social"
-              />
-            </motion.a>
-          ))}
+        <div className="flex flex-col md:flex-row justify-center gap-2 pt-2 items-center">
+          <div className="text-base">Follow Us:</div>
+          <div className="flex flex-row gap-3">
+            {socials.map((social) => (
+              <motion.a
+                href={social.link}
+                key={social.id}
+                target="_blank"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Image
+                  src={social.icon}
+                  width={isMobile ? 32 : 36}
+                  height={isMobile ? 32 : 36}
+                  alt="social"
+                />
+              </motion.a>
+            ))}
+          </div>
         </div>
       </div>
     </div>

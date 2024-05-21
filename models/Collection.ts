@@ -1,4 +1,5 @@
 export interface Collection {
+  id: number;
   name: string;
   image: string;
   coverImage: string;
