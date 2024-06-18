@@ -75,40 +75,38 @@ export const Sidebar = () => {
                 )}
               </AnimatePresence>
             </Link>
-            <div className="flex flex-col gap-5">
-              <Link href="/" className="flex items-center gap-3">
-                <Image src={marketplaceLogo} alt="logo" width={28} />
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.span
-                      className="font-medium"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      Marketplace
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Link>
-              <Link href="/" className="flex items-center gap-3 w-full">
-                <Image src={privateLogo} alt="private" width={28} />
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.span
-                      className="font-medium w-full"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      Private Sale
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Link>
-            </div>
+            <Link href="/" className="flex items-center gap-3">
+              <Image src={marketplaceLogo} alt="logo" width={28} />
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.span
+                    className="font-medium text-lg"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    Marketplace
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
+            <Link href="/" className="flex items-center gap-3 w-full">
+              <Image src={privateLogo} alt="private" width={28} />
+              <AnimatePresence>
+                {isHovered && (
+                  <motion.span
+                    className="font-medium w-full whitespace-nowrap"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    Private Sale
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
           </div>
         </div>
         <div className="flex flex-col p-3 gap-5">
@@ -121,7 +119,7 @@ export const Sidebar = () => {
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium"
+                  className="font-medium text-lg"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -145,7 +143,7 @@ export const Sidebar = () => {
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium"
+                  className="font-medium text-lg"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -168,7 +166,7 @@ export const Sidebar = () => {
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium"
+                  className="font-medium text-lg"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -188,7 +186,7 @@ export const Sidebar = () => {
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium"
+                  className="font-medium text-lg"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
