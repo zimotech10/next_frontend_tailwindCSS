@@ -171,7 +171,7 @@ const UpcomingMint = () => {
             </button>
           </div>
           <div style={{ width: isMobile ? "100%" : "529px" }}>
-            <Accordion title="More about the project" content={mint.about} />
+            <Accordion title="More about the project">{mint.about}</Accordion>
           </div>
         </div>
       )}

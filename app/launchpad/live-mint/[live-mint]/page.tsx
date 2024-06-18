@@ -279,139 +279,126 @@ const LiveMint = () => {
                   </div>
                 </div>
               </div>
-              <Accordion
-                title="Whitelist Sale"
-                content={
-                  <>
-                    <div className="flex justify-center">
-                      <div className="flex flex-row items-center gap-4 md:gap-3 w-fit rounded-2xl bg-black p-3  md:h-fit">
-                        <div className="flex flex-col p-2 items-center">
-                          <span className="text-xs font-medium">
-                            {formatDate(liveMint.whitelistSale).dayName}
-                          </span>
-                          <span className="text-base font-semibold">
-                            {formatDate(liveMint.whitelistSale).dayOfMonth}
-                          </span>
-                          <span className="text-xs font-medium text-neutral-500">
-                            {formatDate(liveMint.whitelistSale).monthName}
-                          </span>
-                        </div>
-                        <Image
-                          src={liveMint.creatorImage}
-                          alt="creator"
-                          width={60}
-                          height={60}
-                          className="rounded-lg"
-                        />
-                      </div>
-                    </div>
-                  </>
-                }
-              />
-              <Accordion
-                title="Public Sale"
-                content={
-                  <>
-                    <div className="flex justify-center">
-                      <div className="flex flex-row items-center gap-4 md:gap-3 w-fit rounded-2xl bg-black p-3  md:h-fit">
-                        <div className="flex flex-col p-2 items-center">
-                          <span className="text-xs font-medium">
-                            {formatDate(liveMint.publicSale).dayName}
-                          </span>
-                          <span className="text-base font-semibold">
-                            {formatDate(liveMint.publicSale).dayOfMonth}
-                          </span>
-                          <span className="text-xs font-medium text-neutral-500">
-                            {formatDate(liveMint.publicSale).monthName}
-                          </span>
-                        </div>
-                        <Image
-                          src={liveMint.creatorImage}
-                          alt="creator"
-                          width={60}
-                          height={60}
-                          className="rounded-lg"
-                        />
-                      </div>
-                    </div>
-                  </>
-                }
-              />
-              <Accordion
-                title="Private Sale"
-                content={
-                  <div className="flex flex-col justify-center items-center">
-                    <div className="flex flex-row justify-between w-full items-center">
-                      <div
-                        className="font-semibold text-sm"
-                        style={{ color: "#FFB703" }}
-                      >
-                        Unlimited
-                      </div>
-                      <div className="flex font-normal text-base flex-row gap-1">
-                        <span>Price:</span>
-                        <Image
-                          src={solanaLogo}
-                          width={24}
-                          height={24}
-                          alt="sol"
-                        />
-                        <span>{liveMint.floor} SOL</span>
-                      </div>
-                    </div>
-                    <div
-                      className="flex flex-col py-3 items-center"
-                      style={{
-                        fill: "linear-gradient(270deg, rgba(0, 0, 0, 0.00) -8.83%, rgba(238, 216, 13, 0.05) 46.3%, rgba(0, 0, 0, 0.00) 106.39%)",
-                        strokeWidth: "1px",
-                        stroke: "rgba(238, 175, 13, 0.00)",
-                      }}
-                    >
-                      <span className="font-semibold text-sm text-white">
-                        Ends In
+              <Accordion title="Whitelist Sale">
+                <div className="flex justify-center">
+                  <div className="flex flex-row items-center gap-4 md:gap-3 w-fit rounded-2xl bg-black p-3  md:h-fit">
+                    <div className="flex flex-col p-2 items-center">
+                      <span className="text-xs font-medium">
+                        {formatDate(liveMint.whitelistSale).dayName}
                       </span>
+                      <span className="text-base font-semibold">
+                        {formatDate(liveMint.whitelistSale).dayOfMonth}
+                      </span>
+                      <span className="text-xs font-medium text-neutral-500">
+                        {formatDate(liveMint.whitelistSale).monthName}
+                      </span>
+                    </div>
+                    <Image
+                      src={liveMint.creatorImage}
+                      alt="creator"
+                      width={60}
+                      height={60}
+                      className="rounded-lg"
+                    />
+                  </div>
+                </div>
+              </Accordion>
+              <Accordion title="Public Sale">
+                <div className="flex justify-center">
+                  <div className="flex flex-row items-center gap-4 md:gap-3 w-fit rounded-2xl bg-black p-3  md:h-fit">
+                    <div className="flex flex-col p-2 items-center">
+                      <span className="text-xs font-medium">
+                        {formatDate(liveMint.publicSale).dayName}
+                      </span>
+                      <span className="text-base font-semibold">
+                        {formatDate(liveMint.publicSale).dayOfMonth}
+                      </span>
+                      <span className="text-xs font-medium text-neutral-500">
+                        {formatDate(liveMint.publicSale).monthName}
+                      </span>
+                    </div>
+                    <Image
+                      src={liveMint.creatorImage}
+                      alt="creator"
+                      width={60}
+                      height={60}
+                      className="rounded-lg"
+                    />
+                  </div>
+                </div>
+              </Accordion>
+              <Accordion title="Private Sale">
+                <div className="flex flex-col justify-center items-center">
+                  <div className="flex flex-row justify-between w-full items-center">
+                    <div
+                      className="font-semibold text-sm"
+                      style={{ color: "#FFB703" }}
+                    >
+                      Unlimited
+                    </div>
+                    <div className="flex font-normal text-base flex-row gap-1">
+                      <span>Price:</span>
+                      <Image
+                        src={solanaLogo}
+                        width={24}
+                        height={24}
+                        alt="sol"
+                      />
+                      <span>{liveMint.floor} SOL</span>
+                    </div>
+                  </div>
+                  <div
+                    className="flex flex-col py-3 items-center"
+                    style={{
+                      fill: "linear-gradient(270deg, rgba(0, 0, 0, 0.00) -8.83%, rgba(238, 216, 13, 0.05) 46.3%, rgba(0, 0, 0, 0.00) 106.39%)",
+                      strokeWidth: "1px",
+                      stroke: "rgba(238, 175, 13, 0.00)",
+                    }}
+                  >
+                    <span className="font-semibold text-sm text-white">
+                      Ends In
+                    </span>
+                    <div
+                      className="flex flex-col"
+                      style={{ width: isMobile ? "218px" : "262px" }}
+                    >
                       <div
-                        className="flex flex-col"
-                        style={{ width: isMobile ? "218px" : "262px" }}
+                        className="flex flex-row items-center justify-between text-2xl"
+                        style={{ color: "#EE6B0D" }}
                       >
-                        <div
-                          className="flex flex-row items-center justify-between text-2xl"
-                          style={{ color: "#EE6B0D" }}
-                        >
-                          <span>{timeLeft.days}</span>
-                          <Icon
-                            icon="entypo:dots-two-vertical"
-                            height={14}
-                            style={{ color: "#EE6B0D", opacity: "0.16" }}
-                          />
-                          <span>{timeLeft.hours}</span>
-                          <Icon
-                            icon="entypo:dots-two-vertical"
-                            height={14}
-                            style={{ color: "#EE6B0D", opacity: "0.16" }}
-                          />
-                          <span>{timeLeft.minutes}</span>
-                          <Icon
-                            icon="entypo:dots-two-vertical"
-                            height={14}
-                            style={{ color: "#EE6B0D", opacity: "0.16" }}
-                          />
-                          <span>{timeLeft.seconds}</span>
-                        </div>
-                        <div
-                          className="flex flex-row text-xs justify-between font-semibold"
-                          style={{ color: "#798694" }}
-                        >
-                          <h2>Days</h2>
-                          <h2>Hrs</h2>
-                          <h2>Mins</h2>
-                          <h2>secs</h2>
-                        </div>
+                        <span>{timeLeft.days}</span>
+                        <Icon
+                          icon="entypo:dots-two-vertical"
+                          height={14}
+                          style={{ color: "#EE6B0D", opacity: "0.16" }}
+                        />
+                        <span>{timeLeft.hours}</span>
+                        <Icon
+                          icon="entypo:dots-two-vertical"
+                          height={14}
+                          style={{ color: "#EE6B0D", opacity: "0.16" }}
+                        />
+                        <span>{timeLeft.minutes}</span>
+                        <Icon
+                          icon="entypo:dots-two-vertical"
+                          height={14}
+                          style={{ color: "#EE6B0D", opacity: "0.16" }}
+                        />
+                        <span>{timeLeft.seconds}</span>
+                      </div>
+                      <div
+                        className="flex flex-row text-xs justify-between font-semibold"
+                        style={{ color: "#798694" }}
+                      >
+                        <h2>Days</h2>
+                        <h2>Hrs</h2>
+                        <h2>Mins</h2>
+                        <h2>secs</h2>
                       </div>
                     </div>
                   </div>
-                }
-              />
+                </div>
+              </Accordion>
               <div
                 className="flex-col flex my-5 gap-4 md:mx-8"
                 style={{ width: isMobile ? "100%" : "500px" }}
@@ -426,10 +413,9 @@ const LiveMint = () => {
                   {liveMint.about}
                 </p>
               </div>
-              <Accordion
-                title="More about the project"
-                content={liveMint.about}
-              />
+              <Accordion title="More about the project">
+                {liveMint.about}
+              </Accordion>
             </div>
           </div>
         </div>

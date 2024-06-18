@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface AccordionProps {
   title: string;
-  content: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
+const Accordion: React.FC<AccordionProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -15,7 +15,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
         className="flex justify-between items-center cursor-pointer p-4"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h2 className="text-lg font-semibold">{title}</h2>
+        <h2 className="text-lg font-semibold">{props.title}</h2>
         <svg
           className={`w-6 h-6 transition-transform ${
             isOpen ? "transform rotate-180" : ""
@@ -41,7 +41,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
             transition={{ duration: 0.3 }}
             className="p-4"
           >
-            {content}
+            {props.children}
           </motion.div>
         )}
       </AnimatePresence>

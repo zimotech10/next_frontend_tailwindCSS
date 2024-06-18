@@ -89,3 +89,48 @@ button.wallet-adapter-button-trigger:hover {
   background: linear-gradient(149deg, #ffea7f 9.83%, #ab5706 95.76%) !important;
   color: black !important;
 }
+
+/* styles/global.css */
+
+/* Basic styles for the input element */
+.custom-datetime-local {
+  padding: 0.5rem;
+  border: 0.5px solid #333;
+  background-color: #0b0a0a;
+  color: white;
+  border-radius: 0.5rem;
+  width: fit-content;
+  appearance: none; /* Removes the default styling */
+}
+
+/* Styles for webkit-based browsers */
+.custom-datetime-local::-webkit-datetime-edit,
+.custom-datetime-local::-webkit-inner-spin-button,
+.custom-datetime-local::-webkit-clear-button {
+  color: white;
+  background-color: #0b0a0a;
+}
+
+.custom-datetime-local::-webkit-calendar-picker-indicator {
+  background-color: #0b0a0a;
+  color: white;
+}
+
+/* Styles for Firefox */
+.custom-datetime-local::-moz-datetime-edit,
+.custom-datetime-local::-moz-inner-spin-button,
+.custom-datetime-local::-moz-clear-button {
+  color: white;
+  background-color: #0b0a0a;
+}
+
+.custom-datetime-local::-moz-calendar-picker-indicator {
+  background-color: #0b0a0a;
+  color: white;
+}
+
+/* Additional styling for pseudo-elements to make the input look consistent */
+.custom-datetime-local:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}

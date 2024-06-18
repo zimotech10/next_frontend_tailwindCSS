@@ -1,7 +1,36 @@
 export interface NFT {
-  id: number;
+  id?: number;
   name: string;
+  uri: any;
+  collection?: string;
+  price?: string;
+  description?: string;
+  owner?: string;
+  creatorAddress?: string;
+  mintAddress?: string;
+}
+
+export interface NFTMetadata {
+  name: string;
+  symbol: string;
+  description: string;
+  seller_fee_basis_points: number;
   image: string;
-  collection: string;
-  price: string;
+  external_url: string;
+  edition: number;
+  attributes: {
+    trait_type: string;
+    value: string;
+  }[];
+  properties: {
+    files: {
+      uri: string;
+      type: string;
+    }[];
+    category: string;
+    creators: {
+      address: string;
+      share: number;
+    }[];
+  };
 }

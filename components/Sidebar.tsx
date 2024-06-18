@@ -44,7 +44,7 @@ export const Sidebar = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.02 }}
+                  transition={{ duration: 0.3 }}
                   style={{
                     background:
                       "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
@@ -75,38 +75,40 @@ export const Sidebar = () => {
                 )}
               </AnimatePresence>
             </Link>
-            <Link href="/" className="flex items-center gap-3">
-              <Image src={marketplaceLogo} alt="logo" width={28} />
-              <AnimatePresence>
-                {isHovered && (
-                  <motion.span
-                    className="font-medium"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    Marketplace
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
-            <Link href="/" className="flex items-center gap-3 w-full">
-              <Image src={privateLogo} alt="private" width={28} />
-              <AnimatePresence>
-                {isHovered && (
-                  <motion.span
-                    className="font-medium w-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    Private
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
+            <div className="flex flex-col gap-5">
+              <Link href="/" className="flex items-center gap-3">
+                <Image src={marketplaceLogo} alt="logo" width={28} />
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.span
+                      className="font-medium"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      Marketplace
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+              <Link href="/" className="flex items-center gap-3 w-full">
+                <Image src={privateLogo} alt="private" width={28} />
+                <AnimatePresence>
+                  {isHovered && (
+                    <motion.span
+                      className="font-medium w-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      Private Sale
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+            </div>
           </div>
         </div>
         <div className="flex flex-col p-3 gap-5">

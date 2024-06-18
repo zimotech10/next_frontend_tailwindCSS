@@ -3,6 +3,10 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { IBM_Plex_Sans } from "next/font/google";
 import { useWallet } from "@solana/wallet-adapter-react";
 import ConnectModal from "../modals/Connect";
+import userSvg from "@/public/vectors/user.svg";
+import Image from "next/image";
+import Dropdown from "./Dropdown";
+import Link from "next/link";
 
 const ibmSans = IBM_Plex_Sans({
   weight: ["500", "600", "700"],
@@ -15,6 +19,7 @@ const DesktopNav = (
   }>
 ) => {
   const [connectModal, setConnectModal] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
   const wallet = useWallet();
 
   const handleConnectModal = () => {
@@ -47,17 +52,29 @@ const DesktopNav = (
       </div>
 
       {wallet.connected ? (
-        <button
-          className="flex text-black rounded-3xl py-2 justify-center font-semibold items-center"
-          style={{
-            width: "156px",
-            background:
-              "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
-          }}
-          onClick={() => wallet.disconnect()}
-        >
-          Disconnect Wallet
-        </button>
+        <div>
+          <button onClick={() => setDropdown(!dropdown)}>
+            <Image src={userSvg} alt="user" width={48} height={48} />
+          </button>
+          {dropdown && (
+            <div className="absolute right-60">
+              <Dropdown>
+                <Link href="/profile">Profile</Link>
+                <button
+                  className="flex text-black rounded-3xl py-2 justify-center font-semibold items-center"
+                  style={{
+                    width: "156px",
+                    background:
+                      "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+                  }}
+                  onClick={() => wallet.disconnect()}
+                >
+                  Disconnect Wallet
+                </button>
+              </Dropdown>
+            </div>
+          )}
+        </div>
       ) : (
         <button
           className="flex text-black rounded-3xl py-2 justify-center font-semibold items-center"

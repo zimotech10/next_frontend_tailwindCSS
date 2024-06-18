@@ -62,9 +62,10 @@ const ExplorePage = () => {
               id={nft.id}
               key={nft.id}
               name={nft.name}
-              image={nft.image.src}
+              uri={nft.image.src}
               collection={nft.collection}
               price={nft.price}
+              userType="user"
             />
           ))}
         </div>

@@ -9,12 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@coral-xyz/anchor": "^0.30.0",
     "@iconify-icon/react": "^2.0.1",
+    "@metaplex-foundation/js": "^0.20.1",
+    "@project-serum/anchor": "^0.26.0",
+    "@solana/spl-token": "^0.4.6",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-react-ui": "^0.9.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",
-    "@solana/web3.js": "^1.91.7",
+    "@solana/web3.js": "^1.92.2",
+    "dotenv": "^16.4.5",
     "framer-motion": "^11.0.25",
     "next": "14.1.4",
     "react": "^18",

@@ -4,17 +4,37 @@ import Image from "next/image";
 import solanaIcon from "../public/images/solana-logo.png";
 import useScreen from "@/hooks/useScreen";
 import { NFT } from "@/models/NFT";
+import Link from "next/link";
+import { getImageUrl } from "@/utils/getImageUrl";
 
-const ItemCard: React.FC<NFT> = ({ name, image, collection, price }) => {
+interface ItemCardProps extends NFT {
+  userType: "user" | "owner";
+}
+
+const ItemCard: React.FC<ItemCardProps> = ({
+  name,
+  uri,
+  collection,
+  price,
+  userType,
+  mintAddress,
+}) => {
   const isMobile = useScreen();
   const [isHovered, setIsHovered] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (uri) {
+      getImageUrl(uri).then(setImageUrl).catch(console.error);
+    }
+  }, [uri]);
 
   useEffect(() => {
     if (isHovered) {
       const timeout = setTimeout(() => {
         setShowButton(true);
-      }, 300); // Adjust the delay for the button to appear
+      }, 300);
       return () => clearTimeout(timeout);
     } else {
       setShowButton(false);
@@ -35,9 +55,11 @@ const ItemCard: React.FC<NFT> = ({ name, image, collection, price }) => {
     >
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          <div className="font-medium text-xs md:text-sm text-neutral-500">
-            {collection}
-          </div>
+          {collection && (
+            <div className="font-medium text-xs md:text-sm text-neutral-500">
+              {collection}
+            </div>
+          )}
           <div className="font-medium text-xs md:text-base">{name}</div>
         </div>
         <div>
@@ -48,33 +70,43 @@ const ItemCard: React.FC<NFT> = ({ name, image, collection, price }) => {
         className="overflow-hidden"
         style={{ maxWidth: isMobile ? "139px" : "259px" }}
       >
-        <Image
-          src={image}
-          width={isMobile ? 139 : 259}
-          height={isMobile ? 160 : 299}
-          alt="image"
-          style={imageStyle}
-        />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            width={isMobile ? 139 : 259}
+            height={isMobile ? 160 : 299}
+            alt="image"
+            style={imageStyle}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-neutral-500">
+            Loading...
+          </div>
+        )}
       </div>
       {showButton && (
-        <button
-          className="absolute bottom-14 items-center left-1/2 flex flex-row gap-1 transform -translate-x-1/2 -translate-y-1/2 py-1 px-4 font-semibold rounded-2xl text-black shadow-md"
+        <Link
+          href={{
+            pathname: userType === "owner" ? `profile/${name}` : `/nft/${name}`,
+            query: {
+              uri: uri,
+              mintAddress: mintAddress,
+            },
+          }}
+          className="absolute md:bottom-14 bottom-4 items-center left-1/2 flex flex-row gap-1 transform -translate-x-1/2 -translate-y-1/2 py-1 px-4 w-[150px] justify-center font-semibold rounded-2xl text-black shadow-md"
           style={{
             transition: "opacity 0.3s ease-in",
             opacity: isHovered ? 1 : 0,
             background:
               "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
           }}
-          onClick={() => {
-            // Handle button click
-          }}
         >
           <Icon icon="ph:lightning" style={{ color: "black" }} />
-          Buy Now
-        </button>
+          View Details
+        </Link>
       )}
       {showButton && (
-        <div className="flex flex-row items-center gap-1 absolute top-20 right-6">
+        <div className="flex flex-row items-center gap-1 absolute md:top-20 md:right-6 top-7 right-3">
           <Icon
             icon="iconamoon:heart-bold"
             style={{
@@ -84,13 +116,15 @@ const ItemCard: React.FC<NFT> = ({ name, image, collection, price }) => {
           <span style={{ fontSize: "10px", color: "#AFAFAF" }}>1.2k</span>
         </div>
       )}
-      <div className="flex flex-col">
-        <div className="text-xs text-neutral-400">Price</div>
-        <div className="text-xs flex flex-row gap-1 md:text-sm">
-          <Image src={solanaIcon} width={17} height={17} alt="solana" />
-          <span>{price}</span>
+      {price && (
+        <div className="flex flex-col">
+          <div className="text-xs text-neutral-400">Price</div>
+          <div className="text-xs flex flex-row gap-1 md:text-sm">
+            <Image src={solanaIcon} width={17} height={17} alt="solana" />
+            <span>{price}</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
