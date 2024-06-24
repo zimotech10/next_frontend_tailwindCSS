@@ -9,6 +9,7 @@ import Filter from "@/components/Filter";
 import ItemCard from "@/components/ItemCard";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { nfts } from "@/stores/mockData";
+import PopUp from "@/components/PopUp";
 
 const ExplorePage = () => {
   const [filter, setFilter] = useState(false);

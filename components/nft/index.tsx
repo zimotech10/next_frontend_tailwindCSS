@@ -21,6 +21,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   creatorAddress,
   image,
   attributes,
+  mintAddress,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -50,7 +51,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
         <ListingModal
           name={name}
           image={image}
-          mintAddress={creatorAddress}
+          mintAddress={mintAddress}
           onClose={closeModal}
         />
       )}

@@ -7,4 +7,6 @@ export interface Collection {
   floor: string;
   average: string;
   isVerified: boolean;
+  items: number;
+  owners: number;
 }

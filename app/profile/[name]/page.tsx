@@ -69,6 +69,7 @@ export default function NFTDetailsPage() {
       ) : metadata ? (
         <NFTDetail
           creatorAddress={metadata.properties.creators[0].address.toString()}
+          mintAddress={mintAddress}
           description={metadata.description}
           name={metadata.name}
           userType="owner"

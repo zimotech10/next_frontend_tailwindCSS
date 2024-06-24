@@ -7,7 +7,7 @@ export interface NFT {
   description?: string;
   owner?: string;
   creatorAddress?: string;
-  mintAddress?: string;
+  mintAddress?: string | null;
 }
 
 export interface NFTMetadata {
