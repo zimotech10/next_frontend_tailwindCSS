@@ -24,7 +24,7 @@ const CollectionCard: React.FC<Collection> = ({
   const isMobile = useScreen();
   return (
     <div
-      className="flex flex-col items-center justify-center relative"
+      className="flex flex-col items-center justify-start relative h-[235px] md:h-[418px]"
       style={{
         width: isMobile ? "166px" : "396px",
         background:
@@ -45,7 +45,7 @@ const CollectionCard: React.FC<Collection> = ({
         alt="profile"
         className="absolute top-12 md:top-32"
       />
-      <div className="flex flex-col justify-center items-center p-2 pt-4 md:pt-10 md:p-4">
+      <div className="flex flex-col justify-center items-center p-2 pt-4 md:pt-10 md:p-4 w-full items-center">
         <div
           className={`text-sm flex flex-row gap-1 items-center font-semibold md:text-2xl ${ipmSans.className}`}
         >
@@ -63,7 +63,7 @@ const CollectionCard: React.FC<Collection> = ({
           {description}
         </div>
         <div
-          className="flex w-full flex-row justify-between text-gray-400 pt-3 md:pt-6"
+          className="flex w-full flex-row justify-between text-gray-400 pt-3 md:pt-6 w-full"
           style={{ fontSize: isMobile ? "10px" : "12px" }}
         >
           <span>Floor:</span>

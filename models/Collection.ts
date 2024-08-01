@@ -4,9 +4,23 @@ export interface Collection {
   image: string;
   coverImage: string;
   description: string;
-  floor: string;
-  average: string;
+  floor?: string;
+  average?: string;
   isVerified: boolean;
-  items: number;
-  owners: number;
+  items?: number;
+  owners?: number;
+}
+
+export interface Collection2 {
+  id: number;
+  name: string;
+  symbol: string;
+  dateCreated: string;
+  collectionId: string;
+  totalItems: number;
+  status: string;
+  baseImage: string;
+  logoImage: string;
+  description: string;
+  isVerified: boolean;
 }
