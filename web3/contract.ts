@@ -37,16 +37,16 @@ export const listing = async (
       .list(price, expiry)
       .accounts({
         seller: wallet.publicKey,
-        authority: authority,
-        treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
-        auctionHouseTreasury: auctionHouseTreasury,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
+        // auctionHouse: auctionHouse,
+        // auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
         nftAccount: nftAccount,
-        listingAccount: listingAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        rent: SYSVAR_RENT_PUBKEY,
+        // listingAccount: listingAccount,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // tokenProgram: TOKEN_PROGRAM_ID,
+        // rent: SYSVAR_RENT_PUBKEY,
       })
       .rpc({ commitment: "confirmed" });
     return tx;
@@ -73,15 +73,15 @@ export const unlisting = async (
       .unlisting()
       .accounts({
         seller: wallet.publicKey,
-        authority: authority,
-        treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
-        auctionHouseTreasury: auctionHouseTreasury,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
+        // auctionHouse: auctionHouse,
+        // auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
         nftAccount: nftAccount,
-        listingAccount: listingAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
+        // listingAccount: listingAccount,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // tokenProgram: TOKEN_PROGRAM_ID,
       })
       .signers([wallet])
       .rpc({ commitment: "confirmed" });
@@ -109,14 +109,14 @@ export const offer = async (
       .buy(price, expiry)
       .accounts({
         buyer: wallet.publicKey,
-        authority: authority,
-        treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
+        // auctionHouse: auctionHouse,
         nftMint: nftMint,
-        offerAccount: offerAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        rent: SYSVAR_RENT_PUBKEY,
+        // offerAccount: offerAccount,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // tokenProgram: TOKEN_PROGRAM_ID,
+        // rent: SYSVAR_RENT_PUBKEY,
       })
       .signers([wallet])
       .rpc({ commitment: "confirmed" });
@@ -142,14 +142,14 @@ export const cancelBuy = async (
       .cancelBuy()
       .accounts({
         buyer: wallet.publicKey,
-        authority: authority,
-        treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
+        // auctionHouse: auctionHouse,
         nftMint: nftMint,
-        offerAccount: offerAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        rent: SYSVAR_RENT_PUBKEY,
+        // offerAccount: offerAccount,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // tokenProgram: TOKEN_PROGRAM_ID,
+        // rent: SYSVAR_RENT_PUBKEY,
       })
       .signers([wallet])
       .rpc({ commitment: "confirmed" });
@@ -228,21 +228,21 @@ export const instantBuy = async (
       .accounts({
         buyer: buyer.publicKey,
         seller: seller,
-        escrowPaymentAccount: escrowWallet,
+        // escrowPaymentAccount: escrowWallet,
         sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
         buyerReceiptTokenAccount: buyerReceiptTokenAccount,
-        authority: authority,
-        treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
-        auctionHouseTreasury: auctionHouseTreasury,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
+        // auctionHouse: auctionHouse,
+        // auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
         metadata: nftMetadata,
         nftAccount: sellerNftAccount,
-        listingAccount: listingAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        rent: SYSVAR_RENT_PUBKEY,
+        // listingAccount: listingAccount,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // tokenProgram: TOKEN_PROGRAM_ID,
+        // ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        // rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
       .signers([buyer])
@@ -322,21 +322,21 @@ export const acceptBuy = async (
       .accounts({
         buyer: buyer,
         seller: seller.publicKey,
-        escrowPaymentAccount: escrowWallet,
+        // escrowPaymentAccount: escrowWallet,
         sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
         buyerReceiptTokenAccount: buyerReceiptTokenAccount,
-        authority: authority,
-        treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
-        auctionHouseTreasury: auctionHouseTreasury,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
+        // auctionHouse: auctionHouse,
+        // auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
         metadata: nftMetadata,
         nftAccount: sellerNftAccount,
-        listingAccount: listingAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        rent: SYSVAR_RENT_PUBKEY,
+        // listingAccount: listingAccount,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // tokenProgram: TOKEN_PROGRAM_ID,
+        // ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        // rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
       .signers([seller])
@@ -371,14 +371,14 @@ export const deposit = async (
       .deposit(amount)
       .accounts({
         wallet: wallet.publicKey,
-        authority: authority,
-        treasuryMint: treasuryMint,
+        // authority: authority,
+        // treasuryMint: treasuryMint,
         paymentAccount: isNative ? wallet.publicKey : walletAta,
-        escrowPaymentAccount: escrowWallet,
-        auctionHouse: auctionHouse,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        rent: SYSVAR_RENT_PUBKEY,
-        tokenProgram: TOKEN_PROGRAM_ID,
+        // escrowPaymentAccount: escrowWallet,
+        // auctionHouse: auctionHouse,
+        // systemProgram: anchor.web3.SystemProgram.programId,
+        // rent: SYSVAR_RENT_PUBKEY,
+        // tokenProgram: TOKEN_PROGRAM_ID,
       })
       .signers([wallet])
       .rpc({ commitment: "confirmed" });

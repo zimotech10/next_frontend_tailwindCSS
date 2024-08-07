@@ -232,8 +232,8 @@ const PastMint = () => {
               </div>
               <Accordion
                 title="More about the project"
-                content={pastMint.about}
-              />
+              >{pastMint.about}
+              </Accordion>
             </div>
           </div>
         </div>

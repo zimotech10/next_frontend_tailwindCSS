@@ -6,9 +6,9 @@ interface DisplayCard {
   image: string;
   name: string;
   description: string;
-  items: number;
-  owners: number;
-  floor: string;
+  items?: number;
+  owners?: number;
+  floor?: string;
 }
 
 const DisplayCard: React.FC<DisplayCard> = ({

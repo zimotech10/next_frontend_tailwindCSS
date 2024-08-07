@@ -9,6 +9,6 @@ const ibmSans = IBM_Plex_Sans({
 
 export default function NFTPage() {
   <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
-    <NFTDetail userType="user" />
+    <NFTDetail userType="user" image={""} name={""} uri={undefined} />
   </div>;
 }

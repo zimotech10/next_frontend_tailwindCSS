@@ -5,6 +5,9 @@ interface CookieOptions {
 }
 
 const parseCookies = () => {
+  if (typeof document === 'undefined') {
+    return {};
+  }
   return document.cookie
     .split(';')
     .filter((item) => item)
