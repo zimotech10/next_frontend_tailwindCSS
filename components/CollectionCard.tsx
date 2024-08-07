@@ -45,7 +45,7 @@ const CollectionCard: React.FC<Collection> = ({
         alt="profile"
         className="absolute top-12 md:top-32"
       />
-      <div className="flex flex-col justify-center items-center p-2 pt-4 md:pt-10 md:p-4 w-full items-center">
+      <div className="flex flex-col justify-center p-2 pt-4 md:pt-10 md:p-4 w-full items-center">
         <div
           className={`text-sm flex flex-row gap-1 items-center font-semibold md:text-2xl ${ipmSans.className}`}
         >
@@ -63,7 +63,7 @@ const CollectionCard: React.FC<Collection> = ({
           {description}
         </div>
         <div
-          className="flex w-full flex-row justify-between text-gray-400 pt-3 md:pt-6 w-full"
+          className="flex w-full flex-row justify-between text-gray-400 pt-3 md:pt-6"
           style={{ fontSize: isMobile ? "10px" : "12px" }}
         >
           <span>Floor:</span>

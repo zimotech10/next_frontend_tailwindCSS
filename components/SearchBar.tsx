@@ -3,16 +3,38 @@
 import yellowVector from "@/public/vectors/yellow-img.svg";
 import Image from "next/image";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { getCollectionByParams } from "@/api/collectionApi";
 
-const SearchBar = ({ placeholder }: { placeholder: string }) => {
+const SearchBar = (props: any) => {
+  const {placeholder, setCollections} = props;
   const [sort, setSort] = useState("Most Recent");
   const [sortModal, setSortModal] = useState(false);
 
-  const selectSort = (method: string) => {
+  const [searchParam, setSearchParam] = useState("");
+  const [orderBy, setOrderBy] = useState("date");
+  const [direction, setDirection] = useState('desc');
+
+  const selectSort = (method: string, orderBy: string, direction: string) => {
     setSort(method);
+    setOrderBy(orderBy);
+    setDirection(direction);
     setSortModal(false);
+    
   };
+
+  const handleChange = async (e : ChangeEvent<HTMLInputElement>) => {
+    setSearchParam(e.target.value);
+  }
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      const data = await getCollectionByParams(searchParam, orderBy, direction);
+      const collectionData = data.data.rows;
+      setCollections(collectionData);
+    }
+    fetchCollections();
+  },[searchParam, orderBy, direction])
 
   return (
     <div className="flex flex-col md:flex-row gap-2 items-center md:gap-4 py-2 md:py-6">
@@ -30,6 +52,7 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
             className="w-72 md:w-96 py-2 h-11 pl-10 pr-3 rounded-md"
             placeholder={placeholder}
             style={{ backgroundColor: "#0B0A0A" }}
+            onChange={(e) => handleChange(e)}
           />
         </div>
       </div>
@@ -45,12 +68,12 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
             className="absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start"
             style={{ width: "170px", backgroundColor: "#0B0A0A" }}
           >
-            <div onClick={() => selectSort("Most Recent")}>Most Recent</div>
-            <div onClick={() => selectSort("Oldest")}>Oldest</div>
-            <div onClick={() => selectSort("Price: Low to High")}>
+            <div onClick={() => selectSort("Most Recent", "date", "desc")}>Most Recent</div>
+            <div onClick={() => selectSort("Oldest", "date", "asc")}>Oldest</div>
+            <div onClick={() => selectSort("Price: Low to High", "price", "asc")}>
               Price: Low to High
             </div>
-            <div onClick={() => selectSort("Price: High to Low")}>
+            <div onClick={() => selectSort("Price: High to Low", "price", "desc")}>
               Price: High to Low
             </div>
           </div>

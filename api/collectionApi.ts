@@ -1,9 +1,13 @@
 import axiosClient from "./axiosClient";
 import { Collection2 } from "@/models/Collection";
 
-export const getCollections = async () => {
+export const getCollectionByParams = async (search:string, orderBy:string, direction:string) => {
   try {
-    const response = await axiosClient.get("/collection/");
+    const response = await axiosClient.get("/collection/", {
+      params: {
+        search, orderBy, direction
+      }
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching collections:", error);
