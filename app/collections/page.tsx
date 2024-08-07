@@ -16,13 +16,16 @@ const Collections = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [searchParam, setSearchParam] = useState("");
+  const [orderBy, setOrderBy] = useState("date");
+  const [direction, setDirection] = useState('desc');
+
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const data = await getCollectionByParams('', 'date', 'desc');
+        const data = await getCollectionByParams(searchParam, orderBy, direction);
         const collectionData = data.data.rows;
         setCollections(collectionData);
-        console.log(collectionData);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -31,7 +34,7 @@ const Collections = () => {
     };
 
     fetchCollections();
-  }, []);
+  }, [searchParam, orderBy, direction]);
 
   return (
     <div className="md:p-20">
@@ -44,7 +47,7 @@ const Collections = () => {
         imgHeight={590}
       />
       <TabBar pathname="collections" />
-      <SearchBar setCollections={setCollections} placeholder="Search Collections by Title" />
+      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setDirection={setDirection} placeholder="Search Collections by Title" />
       <div className="flex flex-wrap py-5 justify-center gap-2 md:gap-4">
         {loading && (
           <div className="h-full items-center justify-center w-full">

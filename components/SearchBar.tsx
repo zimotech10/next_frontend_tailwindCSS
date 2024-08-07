@@ -3,17 +3,13 @@
 import yellowVector from "@/public/vectors/yellow-img.svg";
 import Image from "next/image";
 import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import { ChangeEvent, useEffect, useState } from "react";
-import { getCollectionByParams } from "@/api/collectionApi";
+import { ChangeEvent, useState } from "react";
 
 const SearchBar = (props: any) => {
-  const {placeholder, setCollections} = props;
+  const {placeholder, setSearchParam, setOrderBy, setDirection} = props;
   const [sort, setSort] = useState("Most Recent");
   const [sortModal, setSortModal] = useState(false);
 
-  const [searchParam, setSearchParam] = useState("");
-  const [orderBy, setOrderBy] = useState("date");
-  const [direction, setDirection] = useState('desc');
 
   const selectSort = (method: string, orderBy: string, direction: string) => {
     setSort(method);
@@ -26,15 +22,6 @@ const SearchBar = (props: any) => {
   const handleChange = async (e : ChangeEvent<HTMLInputElement>) => {
     setSearchParam(e.target.value);
   }
-
-  useEffect(() => {
-    const fetchCollections = async () => {
-      const data = await getCollectionByParams(searchParam, orderBy, direction);
-      const collectionData = data.data.rows;
-      setCollections(collectionData);
-    }
-    fetchCollections();
-  },[searchParam, orderBy, direction])
 
   return (
     <div className="flex flex-col md:flex-row gap-2 items-center md:gap-4 py-2 md:py-6">
