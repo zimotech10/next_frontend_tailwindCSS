@@ -62,8 +62,8 @@ const Collections = () => {
                   id={collection.id}
                   name={collection.name}
                   description={collection.description}
-                  image={`http://74.119.194.123:8000${collection.logoImage}`}
-                  coverImage={`http://74.119.194.123:8000${collection.baseImage}`}
+                  image={`http://95.164.7.220:8000${collection.logoImage}`}
+                  coverImage={`http://95.164.7.220:8000${collection.baseImage}`}
                   isVerified={collection.isVerified}
                 />
               </Link>

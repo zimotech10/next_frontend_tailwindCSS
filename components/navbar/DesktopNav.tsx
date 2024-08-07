@@ -8,6 +8,10 @@ import Image from "next/image";
 import Dropdown from "./Dropdown";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import axiosClient from "@/api/axiosClient";
+import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import { CookieRepository } from "@/storages/cookie/cookie-repository";
+import { AuthService } from "@/services/auth-service";
 
 const ibmSans = IBM_Plex_Sans({
   weight: ["500", "600", "700"],
@@ -21,6 +25,7 @@ const DesktopNav = (
 ) => {
   const [connectModal, setConnectModal] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const wallet = useWallet();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -39,6 +44,54 @@ const DesktopNav = (
       setDropdown(false);
     }
   };
+
+  const loginUser = async () => {
+    try {
+      const {data} = await AuthService.getAuthMessage();
+      const messageToSign = data.message;
+      if (!messageToSign) {
+        return;
+      }
+      if (!wallet.connected) {
+        return;
+      }
+      if (!wallet.signMessage) {
+        return;
+      }
+
+      const encodedMessage = new TextEncoder().encode(messageToSign);
+      const signedMessage = await wallet.signMessage(encodedMessage);
+      const signature = bs58.encode(signedMessage);
+
+      await AuthService.login({
+        publicKey: wallet.publicKey!.toBase58(),
+        signedMessage: signature
+      }).then((response) => {
+        console.log(response.data)
+        const {accessToken, refreshToken} = response.data;
+        CookieRepository.setAccessToken(accessToken);
+        CookieRepository.setRefreshToken(refreshToken);
+        setLoggedIn(true);
+      }).catch((error) => {
+        setLoggedIn(false);
+      });
+    } catch (error) {
+      setLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    if(!isLoggedIn && !CookieRepository.getRefreshToken() && wallet.publicKey)
+    {
+      loginUser()
+    }
+  }, [isLoggedIn, wallet])
+
+  const disConnectWallet = async () => {
+    CookieRepository.removeAccessToken();
+    CookieRepository.removeRefreshToken();
+    await wallet.disconnect();
+  }
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -97,7 +150,7 @@ const DesktopNav = (
                       background:
                         "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
                     }}
-                    onClick={() => wallet.disconnect()}
+                    onClick={() => disConnectWallet()}
                   >
                     Disconnect Wallet
                   </button>
