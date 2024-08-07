@@ -52,7 +52,6 @@ export const CookieStorage = {
   },
   remove: (key: string, options: CookieOptions = {}) => {
     options.maxAge = 0;
-
     CookieStorage.set(key, '', options);
   }
 };
