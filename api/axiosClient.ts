@@ -4,7 +4,7 @@ import axios from "axios";
 let accessToken = CookieRepository.getAccessToken();
 
 const axiosClient = axios.create({
-  baseURL: "http://95.164.7.220:8000/api",
+  baseURL: "https://bictory-marketplace-backend.onrender.com/api/user",
   headers: {
     "Content-Type": "application/json",
     ...(accessToken ? { authorization : `Bearer ${accessToken}`} : {})

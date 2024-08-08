@@ -1,11 +1,11 @@
 import axiosClient from "./axiosClient";
 import { Collection2 } from "@/models/Collection";
 
-export const getCollectionByParams = async (search:string, orderBy:string, direction:string) => {
+export const getCollectionByParams = async (search:string, orderBy:string, direction:string, offset:number, limit:number) => {
   try {
     const response = await axiosClient.get("/collection/", {
       params: {
-        search, orderBy, direction
+        search, orderBy, direction, offset, limit,
       }
     });
     return response.data;

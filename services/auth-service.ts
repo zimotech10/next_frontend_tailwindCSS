@@ -3,7 +3,7 @@ import axiosClient from "@/api/axiosClient"
 export const AuthService = {
     login: async ({publicKey, signedMessage} : any) => {
         return axiosClient.post(
-            '/auth/loginWithSign',
+            '/auth/login',
             {
                 publicKey, signedMessage
             }

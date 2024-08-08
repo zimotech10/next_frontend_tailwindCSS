@@ -111,7 +111,7 @@ export default function ProfilePage() {
       </div>
       {loading ? (
         <BigSpinner />
-      ) : tab === "nfts" ? (
+      ) : (
         <div className="flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center">
           {nfts.length === 0 ? (
             <div className="text-neutral-500 text-xl">No NFT found</div>
@@ -127,7 +127,7 @@ export default function ProfilePage() {
             ))
           )}
         </div>
-      ) : null}
+      ) }
     </div>
   );
 }

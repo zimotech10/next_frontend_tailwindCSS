@@ -7,8 +7,12 @@ const nextConfig = {
         hostname: "www.arweave.net",
       },
       {
-        protocol: "http",
-        hostname: "95.164.7.220",
+        protocol: "https",
+        hostname: "arweave.net",
+      },
+      {
+        protocol: "https",
+        hostname: "bictory-marketplace-backend.onrender.com",
       },
     ],
   },

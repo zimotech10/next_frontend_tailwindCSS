@@ -18,7 +18,7 @@ export const METADATA_PROGRAM_ID = new PublicKey(
   "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
 );
 export const PROGRAM_ID = new PublicKey(
-  "8NsgmNNHiUvjNknkGrBuSUpabzs5AWXAjC2SvrogM9D5"
+  "14HiV3ucBfA8wwnKvEKA4DDTecdx5QQuqDYRbNv7VqFT"
 );
 export const MARKETPLACE_FEE_FACTOR = 0.03; // 3%
 export const DISCOUNT_FEE_FACTOR = 0.02; // 2%
