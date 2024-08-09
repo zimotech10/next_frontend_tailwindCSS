@@ -5,7 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import TabBar from "@/components/TabBar";
 import collectionImage from "@/public/images/collection-hero.png";
 import CollectionCard from "@/components/CollectionCard";
-import { getCollectionByParams } from "@/api/collectionApi";
+import { CollectionApi } from "@/api/collectionApi";
 import { useEffect, useState, useRef } from "react";
 import BigSpinner from "@/components/Spinner";
 import { Collection2 } from "@/models/Collection";
@@ -27,7 +27,7 @@ const Collections = () => {
   const fetchCollections = async () => {
     try {
       setIsFetching(true);
-      const data = await getCollectionByParams(searchParam, orderBy, orderDir, offset, limit);
+      const data = await CollectionApi.getCollectionByParams(searchParam, orderBy, orderDir, offset, limit);
       const collectionData = data.data.rows;
   
       setCollections((prevCollections) => {
@@ -130,8 +130,8 @@ const Collections = () => {
                   id={collection.id}
                   name={collection.name}
                   description={collection.description}
-                  image={`${process.env.NEXT_PUBLIC_BACKEND_URL}${collection.logoImage}`}
-                  coverImage={`${process.env.NEXT_PUBLIC_BACKEND_URL}${collection.baseImage}`}
+                  image={`${collection.logoImage}`}
+                  coverImage={`${collection.baseImage}`}
                   isVerified={collection.isVerified}
                 />
               </Link>

@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { NFTMetadata } from "@/models/NFT";
 import { getNFTOwner } from "@/utils/getNFTOwner";
 import BigSpinner from "@/components/Spinner"; // Assuming Spinner component is in the components folder
-import { getNFTStatus } from "@/api/nftApi";
+import { NftApi } from "@/api/nftApi";
 
 const ibmSans = IBM_Plex_Sans({
   weight: ["400", "500", "600", "700"],
@@ -45,7 +45,7 @@ export default function NFTDetailsPage() {
   useEffect(() => {
     const fetchNFTStatus = async() => {
       if (mintAddress) {
-        await getNFTStatus(mintAddress)
+        await NftApi.getNFTStatus(mintAddress)
           .then(({isOwner, isListed, bids}) => {
             if(isOwner){
               setIsOwner(isOwner);
@@ -54,7 +54,7 @@ export default function NFTDetailsPage() {
               setIsListed(isListed);
             }
             if(bids){
-              setOffers(bids);
+              setOffers(bids.rows);
             }
             setLoading(false);
           })
@@ -86,12 +86,13 @@ export default function NFTDetailsPage() {
           mintAddress={mintAddress}
           description={metadata.description}
           name={metadata.name}
-          isOwner={isOwner}
           owner={owner?.toString()}
           image={metadata.image}
           uri={uri}
           attributes={metadata.attributes}
+          isOwner={isOwner}
           isListed={isListed}
+          offers={offers}
         />
       ) : (
         <div>Loading metadata...</div>

@@ -67,7 +67,7 @@ const ItemCard: React.FC<NFT> = ({
         style={{ maxWidth: isMobile ? "139px" : "259px" }}
       >
         {imageUrl ? (
-          <Image
+          <img
             src={imageUrl}
             width={isMobile ? 139 : 259}
             height={isMobile ? 160 : 299}

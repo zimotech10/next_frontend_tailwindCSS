@@ -108,7 +108,7 @@ export default function CreateCollectionPage() {
           <h4 className="text-gray-400 text-sm">466 x 466 suggested</h4>
           {cover ? (
             <div className="w-full h-[332px] md:h-[281px] overflow-hidden cursor-pointer">
-              <Image src={cover} width={704} height={281} alt="cover" />
+              <img src={cover} width={704} height={281} alt="cover" />
             </div>
           ) : (
             <div

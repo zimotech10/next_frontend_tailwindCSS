@@ -72,6 +72,7 @@ export const DetailsCard = (
   const handleInstantBuy = async() => {
 
   }
+  console.log(props.offers)
 
   return (
     <div className="flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 w-full md:w-1/2">
@@ -205,6 +206,25 @@ export const DetailsCard = (
           </div>
         </Accordion>
       )}
+    { props.offers &&
+      <table className="min-w-full border-collapse border border-gray-300">
+        <thead>
+          <tr>
+            <th className="border border-gray-300 px-4 py-2">From</th>
+            <th className="border border-gray-300 px-4 py-2">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.offers.map((row : any) => (
+            <tr key={row.id}>
+              <td className="border border-gray-300 px-4 py-2">{row.walletAddress}</td>
+              <td className="border border-gray-300 px-4 py-2">{row.offerPrice}</td>
+              </tr>
+          ))}
+        </tbody>
+      </table>
+    }
+      
     </div>
   );
 };

@@ -190,7 +190,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
             </div>
             <div className="flex flex-col md:flex-row gap-6 justify-center items-center w-full">
               <div className="w-[240px] flex justify-center items-center p-[14px] border rounded-md">
-                <Image src={image} alt="nftItem" width={240} height={200} />
+                <img src={image} alt="nftItem" width={240} height={200} />
               </div>
               <div className="flex flex-col gap-8 w-full">
                 {listingType === "listing-fixed" ? (

@@ -71,7 +71,7 @@ export const ItemSummary: React.FC<ItemSummaryProps> = (props) => {
       <div className="flex flex-col gap-2">
         <div className="text-sm font-normal text-[#AFAFAF]">Item</div>
         <div className="flex flex-row gap-4">
-          <Image src={props.image} width={103} height={80} alt="nft" />
+          <img src={props.image} width={103} height={80} alt="nft" />
           <div className="flex flex-col gap-3">
             <div className="font-semibold text-base">{props.name}</div>
             {props.artist !== null && (

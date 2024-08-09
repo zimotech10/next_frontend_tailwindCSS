@@ -9,17 +9,16 @@ import Filter from "@/components/Filter";
 import ItemCard from "@/components/ItemCard";
 import { Icon } from "@iconify-icon/react";
 import PopUp from "@/components/PopUp";
-import { getNftsByCollection } from "@/api/nftApi";
+import { NftApi } from "@/api/nftApi";
 
 // Define the NFT type
 interface Nft {
   id: number;
   name: string;
-  image: {
-    src: string;
-  };
+  uri: string;
   collection: string;
   price: string;
+  mintAddress: string;
 }
 
 const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
@@ -28,7 +27,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
 
   useEffect(() => {
     const fetchNfts = async () => {
-      const nfts = await getNftsByCollection(params.symbol);
+      const nfts = await NftApi.getNftsByCollection(params.symbol);
       setNfts(nfts);
       console.log(nfts);
     };
@@ -87,12 +86,11 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             (<div className="text-neutral-500 text-xl">No NFT Found In This Collection</div>)
             : nfts.map((nft) => (
               <ItemCard
-                id={nft.id}
                 key={nft.id}
                 name={nft.name}
-                uri={nft.image.src}
-                collection={nft.collection}
+                uri={nft.uri}
                 price={nft.price}
+                mintAddress={nft.mintAddress?.toString()}
               />
             ))
           }

@@ -32,13 +32,13 @@ const CollectionCard: React.FC<Collection> = ({
         border: "0.5px solid rgba(212, 134, 48, 0.20)",
       }}
     >
-      <Image
+      <img
         src={coverImage}
         width={isMobile ? 163 : 396}
         height={isMobile ? 70 : 167}
         alt="cover"
       />
-      <Image
+      <img
         src={image}
         width={isMobile ? 34 : 81}
         height={isMobile ? 34 : 81}

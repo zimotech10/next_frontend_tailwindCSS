@@ -76,7 +76,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           name={name}
           image={image}
           mintAddress={mintAddress}
-          onClose={closeListModal}
+          onClose={closeBuyModal}
         />
       )}
     </div>
