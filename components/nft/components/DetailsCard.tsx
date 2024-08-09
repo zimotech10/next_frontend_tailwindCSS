@@ -129,7 +129,6 @@ export const DetailsCard = (
             </div>
           </div>
         )}
-
         {props.isOwner ? (
           <div className="flex flex-col font-semibold text-base md:flex-row gap-2 w-full">
             {props.isListed ? (<>
