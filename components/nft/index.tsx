@@ -3,19 +3,19 @@ import { ItemImage } from "./components/ItemImage";
 import { DetailsCard } from "./components/DetailsCard";
 import { ListingModal } from "./components/ListingModal"; // Import the ListingModal
 import { NFT } from "@/models/NFT";
+import { OfferModal } from "./components/OfferModal";
 
 interface NFTDetails extends NFT {
-  userType: "owner" | "user";
+  isOwner: boolean;
   image: string;
   attributes?: {
     trait_type: string;
     value: string;
   }[];
-  listed?: boolean;
 }
 
 export const NFTDetail: React.FC<NFTDetails> = ({
-  userType,
+  isOwner,
   name,
   description,
   owner,
@@ -23,16 +23,26 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   image,
   attributes,
   mintAddress,
-  listed,
+  isListed,
+  offers,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isListModalOpen, setIsListModalOpen] = useState(false);
+  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openListModal = () => {
+    setIsListModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeListModal = () => {
+    setIsListModalOpen(false);
+  };
+
+  const openBuyModal = () => {
+    setIsBuyModalOpen(true);
+  };
+
+  const closeBuyModal = () => {
+    setIsBuyModalOpen(false);
   };
 
   return (
@@ -44,19 +54,29 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           description={description}
           owner={owner}
           creator={creatorAddress}
-          userType={userType}
+          isOwner={isOwner}
           attributes={attributes}
-          listed={listed}
+          isListed={isListed}
           mintAddress={mintAddress}
-          openModal={openModal} // Pass openModal to DetailsCard
+          offers={offers}
+          openListModal={openListModal} // Pass openModal to DetailsCard
+          openBuyModal={openBuyModal} // Pass openModal to DetailsCard
         />
       </div>
-      {isModalOpen && (
+      {isListModalOpen && (
         <ListingModal
           name={name}
           image={image}
           mintAddress={mintAddress}
-          onClose={closeModal}
+          onClose={closeListModal}
+        />
+      )}
+      {isBuyModalOpen && (
+        <OfferModal
+          name={name}
+          image={image}
+          mintAddress={mintAddress}
+          onClose={closeListModal}
         />
       )}
     </div>

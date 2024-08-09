@@ -93,7 +93,7 @@ export const unlisting = async (
 
 export const offer = async (
   program: anchor.Program,
-  wallet: Keypair,
+  wallet: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey,
@@ -117,7 +117,6 @@ export const offer = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .signers([wallet])
       .rpc({ commitment: "confirmed" });
     return tx;
   } catch (ex) {

@@ -7,7 +7,7 @@ const axiosClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
   headers: {
     "Content-Type": "application/json",
-    ...(accessToken ? { authorization : `Bearer ${accessToken}`} : {})
+    ...(accessToken ? { authorization : `${accessToken}`} : {})
   },
 });
 

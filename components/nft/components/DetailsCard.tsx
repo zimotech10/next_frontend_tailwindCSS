@@ -20,14 +20,16 @@ export const DetailsCard = (
     listingPrice?: string;
     owner?: string;
     creator?: string;
-    userType: "owner" | "user";
+    isOwner: boolean;
     attributes?: {
       trait_type: string;
       value: string;
     }[];
-    listed?: boolean;
+    isListed?: boolean;
+    offers?: any;
     mintAddress?: string | null;
-    openModal: () => void; // Add openModal prop
+    openListModal: () => void; // Add openModal prop
+    openBuyModal: () => void; // Add openModal prop
   }>
 ) => {
 
@@ -65,6 +67,10 @@ export const DetailsCard = (
     } catch (error) {
       console.error("Unlisting error:", error);
     }
+  }
+
+  const handleInstantBuy = async() => {
+
   }
 
   return (
@@ -106,9 +112,9 @@ export const DetailsCard = (
         </div>
       )}
 
-      {props.userType === "owner" ? (
+      {props.isOwner ? (
         <div className="flex flex-col font-semibold text-base md:flex-row gap-2 w-full">
-          {props.listed ? (<>
+          {props.isListed ? (<>
             <button
               className="py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black"
               style={{
@@ -128,7 +134,7 @@ export const DetailsCard = (
                   background:
                     "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
                 }}
-                onClick={props.openModal} // Call openModal when clicked
+                onClick={props.openListModal} // Call openModal when clicked
               >
                 List
               </button>
@@ -150,6 +156,7 @@ export const DetailsCard = (
               background:
                 "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
             }}
+            onClick={() => handleInstantBuy()}
           >
             <Icon icon="ph:lightning" style={{ color: "black" }} />
             Buy now for {props.listingPrice} SOL
@@ -157,6 +164,7 @@ export const DetailsCard = (
           <button
             className="w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
             style={{ border: "1px solid #F88430", color: "#F88430" }}
+            onClick={props.openBuyModal}
           >
             Make an Offer
           </button>

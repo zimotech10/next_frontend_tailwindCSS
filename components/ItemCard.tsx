@@ -7,17 +7,12 @@ import { NFT } from "@/models/NFT";
 import Link from "next/link";
 import { getImageUrl } from "@/utils/getImageUrl";
 
-interface ItemCardProps extends NFT {
-  userType: "user" | "owner";
-}
 
-const ItemCard: React.FC<ItemCardProps> = ({
+const ItemCard: React.FC<NFT> = ({
   name,
   uri,
   collection,
   price,
-  userType,
-  listed,
   mintAddress,
 }) => {
   const isMobile = useScreen();
@@ -88,11 +83,10 @@ const ItemCard: React.FC<ItemCardProps> = ({
       {showButton && (
         <Link
           href={{
-            pathname: userType === "owner" ? `profile/${name}` : `/nft/${name}`,
+            pathname: `/nfts/${name}`,
             query: {
               uri: uri,
               mintAddress: mintAddress,
-              listed: listed
             },
           }}
           className="absolute md:bottom-14 bottom-4 items-center left-1/2 flex flex-row gap-1 transform -translate-x-1/2 -translate-y-1/2 py-1 px-4 w-[150px] justify-center font-semibold rounded-2xl text-black shadow-md"

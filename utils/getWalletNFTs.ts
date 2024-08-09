@@ -10,7 +10,7 @@ export async function getWalletNFTs(walletAddress: string): Promise<any> {
     const metaplex = new Metaplex(connection);
     metaplex.use(keypairIdentity(keypair));
 
-    const response = await axiosClient.get(`/nft/wallet/${walletAddress}`)
+    const response = await axiosClient.get(`/nft/wallet`)
     
     const nfts = response.data.nftList;
     return nfts;

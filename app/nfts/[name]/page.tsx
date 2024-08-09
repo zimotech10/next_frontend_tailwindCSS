@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { NFTMetadata } from "@/models/NFT";
 import { getNFTOwner } from "@/utils/getNFTOwner";
 import BigSpinner from "@/components/Spinner"; // Assuming Spinner component is in the components folder
+import { getNFTStatus } from "@/api/nftApi";
 
 const ibmSans = IBM_Plex_Sans({
   weight: ["400", "500", "600", "700"],
@@ -20,17 +21,18 @@ export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
   const uri = searchParams.get("uri");
   const mintAddress = searchParams.get("mintAddress");
-  const listed = Boolean(searchParams.get("listed"));
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
-  const [owner, setOwner] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [owner, setOwner] = useState<any>();
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [isListed, setIsListed] = useState<boolean>(false);
+  const [offers, setOffers] = useState();
 
   useEffect(() => {
     if (uri) {
       getMetadata(uri)
         .then((metadata: NFTMetadata) => {
           setMetadata(metadata);
-          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching metadata:", error);
@@ -41,30 +43,41 @@ export default function NFTDetailsPage() {
   }, [uri]);
 
   useEffect(() => {
-    if (mintAddress) {
-      getNFTOwner(mintAddress)
-        .then((owner: string | undefined) => {
-          if (owner) {
-            setOwner(owner);
-          } else {
-            console.error("Owner is undefined");
-          }
+    const fetchNFTStatus = async() => {
+      if (mintAddress) {
+        await getNFTStatus(mintAddress)
+          .then(({isOwner, isListed, bids}) => {
+            if(isOwner){
+              setIsOwner(isOwner);
+            }
+            if(isListed){
+              setIsListed(isListed);
+            }
+            if(bids){
+              setOffers(bids);
+            }
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching NFT owner:", error);
+            setLoading(false);
+          });
+        await getNFTOwner(mintAddress)
+        .then((owner) => {
+          setOwner(owner);
         })
         .catch((error) => {
           console.error("Error fetching NFT owner:", error);
+          setLoading(false);
         });
+      }
     }
+    fetchNFTStatus()
+    
   }, [mintAddress]);
 
   return (
     <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
-      <Link
-        href="/profile"
-        className="flex flex-row items-center md:gap-4 gap-2"
-      >
-        <Icon icon="mingcute:arrow-left-line" width={30} />
-        <span className="text-xl md:text-2xl font-bold">Back</span>
-      </Link>
       {loading ? (
         <BigSpinner />
       ) : metadata ? (
@@ -73,12 +86,12 @@ export default function NFTDetailsPage() {
           mintAddress={mintAddress}
           description={metadata.description}
           name={metadata.name}
-          userType="owner"
+          isOwner={isOwner}
           owner={owner?.toString()}
           image={metadata.image}
           uri={uri}
           attributes={metadata.attributes}
-          listed={listed}
+          isListed={isListed}
         />
       ) : (
         <div>Loading metadata...</div>

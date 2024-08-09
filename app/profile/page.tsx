@@ -20,12 +20,10 @@ const ibmSans = IBM_Plex_Sans({
 
 export default function ProfilePage() {
   const wallet = useWallet();
-  const [currentAddress, setCurrentAddress] = useState("");
   const address = wallet.publicKey?.toString();
   const [copied, setCopied] = useState(false);
   const [nfts, setNFTs] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState("nfts");
 
   useEffect(() => {
     if (address) {
@@ -96,8 +94,6 @@ export default function ProfilePage() {
                 key={nft.id}
                 name={nft.name}
                 uri={nft.uri}
-                listed={nft.listed}
-                userType="owner"
                 mintAddress={nft.mintAddress?.toString()}
               />
             ))
