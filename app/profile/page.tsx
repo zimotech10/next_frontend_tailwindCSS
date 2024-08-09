@@ -83,32 +83,6 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
-      <div className="flex flex-row gap-5">
-        <button
-          className={`px-6 py-2 md:px-8 md:py-3 rounded-3xl text-base font-bold ${
-            tab === "nfts" ? "bg-neutral-800" : "hover:bg-neutral-800"
-          }`}
-          onClick={() => setTab("nfts")}
-        >
-          NFTs
-        </button>
-        <button
-          className={`px-6 py-2 md:px-8 md:py-3 rounded-3xl text-base font-bold ${
-            tab === "collections" ? "bg-neutral-800" : "hover:bg-neutral-800"
-          }`}
-          onClick={() => setTab("collections")}
-        >
-          Collections
-        </button>
-        <button
-          className={`px-6 py-2 md:px-8 md:py-3 rounded-3xl text-base font-bold ${
-            tab === "on-sale" ? "bg-neutral-800" : "hover:bg-neutral-800"
-          }`}
-          onClick={() => setTab("on-sale")}
-        >
-          On Sale
-        </button>
-      </div>
       {loading ? (
         <BigSpinner />
       ) : (

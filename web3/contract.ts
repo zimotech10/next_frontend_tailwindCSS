@@ -7,7 +7,7 @@ import {
   getAssociatedTokenAddress,
   getOrCreateAssociatedTokenAccount,
 } from "@solana/spl-token";
-import { BictoryMarketplace } from "../stores/idl";
+// import  {BictoryMarketplace}  from "../stores/idl";
 import {
   findAuctionHouse,
   findAuctionHouseTreasury,
@@ -19,7 +19,7 @@ import {
 import { AnchorWallet } from "@solana/wallet-adapter-react";
 
 export const listing = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   wallet: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
@@ -57,7 +57,7 @@ export const listing = async (
 };
 
 export const unlisting = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   wallet: Keypair,
   authority: PublicKey,
   treasuryMint: PublicKey,
@@ -93,7 +93,7 @@ export const unlisting = async (
 };
 
 export const offer = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   wallet: Keypair,
   authority: PublicKey,
   treasuryMint: PublicKey,
@@ -128,7 +128,7 @@ export const offer = async (
 };
 
 export const cancelBuy = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   wallet: Keypair,
   authority: PublicKey,
   treasuryMint: PublicKey,
@@ -161,7 +161,7 @@ export const cancelBuy = async (
 };
 
 export const instantBuy = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   buyer: Keypair,
   seller: PublicKey,
   authority: PublicKey,
@@ -255,7 +255,7 @@ export const instantBuy = async (
 };
 
 export const acceptBuy = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   buyer: PublicKey,
   seller: Keypair,
   authority: PublicKey,
@@ -348,7 +348,7 @@ export const acceptBuy = async (
 };
 
 export const deposit = async (
-  program: anchor.Program<BictoryMarketplace>,
+  program: anchor.Program,
   wallet: Keypair,
   authority: PublicKey,
   treasuryMint: PublicKey,

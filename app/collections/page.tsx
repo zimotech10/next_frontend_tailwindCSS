@@ -29,48 +29,60 @@ const Collections = () => {
       setIsFetching(true);
       const data = await getCollectionByParams(searchParam, orderBy, direction, offset, limit);
       const collectionData = data.data.rows;
-
+  
       setCollections((prevCollections) => {
-        if (offset > prevCollections.length) {
+        // Check if it's the first fetch or the offset is reset
+        if (offset === 0) {
+          return collectionData;
+        }
+  
+        // Append or prepend based on the offset
+        if (offset >= prevCollections.length) {
           return [...prevCollections, ...collectionData];
-        } else if (offset < prevCollections.length) {
-          return [...collectionData, ...prevCollections];
         } else {
-          return prevCollections;
+          return [...collectionData, ...prevCollections];
         }
       });
+  
     } catch (err: any) {
       setError(err.message);
     } finally {
       setIsFetching(false);
     }
   };
+  
 
   useEffect(() => {
     fetchCollections();
   }, [searchParam, orderBy, direction, offset, limit]);
 
+  const previousScrollTop = useRef(0); // To track the previous scroll position
+
   const handleScroll = () => {
     const grid = gridRef.current;
     if (grid) {
       const { scrollTop, scrollHeight, clientHeight } = grid;
-
-      if (scrollTop + clientHeight >= scrollHeight - 100 && !isFetching) {
+  
+      // Determine if the user is scrolling down
+      const isScrollingDown = scrollTop > previousScrollTop.current;
+  
+      // Update the previous scroll position
+      previousScrollTop.current = scrollTop;
+  
+      // Only fetch if scrolling down and near the bottom
+      if (isScrollingDown && scrollTop + clientHeight >= scrollHeight - 100 && !isFetching) {
         setOffset((prevOffset) => prevOffset + limit);
-      }
-
-      if (scrollTop <= 100 && !isFetching && offset > 0) {
-        setOffset((prevOffset) => Math.max(0, prevOffset - limit));
       }
     }
   };
-
+  
   useEffect(() => {
     const grid = gridRef.current;
     if (grid) {
       grid.addEventListener('scroll', handleScroll);
     }
-
+  
+    // Clean up the event listener when the component unmounts
     return () => {
       if (grid) {
         grid.removeEventListener('scroll', handleScroll);
@@ -95,17 +107,18 @@ const Collections = () => {
         setDirection={setDirection} 
         placeholder="Search Collections by Title" 
       />
-      <div 
+      <div
+        className="flex py-5 justify-center gap-2 md:gap-4"
         ref={gridRef} 
-        className="grid overflow-y-auto py-5 justify-center gap-2 md:gap-4"
-      >
+        >
         {isFetching && (
-          <div className="h-full items-center justify-center w-full">
+          <div className="h-full absolute items-center justify-center w-full z-10">
             <BigSpinner />
           </div>
         )}
         {collections && (
-          <div>
+          <div 
+          className="grid grid-cols-2 justify-center gap-5">
             {collections.map((collection) => (
               <Link
                 href={{ pathname: `collection/${collection.symbol}` }}
@@ -115,8 +128,8 @@ const Collections = () => {
                   id={collection.id}
                   name={collection.name}
                   description={collection.description}
-                  image={`https://bictory-marketplace-backend.onrender.com${collection.logoImage}`}
-                  coverImage={`https://bictory-marketplace-backend.onrender.com${collection.baseImage}`}
+                  image={`${process.env.NEXT_PUBLIC_BACKEND_URL}${collection.logoImage}`}
+                  coverImage={`${process.env.NEXT_PUBLIC_BACKEND_URL}${collection.baseImage}`}
                   isVerified={collection.isVerified}
                 />
               </Link>

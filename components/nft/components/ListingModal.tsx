@@ -18,6 +18,7 @@ import PopUp from "@/components/PopUp";
 
 type ListingType = "listing-fixed" | "listing-auction";
 import { NATIVE_MINT } from "@solana/spl-token";
+import { useRouter } from "next/navigation";
 
 interface ListingModalProps {
   name: string;
@@ -49,6 +50,8 @@ export const ListingModal: React.FC<ListingModalProps> = ({
   const [modalVariant, setModalVariant] = useState<"error" | "success">(
     "success"
   );
+
+  const router = useRouter();
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFixedPrice(Number(event.target.value));
@@ -123,6 +126,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
     setLoading(false);
     setIsModalOpen(true);
     onClose();
+    router.push('/profile');
   };
   return (
     <>
