@@ -58,7 +58,7 @@ export const listing = async (
 
 export const unlisting = async (
   program: anchor.Program,
-  wallet: Keypair,
+  wallet: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey
@@ -83,7 +83,6 @@ export const unlisting = async (
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
       })
-      .signers([wallet])
       .rpc({ commitment: "confirmed" });
     return tx;
   } catch (ex) {

@@ -9,14 +9,6 @@ const TabBar = ({ pathname }: { pathname: string }) => {
         <Link
           href="/"
           className={`px-6 py-2 md:px-8 md:py-3 rounded-3xl text-base font-bold ${
-            pathname === "items" ? "bg-neutral-800" : "hover:bg-neutral-800"
-          }`}
-        >
-          Items
-        </Link>
-        <Link
-          href="/collections"
-          className={`px-6 py-2 md:px-8 md:py-3 rounded-3xl text-base font-bold ${
             pathname === "collections"
               ? "bg-neutral-800"
               : "hover:bg-neutral-800"

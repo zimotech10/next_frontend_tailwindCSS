@@ -10,17 +10,9 @@ export async function getWalletNFTs(walletAddress: string): Promise<any> {
     const metaplex = new Metaplex(connection);
     metaplex.use(keypairIdentity(keypair));
 
-    // const response = await axiosClient.get('/nft/wallet', {
-    //   params: {
-    //     walletAddress
-    //   }
-    // })
+    const response = await axiosClient.get(`/nft/wallet/${walletAddress}`)
     
-    // const registeredMints = response.data;
-
-    const owner = new PublicKey(walletAddress);
-    const nfts = await metaplex.nfts().findAllByOwner({ owner });
-    // nfts.filter((nft) => registeredMints.includes((nft as {mintAddress: PublicKey}).mintAddress.toBase58()))
+    const nfts = response.data.nftList;
     return nfts;
   } catch (error) {
     console.error("Error fetching NFTs:", error);

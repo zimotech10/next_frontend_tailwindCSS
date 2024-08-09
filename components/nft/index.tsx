@@ -11,6 +11,7 @@ interface NFTDetails extends NFT {
     trait_type: string;
     value: string;
   }[];
+  listed?: boolean;
 }
 
 export const NFTDetail: React.FC<NFTDetails> = ({
@@ -22,6 +23,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   image,
   attributes,
   mintAddress,
+  listed,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -44,6 +46,8 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           creator={creatorAddress}
           userType={userType}
           attributes={attributes}
+          listed={listed}
+          mintAddress={mintAddress}
           openModal={openModal} // Pass openModal to DetailsCard
         />
       </div>

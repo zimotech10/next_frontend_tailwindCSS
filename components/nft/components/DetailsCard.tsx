@@ -4,6 +4,13 @@ import solanaIcon from "@/public/images/solana-logo.png";
 import Image from "next/image";
 import Accordion from "@/components/Accordion";
 import { formatAddress } from "@/hooks/useFormatAddress";
+import { AnchorWallet, useAnchorWallet } from "@solana/wallet-adapter-react";
+import { unlisting } from "@/web3/contract";
+import { commitmentLevel, connection, PROGRAM_INTERFACE } from "@/web3/utils";
+import * as anchor from "@coral-xyz/anchor";
+import { web3 } from "@coral-xyz/anchor";
+import { NATIVE_MINT } from "@solana/spl-token";
+import { useRouter } from "next/navigation";
 
 export const DetailsCard = (
   props: React.PropsWithChildren<{
@@ -18,9 +25,48 @@ export const DetailsCard = (
       trait_type: string;
       value: string;
     }[];
+    listed?: boolean;
+    mintAddress?: string | null;
     openModal: () => void; // Add openModal prop
   }>
 ) => {
+
+  const wallet = useAnchorWallet();
+  const router = useRouter();
+
+  const handleUnlisting = async() => {
+    try {
+      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
+        preflightCommitment: commitmentLevel,
+      });
+
+      const program = new anchor.Program(PROGRAM_INTERFACE, provider);
+
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = NATIVE_MINT;
+      const nftMint = new web3.PublicKey(props.mintAddress as string);
+
+      const tx = await unlisting(
+        program,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        nftMint,
+      );
+
+      if (tx) {
+        alert("Unlisting successful!");
+      } else {
+        alert("Unlisting failed.");
+      }
+      router.push('/')
+    } catch (error) {
+      console.error("Unlisting error:", error);
+    }
+  }
+
   return (
     <div className="flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 w-full md:w-1/2">
       <div className="flex flex-col gap-6">
@@ -62,24 +108,41 @@ export const DetailsCard = (
 
       {props.userType === "owner" ? (
         <div className="flex flex-col font-semibold text-base md:flex-row gap-2 w-full">
-          <button
-            className="py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black"
-            style={{
-              background:
-                "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
-            }}
-            onClick={props.openModal} // Call openModal when clicked
-          >
-            List
-          </button>
-          <button
-            className="w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
-            style={{ border: "1px solid #F88430", color: "#F88430" }}
-          >
-            Transfer
-          </button>
+          {props.listed ? (<>
+            <button
+              className="py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black"
+              style={{
+                background:
+                  "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+              }}
+              onClick={() => handleUnlisting()} // Call openModal when clicked
+            >
+              Unlist
+            </button>
+          </>) :
+          (
+            <>
+              <button
+                className="py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black"
+                style={{
+                  background:
+                    "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
+                }}
+                onClick={props.openModal} // Call openModal when clicked
+              >
+                List
+              </button>
+              <button
+                className="w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl"
+                style={{ border: "1px solid #F88430", color: "#F88430" }}
+              >
+                Transfer
+              </button>
+          </>
+          )}
         </div>
-      ) : (
+      ) :
+      (
         <div className="flex flex-col font-semibold text-base md:flex-row gap-2 w-full">
           <button
             className="py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black"

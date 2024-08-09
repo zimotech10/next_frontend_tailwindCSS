@@ -17,7 +17,7 @@ const Collections = () => {
 
   const [searchParam, setSearchParam] = useState("");
   const [orderBy, setOrderBy] = useState("date");
-  const [direction, setDirection] = useState('desc');
+  const [orderDir, setOrderDir] = useState('desc');
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(20);
   const [isFetching, setIsFetching] = useState(false);
@@ -27,7 +27,7 @@ const Collections = () => {
   const fetchCollections = async () => {
     try {
       setIsFetching(true);
-      const data = await getCollectionByParams(searchParam, orderBy, direction, offset, limit);
+      const data = await getCollectionByParams(searchParam, orderBy, orderDir, offset, limit);
       const collectionData = data.data.rows;
   
       setCollections((prevCollections) => {
@@ -54,7 +54,7 @@ const Collections = () => {
 
   useEffect(() => {
     fetchCollections();
-  }, [searchParam, orderBy, direction, offset, limit]);
+  }, [searchParam, orderBy, orderDir, offset, limit]);
 
   const previousScrollTop = useRef(0); // To track the previous scroll position
 
@@ -104,7 +104,7 @@ const Collections = () => {
       <SearchBar 
         setSearchParam={setSearchParam} 
         setOrderBy={setOrderBy} 
-        setDirection={setDirection} 
+        setOrderDir={setOrderDir} 
         placeholder="Search Collections by Title" 
       />
       <div
@@ -116,10 +116,12 @@ const Collections = () => {
             <BigSpinner />
           </div>
         )}
-        {collections && (
-          <div 
-          className="grid grid-cols-2 justify-center gap-5">
-            {collections.map((collection) => (
+        
+        <div className="flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center">
+          {collections.length == 0 && !isFetching ? (
+            <div className="text-neutral-500 text-xl">No Collection found</div>
+          ) : 
+            collections.map((collection) => (
               <Link
                 href={{ pathname: `collection/${collection.symbol}` }}
                 key={collection.id}
@@ -133,9 +135,10 @@ const Collections = () => {
                   isVerified={collection.isVerified}
                 />
               </Link>
-            ))}
-          </div>
-        )}
+            ))
+          }
+        </div>
+        
       </div>
     </div>
   );

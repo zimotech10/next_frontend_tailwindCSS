@@ -20,6 +20,7 @@ export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
   const uri = searchParams.get("uri");
   const mintAddress = searchParams.get("mintAddress");
+  const listed = Boolean(searchParams.get("listed"));
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
   const [owner, setOwner] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -77,6 +78,7 @@ export default function NFTDetailsPage() {
           image={metadata.image}
           uri={uri}
           attributes={metadata.attributes}
+          listed={listed}
         />
       ) : (
         <div>Loading metadata...</div>

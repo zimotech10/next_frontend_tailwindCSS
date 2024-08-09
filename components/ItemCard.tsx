@@ -17,6 +17,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
   collection,
   price,
   userType,
+  listed,
   mintAddress,
 }) => {
   const isMobile = useScreen();
@@ -91,6 +92,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
             query: {
               uri: uri,
               mintAddress: mintAddress,
+              listed: listed
             },
           }}
           className="absolute md:bottom-14 bottom-4 items-center left-1/2 flex flex-row gap-1 transform -translate-x-1/2 -translate-y-1/2 py-1 px-4 w-[150px] justify-center font-semibold rounded-2xl text-black shadow-md"

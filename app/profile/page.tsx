@@ -20,6 +20,7 @@ const ibmSans = IBM_Plex_Sans({
 
 export default function ProfilePage() {
   const wallet = useWallet();
+  const [currentAddress, setCurrentAddress] = useState("");
   const address = wallet.publicKey?.toString();
   const [copied, setCopied] = useState(false);
   const [nfts, setNFTs] = useState<NFT[]>([]);
@@ -61,7 +62,7 @@ export default function ProfilePage() {
   return (
     <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
       <div className="flex flex-row justify-center md:justify-end p-8 bg-[#4343434d] rounded-xl">
-        {wallet.connected && address && (
+        {wallet && address && (
           <div className="p-3 rounded-full bg-black flex flex-row items-center gap-2">
             <Image src={solanaIcon} width={24} height={24} alt="solana" />
             <div>{formattedAddress}</div>
@@ -95,6 +96,7 @@ export default function ProfilePage() {
                 key={nft.id}
                 name={nft.name}
                 uri={nft.uri}
+                listed={nft.listed}
                 userType="owner"
                 mintAddress={nft.mintAddress?.toString()}
               />

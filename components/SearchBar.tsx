@@ -6,15 +6,15 @@ import { Icon } from "@iconify-icon/react/dist/iconify.js";
 import { ChangeEvent, useState } from "react";
 
 const SearchBar = (props: any) => {
-  const {placeholder, setSearchParam, setOrderBy, setDirection} = props;
+  const {placeholder, setSearchParam, setOrderBy, setOrderDir} = props;
   const [sort, setSort] = useState("Most Recent");
   const [sortModal, setSortModal] = useState(false);
 
 
-  const selectSort = (method: string, orderBy: string, direction: string) => {
+  const selectSort = (method: string, orderBy: string, orderDir: string) => {
     setSort(method);
     setOrderBy(orderBy);
-    setDirection(direction);
+    setOrderDir(orderDir);
     setSortModal(false);
     
   };
