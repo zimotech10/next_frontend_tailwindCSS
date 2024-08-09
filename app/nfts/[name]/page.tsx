@@ -54,7 +54,7 @@ export default function NFTDetailsPage() {
               setIsListed(isListed);
             }
             if(bids){
-              setOffers(bids.rows);
+              setOffers(bids);
             }
             setLoading(false);
           })

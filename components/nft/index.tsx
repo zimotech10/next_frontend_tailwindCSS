@@ -48,11 +48,11 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   return (
     <div className="relative">
       <div className="flex flex-col md:flex-row md:gap-9 gap-3 items-center md:items-start">
-        <ItemImage imageSrc={image} />
         <DetailsCard
           name={name}
           description={description}
           owner={owner}
+          image={image}
           creator={creatorAddress}
           isOwner={isOwner}
           attributes={attributes}
