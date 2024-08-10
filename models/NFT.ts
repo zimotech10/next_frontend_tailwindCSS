@@ -9,6 +9,7 @@ export interface NFT {
   creatorAddress?: string;
   mintAddress?: string | null;
   isListed?: boolean;
+  isOffered?: boolean;
   offers?: any;
 }
 

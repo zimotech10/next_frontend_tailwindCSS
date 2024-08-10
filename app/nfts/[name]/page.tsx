@@ -23,9 +23,10 @@ export default function NFTDetailsPage() {
   const mintAddress = searchParams.get("mintAddress");
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
   const [loading, setLoading] = useState(true);
-  const [owner, setOwner] = useState<any>();
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [isListed, setIsListed] = useState<boolean>(false);
+  const [isOffered, setIsOffered] = useState<boolean>(false);
+  const [owner, setOwner] = useState("");
   const [offers, setOffers] = useState();
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function NFTDetailsPage() {
     const fetchNFTStatus = async() => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(({isOwner, isListed, bids}) => {
+          .then(({isOwner, isListed, isOffered, bids}) => {
             if(isOwner){
               setIsOwner(isOwner);
             }
@@ -56,20 +57,18 @@ export default function NFTDetailsPage() {
             if(bids){
               setOffers(bids);
             }
+            if(isOffered){
+              setIsOffered(isOffered);
+            }
+            if(owner){
+              setOwner(owner);
+            }
             setLoading(false);
           })
           .catch((error) => {
             console.error("Error fetching NFT owner:", error);
             setLoading(false);
           });
-        await getNFTOwner(mintAddress)
-        .then((owner) => {
-          setOwner(owner);
-        })
-        .catch((error) => {
-          console.error("Error fetching NFT owner:", error);
-          setLoading(false);
-        });
       }
     }
     fetchNFTStatus()
@@ -92,6 +91,7 @@ export default function NFTDetailsPage() {
           attributes={metadata.attributes}
           isOwner={isOwner}
           isListed={isListed}
+          isOffered={isOffered}
           offers={offers}
         />
       ) : (

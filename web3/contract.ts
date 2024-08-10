@@ -127,7 +127,7 @@ export const offer = async (
 
 export const cancelBuy = async (
   program: anchor.Program,
-  wallet: Keypair,
+  wallet: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey
@@ -149,7 +149,6 @@ export const cancelBuy = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .signers([wallet])
       .rpc({ commitment: "confirmed" });
     return tx;
   } catch (ex) {
@@ -255,7 +254,7 @@ export const instantBuy = async (
 export const acceptBuy = async (
   program: anchor.Program,
   buyer: PublicKey,
-  seller: Keypair,
+  seller: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey,
@@ -337,7 +336,6 @@ export const acceptBuy = async (
         rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
-      .signers([seller])
       .rpc({ commitment: "confirmed" });
     return tx;
   } catch (ex) {

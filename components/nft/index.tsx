@@ -24,6 +24,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   attributes,
   mintAddress,
   isListed,
+  isOffered,
   offers,
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
@@ -57,6 +58,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           isOwner={isOwner}
           attributes={attributes}
           isListed={isListed}
+          isOffered={isOffered}
           mintAddress={mintAddress}
           offers={offers}
           openListModal={openListModal} // Pass openModal to DetailsCard

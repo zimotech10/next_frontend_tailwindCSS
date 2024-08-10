@@ -25,8 +25,8 @@ export const NftApi = {
   getNFTStatus : async (mintAddress:string) => {
     try{
         const response = await axiosClient.get(`/nft/item/${mintAddress}`);
-        const {isOwner, isListed, bids} = response.data.data;
-        return {isOwner, isListed, bids}
+        const {isOwner, isListed, isOffered, bids} = response.data.data;
+        return {isOwner, isListed, isOffered, bids}
     } catch (error) {
         console.error("Error fetching NFT Status", error);
         throw error;
