@@ -46,18 +46,23 @@ const DesktopNav = (
       setDropdown(false);
     }
   };
-
+  const loginCalled = useRef(false);
   const loginUser = async () => {
+    if (loginCalled.current) return; // Prevent multiple calls
+    loginCalled.current = true;
     try {
       const { data } = await AuthService.getAuthMessage();
       const messageToSign = data.message;
       if (!messageToSign) {
+        loginCalled.current = false;
         return;
       }
       if (!wallet.connected) {
+        loginCalled.current = false;
         return;
       }
       if (!wallet.signMessage) {
+        loginCalled.current = false;
         return;
       }
 
@@ -77,9 +82,11 @@ const DesktopNav = (
           router.push('/');
         })
         .catch((error) => {
+          loginCalled.current = false;
           setLoggedIn(false);
         });
     } catch (error) {
+      loginCalled.current = false;
       setLoggedIn(false);
     }
   };
@@ -89,7 +96,8 @@ const DesktopNav = (
       !isLoggedIn &&
       !CookieRepository.getAccessToken() &&
       !CookieRepository.getRefreshToken() &&
-      wallet.publicKey
+      wallet.publicKey &&
+      !loginCalled.current
     ) {
       loginUser();
     }
