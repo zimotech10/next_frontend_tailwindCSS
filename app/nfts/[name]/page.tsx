@@ -97,7 +97,7 @@ export default function NFTDetailsPage() {
           creators={creators}
         />
       ) : (
-        <div>Loading metadata...</div>
+        <div>Cannot find metadata</div>
       )}
     </div>
   );

@@ -166,7 +166,12 @@ const DesktopNav = (
                 transition={{ duration: 0.3 }}
               >
                 <Dropdown>
-                  <Link href='/profile'>Profile</Link>
+                  <Link
+                    href='/profile'
+                    onClick={() => setDropdown(!dropdown)}
+                  >
+                    Profile
+                  </Link>
                   <button
                     className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
                     style={{
