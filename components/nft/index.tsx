@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { ItemImage } from "./components/ItemImage";
-import { DetailsCard } from "./components/DetailsCard";
-import { ListingModal } from "./components/ListingModal"; // Import the ListingModal
-import { NFT } from "@/models/NFT";
-import { OfferModal } from "./components/OfferModal";
+import React, { useState } from 'react';
+import { ItemImage } from './components/ItemImage';
+import { DetailsCard } from './components/DetailsCard';
+import { ListingModal } from './components/ListingModal'; // Import the ListingModal
+import { NFT } from '@/models/NFT';
+import { OfferModal } from './components/OfferModal';
 
 interface NFTDetails extends NFT {
   isOwner: boolean;
@@ -19,13 +19,13 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   name,
   description,
   owner,
-  creatorAddress,
   image,
   attributes,
   mintAddress,
   isListed,
   isOffered,
   offers,
+  creators,
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
@@ -47,20 +47,20 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   };
 
   return (
-    <div className="relative">
-      <div className="flex flex-col md:flex-row md:gap-9 gap-3 items-center md:items-start">
+    <div className='relative'>
+      <div className='flex flex-col md:flex-row md:gap-9 gap-3 items-center md:items-start'>
         <DetailsCard
           name={name}
           description={description}
           owner={owner}
           image={image}
-          creator={creatorAddress}
           isOwner={isOwner}
           attributes={attributes}
           isListed={isListed}
           isOffered={isOffered}
           mintAddress={mintAddress}
           offers={offers}
+          creators={creators}
           openListModal={openListModal} // Pass openModal to DetailsCard
           openBuyModal={openBuyModal} // Pass openModal to DetailsCard
         />

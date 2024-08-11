@@ -1,12 +1,12 @@
-import * as anchor from "@coral-xyz/anchor";
-import { SYSVAR_RENT_PUBKEY, Keypair, PublicKey } from "@solana/web3.js";
+import * as anchor from '@coral-xyz/anchor';
+import { SYSVAR_RENT_PUBKEY, Keypair, PublicKey } from '@solana/web3.js';
 import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
   NATIVE_MINT,
   getAssociatedTokenAddress,
   getOrCreateAssociatedTokenAccount,
-} from "@solana/spl-token";
+} from '@solana/spl-token';
 // import  {BictoryMarketplace}  from "../stores/idl";
 import {
   findAuctionHouse,
@@ -15,8 +15,8 @@ import {
   findListingAccount,
   findMetadataPda,
   findOfferAccount,
-} from "./utils";
-import { AnchorWallet } from "@solana/wallet-adapter-react";
+} from './utils';
+import { AnchorWallet } from '@solana/wallet-adapter-react';
 
 export const listing = async (
   program: anchor.Program,
@@ -48,7 +48,7 @@ export const listing = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -83,7 +83,7 @@ export const unlisting = async (
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
       })
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -117,7 +117,7 @@ export const offer = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -149,7 +149,7 @@ export const cancelBuy = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -159,7 +159,7 @@ export const cancelBuy = async (
 
 export const instantBuy = async (
   program: anchor.Program,
-  buyer: Keypair,
+  buyer: AnchorWallet,
   seller: PublicKey,
   authority: PublicKey,
   treasuryMint: PublicKey,
@@ -188,7 +188,7 @@ export const instantBuy = async (
   const nftAccountInfo = await program.provider.connection.getAccountInfo(
     sellerNftAccount
   );
-  console.log("nftAccountInfo", nftAccountInfo);
+  console.log('nftAccountInfo', nftAccountInfo);
   const remainingAccounts = creators
     ? creators.map((creator) => {
         return {
@@ -218,6 +218,25 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
+  console.log({
+    buyer: buyer.publicKey,
+    seller: seller,
+    escrowPaymentAccount: escrowWallet,
+    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
+    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+    authority: authority,
+    treasuryMint: treasuryMint,
+    auctionHouse: auctionHouse,
+    auctionHouseTreasury: auctionHouseTreasury,
+    nftMint: nftMint,
+    metadata: nftMetadata,
+    nftAccount: sellerNftAccount,
+    listingAccount: listingAccount,
+    systemProgram: anchor.web3.SystemProgram.programId,
+    tokenProgram: TOKEN_PROGRAM_ID,
+    ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+    rent: SYSVAR_RENT_PUBKEY,
+  });
 
   try {
     const tx = await program.methods
@@ -242,8 +261,7 @@ export const instantBuy = async (
         rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
-      .signers([buyer])
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -336,7 +354,7 @@ export const acceptBuy = async (
         rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -377,10 +395,10 @@ export const deposit = async (
         tokenProgram: TOKEN_PROGRAM_ID,
       })
       .signers([wallet])
-      .rpc({ commitment: "confirmed" });
+      .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (error) {
-    console.log("deposit error", error);
+    console.log('deposit error', error);
     return null;
   }
 };

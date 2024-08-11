@@ -6,11 +6,11 @@ export interface NFT {
   price?: string;
   description?: string;
   owner?: string;
-  creatorAddress?: string;
   mintAddress?: string | null;
   isListed?: boolean;
   isOffered?: boolean;
   offers?: any;
+  creators?: any;
 }
 
 export interface NFTMetadata {
