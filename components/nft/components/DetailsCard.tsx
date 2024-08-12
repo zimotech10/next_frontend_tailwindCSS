@@ -109,7 +109,8 @@ export const DetailsCard = (
         seller,
         authority,
         treasuryMint,
-        nftMint
+        nftMint,
+        creators
       );
 
       if (tx) {
@@ -145,6 +146,9 @@ export const DetailsCard = (
           (offer: any) => offer.id === selectedOfferId
         ).walletAddress
       );
+      const creators = props.creators.map(
+        (creator: string) => new PublicKey(creator)
+      );
       console.log(buyer);
       const seller = wallet;
       const tx = await acceptBuy(
@@ -153,7 +157,8 @@ export const DetailsCard = (
         seller as AnchorWallet,
         authority,
         treasuryMint,
-        nftMint
+        nftMint,
+        creators
       );
 
       if (tx) {

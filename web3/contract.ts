@@ -1,24 +1,34 @@
 import * as anchor from '@coral-xyz/anchor';
-import { SYSVAR_RENT_PUBKEY, Keypair, PublicKey } from '@solana/web3.js';
+import {
+  SYSVAR_RENT_PUBKEY,
+  Keypair,
+  PublicKey,
+  SYSVAR_INSTRUCTIONS_PUBKEY,
+} from '@solana/web3.js';
 import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
   NATIVE_MINT,
   getAssociatedTokenAddress,
   getOrCreateAssociatedTokenAccount,
+  createAssociatedTokenAccountInstruction,
 } from '@solana/spl-token';
 // import  {BictoryMarketplace}  from "../stores/idl";
 import {
+  AUTHORIZATION_RULES_PROGRAM_ID,
   findAuctionHouse,
   findAuctionHouseTreasury,
+  findEditionPda,
   findEscrowWallet,
   findListingAccount,
   findMetadataPda,
   findOfferAccount,
+  findTokenRecordAddress,
+  METADATA_PROGRAM_ID,
 } from './utils';
 import { AnchorWallet } from '@solana/wallet-adapter-react';
 
-export const listing = async (
+export async function listing(
   program: anchor.Program,
   wallet: AnchorWallet,
   authority: PublicKey,
@@ -26,11 +36,38 @@ export const listing = async (
   nftMint: PublicKey,
   price: anchor.BN,
   expiry: anchor.BN | null
-) => {
+) {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
   const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const listingAccount = findListingAccount(nftMint);
-  const nftAccount = await getAssociatedTokenAddress(nftMint, wallet.publicKey);
+  const metadata = await findMetadataPda(nftMint);
+  const edition = await findEditionPda(nftMint);
+  const nftFromAccount = await getAssociatedTokenAddress(
+    nftMint,
+    wallet.publicKey
+  );
+  const nftToAccount = await getAssociatedTokenAddress(
+    nftMint,
+    auctionHouseTreasury,
+    true
+  );
+  const nftToAccountInfo = await program.provider.connection.getAccountInfo(
+    nftToAccount
+  );
+  let preInstructions: anchor.web3.TransactionInstruction[] = [];
+  const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
+  const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
+  if (!nftToAccountInfo) {
+    preInstructions.push(
+      createAssociatedTokenAccountInstruction(
+        wallet.publicKey,
+        nftToAccount,
+        auctionHouseTreasury,
+        nftMint,
+        TOKEN_PROGRAM_ID
+      )
+    );
+  }
 
   try {
     const tx = await program.methods
@@ -42,31 +79,68 @@ export const listing = async (
         auctionHouse: auctionHouse,
         auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
-        nftAccount: nftAccount,
+        nftFromAccount: nftFromAccount,
+        nftToAccount: nftToAccount,
         listingAccount: listingAccount,
+        metadata: metadata,
+        edition: edition,
+        fromTokenRecord: fromTokenRecord,
+        toTokenRecord: toTokenRecord,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
+        authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
+        authorizationRules: new PublicKey('11111111111111111111111111111111'),
+        instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+        associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        metadataProgram: METADATA_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
+      .preInstructions(preInstructions)
       .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
-    return null;
   }
-};
+}
 
-export const unlisting = async (
+export async function unlisting(
   program: anchor.Program,
   wallet: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey
-) => {
+) {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
   const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const listingAccount = findListingAccount(nftMint);
-  const nftAccount = await getAssociatedTokenAddress(nftMint, wallet.publicKey);
+  const metadata = await findMetadataPda(nftMint);
+  const edition = await findEditionPda(nftMint);
+  const nftFromAccount = await getAssociatedTokenAddress(
+    nftMint,
+    auctionHouseTreasury,
+    true
+  );
+  const nftToAccount = await getAssociatedTokenAddress(
+    nftMint,
+    wallet.publicKey
+  );
+  const nftToAccountInfo = await program.provider.connection.getAccountInfo(
+    nftToAccount
+  );
+  let preInstructions: anchor.web3.TransactionInstruction[] = [];
+  const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
+  const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
+  if (!nftToAccountInfo) {
+    preInstructions.push(
+      createAssociatedTokenAccountInstruction(
+        wallet.publicKey,
+        nftToAccount,
+        wallet.publicKey,
+        nftMint,
+        TOKEN_PROGRAM_ID
+      )
+    );
+  }
 
   try {
     const tx = await program.methods
@@ -78,18 +152,29 @@ export const unlisting = async (
         auctionHouse: auctionHouse,
         auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
-        nftAccount: nftAccount,
+        nftFromAccount: nftFromAccount,
+        nftToAccount: nftToAccount,
         listingAccount: listingAccount,
+        metadata: metadata,
+        edition: edition,
+        fromTokenRecord: fromTokenRecord,
+        toTokenRecord: toTokenRecord,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
+        authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
+        authorizationRules: new PublicKey('11111111111111111111111111111111'),
+        instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+        associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        metadataProgram: METADATA_PROGRAM_ID,
+        rent: SYSVAR_RENT_PUBKEY,
       })
+      .preInstructions(preInstructions)
       .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
-    return null;
   }
-};
+}
 
 export const offer = async (
   program: anchor.Program,
@@ -157,7 +242,7 @@ export const cancelBuy = async (
   }
 };
 
-export const instantBuy = async (
+export async function instantBuy(
   program: anchor.Program,
   buyer: AnchorWallet,
   seller: PublicKey,
@@ -168,11 +253,22 @@ export const instantBuy = async (
   discountMint: PublicKey | null = null,
   discountTokenAccount: PublicKey | null = null,
   discountMetadata: PublicKey | null = null
-) => {
+) {
   const isNative = treasuryMint == NATIVE_MINT;
 
-  const sellerNftAccount = await getAssociatedTokenAddress(nftMint, seller);
+  const auctionHouse = findAuctionHouse(authority, treasuryMint);
+  const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
+  const nftFromAccount = await getAssociatedTokenAddress(
+    nftMint,
+    auctionHouseTreasury,
+    true
+  );
+  const nftToAccount = await getAssociatedTokenAddress(
+    nftMint,
+    buyer.publicKey
+  );
   const nftMetadata = await findMetadataPda(nftMint);
+  const edition = await findEditionPda(nftMint);
   const buyerReceiptTokenAccount = await getAssociatedTokenAddress(
     nftMint,
     buyer.publicKey
@@ -181,14 +277,26 @@ export const instantBuy = async (
     ? seller
     : await getAssociatedTokenAddress(treasuryMint, seller);
 
-  const auctionHouse = findAuctionHouse(authority, treasuryMint);
-  const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const escrowWallet = findEscrowWallet(buyer.publicKey, auctionHouse);
   const listingAccount = findListingAccount(nftMint);
-  const nftAccountInfo = await program.provider.connection.getAccountInfo(
-    sellerNftAccount
+  const nftToAccountInfo = await program.provider.connection.getAccountInfo(
+    nftToAccount
   );
-  console.log('nftAccountInfo', nftAccountInfo);
+  let preInstructions: anchor.web3.TransactionInstruction[] = [];
+  const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
+  const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
+  if (!nftToAccountInfo) {
+    preInstructions.push(
+      createAssociatedTokenAccountInstruction(
+        buyer.publicKey,
+        nftToAccount,
+        buyer.publicKey,
+        nftMint,
+        TOKEN_PROGRAM_ID
+      )
+    );
+  }
+
   const remainingAccounts = creators
     ? creators.map((creator) => {
         return {
@@ -218,25 +326,6 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
-  console.log({
-    buyer: buyer.publicKey,
-    seller: seller,
-    escrowPaymentAccount: escrowWallet,
-    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
-    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
-    authority: authority,
-    treasuryMint: treasuryMint,
-    auctionHouse: auctionHouse,
-    auctionHouseTreasury: auctionHouseTreasury,
-    nftMint: nftMint,
-    metadata: nftMetadata,
-    nftAccount: sellerNftAccount,
-    listingAccount: listingAccount,
-    systemProgram: anchor.web3.SystemProgram.programId,
-    tokenProgram: TOKEN_PROGRAM_ID,
-    ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-    rent: SYSVAR_RENT_PUBKEY,
-  });
 
   try {
     const tx = await program.methods
@@ -253,23 +342,31 @@ export const instantBuy = async (
         auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
         metadata: nftMetadata,
-        nftAccount: sellerNftAccount,
+        edition: edition,
+        nftFromAccount: nftFromAccount,
+        nftToAccount: nftToAccount,
         listingAccount: listingAccount,
+        fromTokenRecord: fromTokenRecord,
+        toTokenRecord: toTokenRecord,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
-        ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
+        authorizationRules: new PublicKey('11111111111111111111111111111111'),
+        instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+        associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        metadataProgram: METADATA_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
+      .preInstructions(preInstructions)
       .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
-    return null;
   }
-};
+}
 
-export const acceptBuy = async (
+export async function acceptBuy(
   program: anchor.Program,
   buyer: PublicKey,
   seller: AnchorWallet,
@@ -280,14 +377,19 @@ export const acceptBuy = async (
   discountMint: PublicKey | null = null,
   discountTokenAccount: PublicKey | null = null,
   discountMetadata: PublicKey | null = null
-) => {
+) {
   const isNative = treasuryMint == NATIVE_MINT;
 
-  const sellerNftAccount = await getAssociatedTokenAddress(
+  const auctionHouse = findAuctionHouse(authority, treasuryMint);
+  const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
+  const nftFromAccount = await getAssociatedTokenAddress(
     nftMint,
-    seller.publicKey
+    auctionHouseTreasury,
+    true
   );
+  const nftToAccount = await getAssociatedTokenAddress(nftMint, buyer);
   const nftMetadata = await findMetadataPda(nftMint);
+  const edition = await findEditionPda(nftMint);
   const buyerReceiptTokenAccount = await getAssociatedTokenAddress(
     nftMint,
     buyer
@@ -296,11 +398,25 @@ export const acceptBuy = async (
     ? seller.publicKey
     : await getAssociatedTokenAddress(treasuryMint, seller.publicKey);
 
-  const auctionHouse = findAuctionHouse(authority, treasuryMint);
-  const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const escrowWallet = findEscrowWallet(buyer, auctionHouse);
   const listingAccount = findListingAccount(nftMint);
-
+  const nftToAccountInfo = await program.provider.connection.getAccountInfo(
+    nftToAccount
+  );
+  let preInstructions: anchor.web3.TransactionInstruction[] = [];
+  const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
+  const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
+  if (!nftToAccountInfo) {
+    preInstructions.push(
+      createAssociatedTokenAccountInstruction(
+        seller.publicKey,
+        nftToAccount,
+        buyer,
+        nftMint,
+        TOKEN_PROGRAM_ID
+      )
+    );
+  }
   const remainingAccounts = creators
     ? creators.map((creator) => {
         return {
@@ -346,20 +462,29 @@ export const acceptBuy = async (
         auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
         metadata: nftMetadata,
-        nftAccount: sellerNftAccount,
+        edition: edition,
+        nftFromAccount: nftFromAccount,
+        nftToAccount: nftToAccount,
         listingAccount: listingAccount,
+        fromTokenRecord: fromTokenRecord,
+        toTokenRecord: toTokenRecord,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
-        ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
+        authorizationRules: new PublicKey('11111111111111111111111111111111'),
+        instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+        associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        metadataProgram: METADATA_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
       .remainingAccounts(remainingAccounts)
+      .preInstructions(preInstructions)
       .rpc({ commitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
   }
-};
+}
 
 export const deposit = async (
   program: anchor.Program,

@@ -13,12 +13,13 @@ export const TREASURY = 'treasury';
 export const SIGNER = 'signer';
 export const LISTING = 'listing';
 export const OFFER = 'offer';
+export const AUCTION = 'auction';
 
 export const METADATA_PROGRAM_ID = new PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
 );
 export const PROGRAM_ID = new PublicKey(
-  '14HiV3ucBfA8wwnKvEKA4DDTecdx5QQuqDYRbNv7VqFT'
+  '8brUbX9aFjmyYrVYSZL8NeyPURx48So1KMHkvbSMajz1'
 );
 export const AUTHORIZATION_RULES_PROGRAM_ID = new PublicKey(
   'auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg'
