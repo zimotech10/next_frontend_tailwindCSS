@@ -153,6 +153,7 @@ export const DetailsCard = (
       );
       const treasuryMint = NATIVE_MINT;
       const nftMint = new web3.PublicKey(props.mintAddress as string);
+
       const buyer = new web3.PublicKey(
         props.offers.find((offer: any) => offer.id === id).walletAddress
       );

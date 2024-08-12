@@ -10,6 +10,7 @@ import ItemCard from '@/components/ItemCard';
 import { Icon } from '@iconify-icon/react';
 import PopUp from '@/components/PopUp';
 import { NftApi } from '@/api/nftApi';
+import BigSpinner from '@/components/Spinner';
 
 // Define the NFT type
 interface Nft {
@@ -28,13 +29,17 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [searchParam, setSearchParam] = useState('');
   const [orderBy, setOrderBy] = useState('date');
   const [orderDir, setOrderDir] = useState('desc');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const fetchNfts = async () => {
       try {
         const nfts = await NftApi.getNftsByCollection(params.symbol);
         setNfts(nfts);
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         console.log(err);
       }
     };
@@ -92,24 +97,30 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             </div>
           )}
         </div>
-        <div className='flex h-full gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
-          {!nfts || nfts.length === 0 ? (
-            <div className='text-neutral-500 text-xl'>
-              No NFT Found In This Collection
-            </div>
-          ) : (
-            nfts &&
-            nfts.map((nft, index) => (
-              <ItemCard
-                key={index}
-                name={nft.name}
-                uri={nft.uri}
-                price={nft.price}
-                mintAddress={nft.mintAddress?.toString()}
-              />
-            ))
-          )}
-        </div>
+        {loading ? (
+          <div className='flex w-full justify-center items-center'>
+            <BigSpinner />
+          </div>
+        ) : (
+          <div className='flex h-full gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
+            {!nfts || nfts.length === 0 ? (
+              <div className='text-neutral-500 text-xl'>
+                No NFT Found In This Collection
+              </div>
+            ) : (
+              nfts &&
+              nfts.map((nft, index) => (
+                <ItemCard
+                  key={index}
+                  name={nft.name}
+                  uri={nft.uri}
+                  price={nft.price}
+                  mintAddress={nft.mintAddress?.toString()}
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

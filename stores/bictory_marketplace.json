@@ -1,5 +1,5 @@
 {
-  "address": "8brUbX9aFjmyYrVYSZL8NeyPURx48So1KMHkvbSMajz1",
+  "address": "GDW1qzqhhTMghr7nAZSB6fG7anG1EeHUeRByCNcXdjQ1",
   "metadata": {
     "name": "bictory_marketplace",
     "version": "0.1.0",
@@ -9,71 +9,35 @@
   "instructions": [
     {
       "name": "accept_buy",
-      "discriminator": [
-        60,
-        72,
-        6,
-        237,
-        195,
-        26,
-        145,
-        105
-      ],
+      "discriminator": [60, 72, 6, 237, 195, 26, 145, 105],
       "accounts": [
         {
           "name": "seller",
-          "docs": [
-            "seller user wallet account."
-          ],
+          "docs": ["seller user wallet account."],
           "writable": true,
           "signer": true
         },
         {
           "name": "buyer",
-          "docs": [
-            "Buyer user wallet account."
-          ],
+          "docs": ["Buyer user wallet account."],
           "writable": true
         },
         {
           "name": "treasury_mint",
-          "docs": [
-            "Auction House treasury mint account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House treasury mint account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "escrow_payment_account",
-          "docs": [
-            "Buyer escrow payment account PDA."
-          ],
+          "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -89,57 +53,30 @@
         },
         {
           "name": "seller_payment_receipt_account",
-          "docs": [
-            "Seller SOL or SPL account to receive payment at."
-          ],
+          "docs": ["Seller SOL or SPL account to receive payment at."],
           "writable": true
         },
         {
           "name": "buyer_receipt_token_account",
-          "docs": [
-            "Buyer SPL token account to receive purchased item at."
-          ],
+          "docs": ["Buyer SPL token account to receive purchased item at."],
           "writable": true
         },
         {
           "name": "authority",
-          "docs": [
-            "Auction House instance authority account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House instance authority account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -148,52 +85,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -211,9 +118,7 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_from_account",
@@ -233,34 +138,15 @@
         },
         {
           "name": "listing_account",
-          "docs": [
-            "Listing PDA account"
-          ],
+          "docs": ["Listing PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -269,49 +155,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                "value": [108, 105, 115, 116, 105, 110, 103]
               }
             ]
           }
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -324,13 +183,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
-                ]
+                "value": [111, 102, 102, 101, 114]
               }
             ]
           }
@@ -376,22 +229,11 @@
     },
     {
       "name": "buy",
-      "discriminator": [
-        102,
-        6,
-        61,
-        18,
-        1,
-        218,
-        235,
-        234
-      ],
+      "discriminator": [102, 6, 61, 18, 1, 218, 235, 234],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer account."
-          ],
+          "docs": ["Buyer account."],
           "writable": true,
           "signer": true
         },
@@ -400,48 +242,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -458,40 +275,19 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -504,13 +300,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
-                ]
+                "value": [111, 102, 102, 101, 114]
               }
             ]
           }
@@ -543,22 +333,11 @@
     },
     {
       "name": "cancel_auction",
-      "discriminator": [
-        156,
-        43,
-        197,
-        110,
-        218,
-        105,
-        143,
-        182
-      ],
+      "discriminator": [156, 43, 197, 110, 218, 105, 143, 182],
       "accounts": [
         {
           "name": "seller",
-          "docs": [
-            "Seller account."
-          ],
+          "docs": ["Seller account."],
           "writable": true,
           "signer": true
         },
@@ -567,48 +346,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -617,52 +371,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -679,15 +403,11 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_from_account",
-          "docs": [
-            "NFT token account"
-          ],
+          "docs": ["NFT token account"],
           "writable": true
         },
         {
@@ -728,34 +448,15 @@
         },
         {
           "name": "auction_account",
-          "docs": [
-            "auction PDA account"
-          ],
+          "docs": ["auction PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -764,15 +465,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110
-                ]
+                "value": [97, 117, 99, 116, 105, 111, 110]
               }
             ]
           }
@@ -790,22 +483,11 @@
     },
     {
       "name": "cancel_buy",
-      "discriminator": [
-        238,
-        76,
-        36,
-        218,
-        132,
-        177,
-        224,
-        233
-      ],
+      "discriminator": [238, 76, 36, 218, 132, 177, 224, 233],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer account."
-          ],
+          "docs": ["Buyer account."],
           "writable": true,
           "signer": true
         },
@@ -814,48 +496,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -872,40 +529,19 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -918,13 +554,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
-                ]
+                "value": [111, 102, 102, 101, 114]
               }
             ]
           }
@@ -946,22 +576,11 @@
     },
     {
       "name": "cancel_offer_from_auction",
-      "discriminator": [
-        161,
-        194,
-        163,
-        184,
-        164,
-        130,
-        93,
-        45
-      ],
+      "discriminator": [161, 194, 163, 184, 164, 130, 93, 45],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer account."
-          ],
+          "docs": ["Buyer account."],
           "writable": true,
           "signer": true
         },
@@ -970,48 +589,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1028,40 +622,19 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "auction_account",
-          "docs": [
-            "auction PDA account"
-          ],
+          "docs": ["auction PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1070,49 +643,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110
-                ]
+                "value": [97, 117, 99, 116, 105, 111, 110]
               }
             ]
           }
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1126,19 +672,7 @@
               {
                 "kind": "const",
                 "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110,
-                  95,
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
+                  97, 117, 99, 116, 105, 111, 110, 95, 111, 102, 102, 101, 114
                 ]
               }
             ]
@@ -1161,22 +695,11 @@
     },
     {
       "name": "create_auction",
-      "discriminator": [
-        234,
-        6,
-        201,
-        246,
-        47,
-        219,
-        176,
-        107
-      ],
+      "discriminator": [234, 6, 201, 246, 47, 219, 176, 107],
       "accounts": [
         {
           "name": "seller",
-          "docs": [
-            "Seller account."
-          ],
+          "docs": ["Seller account."],
           "writable": true,
           "signer": true
         },
@@ -1185,48 +708,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1235,52 +733,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1297,15 +765,11 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_from_account",
-          "docs": [
-            "NFT token account"
-          ],
+          "docs": ["NFT token account"],
           "writable": true
         },
         {
@@ -1322,34 +786,15 @@
         },
         {
           "name": "auction_account",
-          "docs": [
-            "Listing PDA account"
-          ],
+          "docs": ["Listing PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1358,15 +803,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110
-                ]
+                "value": [97, 117, 99, 116, 105, 111, 110]
               }
             ]
           }
@@ -1429,16 +866,7 @@
     },
     {
       "name": "create_auction_house",
-      "discriminator": [
-        221,
-        66,
-        242,
-        159,
-        249,
-        206,
-        134,
-        241
-      ],
+      "discriminator": [221, 66, 242, 159, 249, 206, 134, 241],
       "accounts": [
         {
           "name": "treasury_mint",
@@ -1448,9 +876,7 @@
         },
         {
           "name": "payer",
-          "docs": [
-            "Key paying SOL fees for setting up the Auction House."
-          ],
+          "docs": ["Key paying SOL fees for setting up the Auction House."],
           "writable": true,
           "signer": true
         },
@@ -1472,34 +898,15 @@
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1515,34 +922,15 @@
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House instance treasury PDA account."
-          ],
+          "docs": ["Auction House instance treasury PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1551,16 +939,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           }
@@ -1599,71 +978,35 @@
     },
     {
       "name": "deposit",
-      "discriminator": [
-        242,
-        35,
-        198,
-        137,
-        82,
-        225,
-        242,
-        182
-      ],
+      "discriminator": [242, 35, 198, 137, 82, 225, 242, 182],
       "accounts": [
         {
           "name": "wallet",
-          "docs": [
-            "User wallet account."
-          ],
+          "docs": ["User wallet account."],
           "writable": true,
           "signer": true
         },
         {
           "name": "treasury_mint",
-          "docs": [
-            "Auction House instance treasury mint account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House instance treasury mint account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "payment_account",
-          "docs": [
-            "User SOL or SPL account to transfer funds from."
-          ],
+          "docs": ["User SOL or SPL account to transfer funds from."],
           "writable": true
         },
         {
           "name": "escrow_payment_account",
-          "docs": [
-            "Buyer escrow payment account PDA."
-          ],
+          "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1679,42 +1022,19 @@
         },
         {
           "name": "authority",
-          "docs": [
-            "Auction House instance authority account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House instance authority account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1752,71 +1072,35 @@
     },
     {
       "name": "execute_sale",
-      "discriminator": [
-        37,
-        74,
-        217,
-        157,
-        79,
-        49,
-        35,
-        6
-      ],
+      "discriminator": [37, 74, 217, 157, 79, 49, 35, 6],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer user wallet account."
-          ],
+          "docs": ["Buyer user wallet account."],
           "writable": true,
           "signer": true
         },
         {
           "name": "seller",
-          "docs": [
-            "Seller user wallet account."
-          ],
+          "docs": ["Seller user wallet account."],
           "writable": true
         },
         {
           "name": "treasury_mint",
-          "docs": [
-            "Auction House treasury mint account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House treasury mint account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "escrow_payment_account",
-          "docs": [
-            "Buyer escrow payment account PDA."
-          ],
+          "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1832,57 +1116,30 @@
         },
         {
           "name": "seller_payment_receipt_account",
-          "docs": [
-            "Seller SOL or SPL account to receive payment at."
-          ],
+          "docs": ["Seller SOL or SPL account to receive payment at."],
           "writable": true
         },
         {
           "name": "buyer_receipt_token_account",
-          "docs": [
-            "Buyer SPL token account to receive purchased item at."
-          ],
+          "docs": ["Buyer SPL token account to receive purchased item at."],
           "writable": true
         },
         {
           "name": "authority",
-          "docs": [
-            "Auction House instance authority account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House instance authority account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1891,52 +1148,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -1954,53 +1181,28 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_account",
-          "docs": [
-            "NFT token account"
-          ],
+          "docs": ["NFT token account"],
           "writable": true
         },
         {
           "name": "metadata",
-          "docs": [
-            "Metaplex metadata account decorating SPL mint account."
-          ]
+          "docs": ["Metaplex metadata account decorating SPL mint account."]
         },
         {
           "name": "listing_account",
-          "docs": [
-            "Listing PDA account"
-          ],
+          "docs": ["Listing PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2009,49 +1211,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                "value": [108, 105, 115, 116, 105, 110, 103]
               }
             ]
           }
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2064,13 +1239,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
-                ]
+                "value": [111, 102, 102, 101, 114]
               }
             ]
           }
@@ -2096,71 +1265,35 @@
     },
     {
       "name": "instant_buy",
-      "discriminator": [
-        203,
-        248,
-        198,
-        232,
-        208,
-        102,
-        57,
-        149
-      ],
+      "discriminator": [203, 248, 198, 232, 208, 102, 57, 149],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer account."
-          ],
+          "docs": ["Buyer account."],
           "writable": true,
           "signer": true
         },
         {
           "name": "seller",
-          "docs": [
-            "Seller user wallet account."
-          ],
+          "docs": ["Seller user wallet account."],
           "writable": true
         },
         {
           "name": "treasury_mint",
-          "docs": [
-            "Auction House treasury mint account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House treasury mint account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "escrow_payment_account",
-          "docs": [
-            "Buyer escrow payment account PDA."
-          ],
+          "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2176,57 +1309,30 @@
         },
         {
           "name": "seller_payment_receipt_account",
-          "docs": [
-            "Seller SOL or SPL account to receive payment at."
-          ],
+          "docs": ["Seller SOL or SPL account to receive payment at."],
           "writable": true
         },
         {
           "name": "buyer_receipt_token_account",
-          "docs": [
-            "Buyer SPL token account to receive purchased item at."
-          ],
+          "docs": ["Buyer SPL token account to receive purchased item at."],
           "writable": true
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2235,52 +1341,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2298,9 +1374,7 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_from_account",
@@ -2320,34 +1394,15 @@
         },
         {
           "name": "listing_account",
-          "docs": [
-            "Listing PDA account"
-          ],
+          "docs": ["Listing PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2356,15 +1411,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                "value": [108, 105, 115, 116, 105, 110, 103]
               }
             ]
           }
@@ -2410,22 +1457,11 @@
     },
     {
       "name": "list",
-      "discriminator": [
-        54,
-        174,
-        193,
-        67,
-        17,
-        41,
-        132,
-        38
-      ],
+      "discriminator": [54, 174, 193, 67, 17, 41, 132, 38],
       "accounts": [
         {
           "name": "seller",
-          "docs": [
-            "Seller account."
-          ],
+          "docs": ["Seller account."],
           "writable": true,
           "signer": true
         },
@@ -2434,48 +1470,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2484,52 +1495,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2546,15 +1527,11 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_from_account",
-          "docs": [
-            "NFT token account"
-          ],
+          "docs": ["NFT token account"],
           "writable": true
         },
         {
@@ -2571,34 +1548,15 @@
         },
         {
           "name": "listing_account",
-          "docs": [
-            "Listing PDA account"
-          ],
+          "docs": ["Listing PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2607,15 +1565,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                "value": [108, 105, 115, 116, 105, 110, 103]
               }
             ]
           }
@@ -2672,22 +1622,11 @@
     },
     {
       "name": "offer_to_auction",
-      "discriminator": [
-        156,
-        165,
-        156,
-        0,
-        140,
-        62,
-        235,
-        78
-      ],
+      "discriminator": [156, 165, 156, 0, 140, 62, 235, 78],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer account."
-          ],
+          "docs": ["Buyer account."],
           "writable": true,
           "signer": true
         },
@@ -2696,48 +1635,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2754,40 +1668,19 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "auction_account",
-          "docs": [
-            "auction PDA account"
-          ],
+          "docs": ["auction PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2796,49 +1689,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110
-                ]
+                "value": [97, 117, 99, 116, 105, 111, 110]
               }
             ]
           }
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2852,19 +1718,7 @@
               {
                 "kind": "const",
                 "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110,
-                  95,
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
+                  97, 117, 99, 116, 105, 111, 110, 95, 111, 102, 102, 101, 114
                 ]
               }
             ]
@@ -2892,22 +1746,11 @@
     },
     {
       "name": "unlisting",
-      "discriminator": [
-        26,
-        105,
-        119,
-        9,
-        197,
-        255,
-        191,
-        249
-      ],
+      "discriminator": [26, 105, 119, 9, 197, 255, 191, 249],
       "accounts": [
         {
           "name": "seller",
-          "docs": [
-            "Seller account."
-          ],
+          "docs": ["Seller account."],
           "writable": true,
           "signer": true
         },
@@ -2916,48 +1759,23 @@
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -2966,52 +1784,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3028,15 +1816,11 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_from_account",
-          "docs": [
-            "NFT token account"
-          ],
+          "docs": ["NFT token account"],
           "writable": true
         },
         {
@@ -3053,34 +1837,15 @@
         },
         {
           "name": "listing_account",
-          "docs": [
-            "Listing PDA account"
-          ],
+          "docs": ["Listing PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3089,15 +1854,7 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  108,
-                  105,
-                  115,
-                  116,
-                  105,
-                  110,
-                  103
-                ]
+                "value": [108, 105, 115, 116, 105, 110, 103]
               }
             ]
           }
@@ -3143,49 +1900,30 @@
     },
     {
       "name": "update_auction_house",
-      "discriminator": [
-        84,
-        215,
-        2,
-        172,
-        241,
-        0,
-        245,
-        219
-      ],
+      "discriminator": [84, 215, 2, 172, 241, 0, 245, 219],
       "accounts": [
         {
           "name": "treasury_mint",
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "payer",
-          "docs": [
-            "Key paying SOL fees for setting up the Auction House."
-          ],
+          "docs": ["Key paying SOL fees for setting up the Auction House."],
           "writable": true,
           "signer": true
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
+          "docs": ["Authority key for the Auction House."],
           "signer": true,
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "new_authority",
-          "docs": [
-            "New authority key for the Auction House."
-          ]
+          "docs": ["New authority key for the Auction House."]
         },
         {
           "name": "treasury_withdrawal_destination",
@@ -3202,34 +1940,15 @@
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3284,71 +2003,35 @@
     },
     {
       "name": "win_prize",
-      "discriminator": [
-        37,
-        205,
-        206,
-        95,
-        182,
-        101,
-        121,
-        57
-      ],
+      "discriminator": [37, 205, 206, 95, 182, 101, 121, 57],
       "accounts": [
         {
           "name": "buyer",
-          "docs": [
-            "Buyer account."
-          ],
+          "docs": ["Buyer account."],
           "writable": true,
           "signer": true
         },
         {
           "name": "seller",
-          "docs": [
-            "Seller user wallet account."
-          ],
+          "docs": ["Seller user wallet account."],
           "writable": true
         },
         {
           "name": "treasury_mint",
-          "docs": [
-            "Auction House treasury mint account."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Auction House treasury mint account."],
+          "relations": ["auction_house"]
         },
         {
           "name": "escrow_payment_account",
-          "docs": [
-            "Buyer escrow payment account PDA."
-          ],
+          "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3364,57 +2047,30 @@
         },
         {
           "name": "seller_payment_receipt_account",
-          "docs": [
-            "Seller SOL or SPL account to receive payment at."
-          ],
+          "docs": ["Seller SOL or SPL account to receive payment at."],
           "writable": true
         },
         {
           "name": "buyer_receipt_token_account",
-          "docs": [
-            "Buyer SPL token account to receive purchased item at."
-          ],
+          "docs": ["Buyer SPL token account to receive purchased item at."],
           "writable": true
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
-          "relations": [
-            "auction_house"
-          ]
+          "docs": ["Authority key for the Auction House."],
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3423,52 +2079,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3486,53 +2112,28 @@
         },
         {
           "name": "nft_mint",
-          "docs": [
-            "NFT mint account"
-          ]
+          "docs": ["NFT mint account"]
         },
         {
           "name": "nft_account",
-          "docs": [
-            "NFT token account"
-          ],
+          "docs": ["NFT token account"],
           "writable": true
         },
         {
           "name": "metadata",
-          "docs": [
-            "Metaplex metadata account decorating SPL mint account."
-          ]
+          "docs": ["Metaplex metadata account decorating SPL mint account."]
         },
         {
           "name": "auction_account",
-          "docs": [
-            "auction PDA account"
-          ],
+          "docs": ["auction PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3541,49 +2142,22 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110
-                ]
+                "value": [97, 117, 99, 116, 105, 111, 110]
               }
             ]
           }
         },
         {
           "name": "offer_account",
-          "docs": [
-            "Offer PDA account"
-          ],
+          "docs": ["Offer PDA account"],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3597,19 +2171,7 @@
               {
                 "kind": "const",
                 "value": [
-                  97,
-                  117,
-                  99,
-                  116,
-                  105,
-                  111,
-                  110,
-                  95,
-                  111,
-                  102,
-                  102,
-                  101,
-                  114
+                  97, 117, 99, 116, 105, 111, 110, 95, 111, 102, 102, 101, 114
                 ]
               }
             ]
@@ -3636,35 +2198,20 @@
     },
     {
       "name": "withdraw_from_treasury",
-      "discriminator": [
-        0,
-        164,
-        86,
-        76,
-        56,
-        72,
-        12,
-        170
-      ],
+      "discriminator": [0, 164, 86, 76, 56, 72, 12, 170],
       "accounts": [
         {
           "name": "treasury_mint",
           "docs": [
             "Treasury mint account, either native SOL mint or a SPL token mint."
           ],
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "authority",
-          "docs": [
-            "Authority key for the Auction House."
-          ],
+          "docs": ["Authority key for the Auction House."],
           "signer": true,
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "treasury_withdrawal_destination",
@@ -3672,40 +2219,19 @@
             "SOL or SPL token account to receive Auction House fees. If treasury mint is native this will be the same as the `treasury_withdrawal_destination_owner`."
           ],
           "writable": true,
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house_treasury",
-          "docs": [
-            "Auction House treasury PDA account."
-          ],
+          "docs": ["Auction House treasury PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3714,53 +2240,23 @@
               },
               {
                 "kind": "const",
-                "value": [
-                  116,
-                  114,
-                  101,
-                  97,
-                  115,
-                  117,
-                  114,
-                  121
-                ]
+                "value": [116, 114, 101, 97, 115, 117, 114, 121]
               }
             ]
           },
-          "relations": [
-            "auction_house"
-          ]
+          "relations": ["auction_house"]
         },
         {
           "name": "auction_house",
-          "docs": [
-            "Auction House instance PDA account."
-          ],
+          "docs": ["Auction House instance PDA account."],
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "const",
                 "value": [
-                  98,
-                  105,
-                  99,
-                  116,
-                  111,
-                  114,
-                  121,
-                  95,
-                  109,
-                  97,
-                  114,
-                  107,
-                  101,
-                  116,
-                  112,
-                  108,
-                  97,
-                  99,
-                  101
+                  98, 105, 99, 116, 111, 114, 121, 95, 109, 97, 114, 107, 101,
+                  116, 112, 108, 97, 99, 101
                 ]
               },
               {
@@ -3795,226 +2291,73 @@
   "accounts": [
     {
       "name": "AuctionAccount",
-      "discriminator": [
-        18,
-        164,
-        170,
-        5,
-        243,
-        196,
-        229,
-        90
-      ]
+      "discriminator": [18, 164, 170, 5, 243, 196, 229, 90]
     },
     {
       "name": "AuctionHouse",
-      "discriminator": [
-        40,
-        108,
-        215,
-        107,
-        213,
-        85,
-        245,
-        48
-      ]
+      "discriminator": [40, 108, 215, 107, 213, 85, 245, 48]
     },
     {
       "name": "AuctionOfferAccount",
-      "discriminator": [
-        115,
-        83,
-        29,
-        147,
-        230,
-        234,
-        144,
-        8
-      ]
+      "discriminator": [115, 83, 29, 147, 230, 234, 144, 8]
     },
     {
       "name": "ListingAccount",
-      "discriminator": [
-        59,
-        89,
-        136,
-        25,
-        21,
-        196,
-        183,
-        13
-      ]
+      "discriminator": [59, 89, 136, 25, 21, 196, 183, 13]
     },
     {
       "name": "OfferAccount",
-      "discriminator": [
-        152,
-        98,
-        9,
-        183,
-        115,
-        190,
-        31,
-        201
-      ]
+      "discriminator": [152, 98, 9, 183, 115, 190, 31, 201]
     }
   ],
   "events": [
     {
       "name": "AcceptBuyEvent",
-      "discriminator": [
-        187,
-        205,
-        166,
-        105,
-        166,
-        183,
-        116,
-        165
-      ]
+      "discriminator": [187, 205, 166, 105, 166, 183, 116, 165]
     },
     {
       "name": "AuctionCancelOfferEvent",
-      "discriminator": [
-        249,
-        129,
-        51,
-        183,
-        121,
-        234,
-        27,
-        199
-      ]
+      "discriminator": [249, 129, 51, 183, 121, 234, 27, 199]
     },
     {
       "name": "AuctionOfferEvent",
-      "discriminator": [
-        99,
-        116,
-        228,
-        100,
-        220,
-        116,
-        150,
-        13
-      ]
+      "discriminator": [99, 116, 228, 100, 220, 116, 150, 13]
     },
     {
       "name": "CancelAuctionEvent",
-      "discriminator": [
-        72,
-        35,
-        84,
-        134,
-        59,
-        138,
-        21,
-        122
-      ]
+      "discriminator": [72, 35, 84, 134, 59, 138, 21, 122]
     },
     {
       "name": "CancelOfferEvent",
-      "discriminator": [
-        158,
-        149,
-        135,
-        238,
-        234,
-        227,
-        178,
-        8
-      ]
+      "discriminator": [158, 149, 135, 238, 234, 227, 178, 8]
     },
     {
       "name": "CreateAuctionEvent",
-      "discriminator": [
-        244,
-        157,
-        82,
-        212,
-        192,
-        159,
-        44,
-        95
-      ]
+      "discriminator": [244, 157, 82, 212, 192, 159, 44, 95]
     },
     {
       "name": "DepositEvent",
-      "discriminator": [
-        120,
-        248,
-        61,
-        83,
-        31,
-        142,
-        107,
-        144
-      ]
+      "discriminator": [120, 248, 61, 83, 31, 142, 107, 144]
     },
     {
       "name": "InstantBuyEvent",
-      "discriminator": [
-        145,
-        125,
-        203,
-        181,
-        72,
-        64,
-        81,
-        249
-      ]
+      "discriminator": [145, 125, 203, 181, 72, 64, 81, 249]
     },
     {
       "name": "ListEvent",
-      "discriminator": [
-        131,
-        251,
-        20,
-        8,
-        113,
-        195,
-        210,
-        18
-      ]
+      "discriminator": [131, 251, 20, 8, 113, 195, 210, 18]
     },
     {
       "name": "OfferEvent",
-      "discriminator": [
-        232,
-        113,
-        212,
-        148,
-        215,
-        80,
-        25,
-        176
-      ]
+      "discriminator": [232, 113, 212, 148, 215, 80, 25, 176]
     },
     {
       "name": "UnListEvent",
-      "discriminator": [
-        80,
-        30,
-        218,
-        183,
-        3,
-        116,
-        129,
-        180
-      ]
+      "discriminator": [80, 30, 218, 183, 3, 116, 129, 180]
     },
     {
       "name": "WinPrizeEvent",
-      "discriminator": [
-        167,
-        216,
-        201,
-        206,
-        42,
-        243,
-        29,
-        219
-      ]
+      "discriminator": [167, 216, 201, 206, 42, 243, 29, 219]
     }
   ],
   "errors": [
