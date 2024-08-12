@@ -141,9 +141,8 @@ const Collections = () => {
           <div className='h-full absolute items-center justify-center w-full z-10'>
             <BigSpinner />
           </div>
-<<<<<<< HEAD
         ) : (
-          <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0'>
+          <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0 justify-center'>
             {collections.length == 0 && !isFetching ? (
               <div className='text-neutral-500 text-xl'>
                 No Collection found
@@ -152,17 +151,6 @@ const Collections = () => {
               collections.map((collection, index) => (
                 <Link
                   href={{ pathname: `collection/${collection.symbol}` }}
-=======
-        )}
-
-        <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0 justify-center'>
-          {collections.length == 0 && !isFetching ? (
-            <div className='text-neutral-500 text-xl'>No Collection found</div>
-          ) : (
-            collections.map((collection, index) => (
-              <Link href={{ pathname: `collection/${collection.symbol}` }} key={index}>
-                <CollectionCard
->>>>>>> 446411d243ed053a41f47d9a4592627dc145ce4f
                   key={index}
                 >
                   <CollectionCard
