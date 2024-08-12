@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import logo from "@/public/small-logo.png";
-import { Icon } from "@iconify-icon/react/dist/iconify.js";
-import Link from "next/link";
-import privateLogo from "@/public/vectors/private.svg";
-import launchpadLogo from "@/public/vectors/launchpad.svg";
-import marketplaceLogo from "@/public/vectors/marketplace.svg";
-import localFont from "next/font/local";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import logo from '@/public/small-logo.png';
+import { Icon } from '@iconify-icon/react/dist/iconify.js';
+import Link from 'next/link';
+import privateLogo from '@/public/vectors/private.svg';
+import launchpadLogo from '@/public/vectors/launchpad.svg';
+import marketplaceLogo from '@/public/vectors/marketplace.svg';
+import localFont from 'next/font/local';
 
-const electronica = localFont({ src: "../fonts/Electronica.otf" });
+const electronica = localFont({ src: '../fonts/Electronica.otf' });
 
 const sidebarVariants = {
-  hidden: { width: "62px" },
-  visible: { width: "200px" },
+  hidden: { width: '72px' },
+  visible: { width: '200px' },
 };
 
 export const Sidebar = () => {
@@ -23,20 +23,20 @@ export const Sidebar = () => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-full pt-3 bg-[#181818] z-40 text-white cursor-pointer hidden md:block"
+      className='fixed left-0 top-0 h-full pt-3 bg-[#181818] z-40 text-white cursor-pointer hidden md:block '
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        className="h-full flex flex-col justify-between"
+        className='h-full flex flex-col justify-between'
         variants={sidebarVariants}
-        initial="hidden"
-        animate={isHovered ? "visible" : "hidden"}
-        transition={{ type: "tween", duration: 0.3 }}
+        initial='hidden'
+        animate={isHovered ? 'visible' : 'hidden'}
+        transition={{ type: 'tween', duration: 0.3 }}
       >
-        <div className="flex flex-col p-3 gap-5">
-          <div className="flex items-center gap-3">
-            <Image src={logo} alt="logo" width={32} />
+        <div className='flex pl-3 flex-col gap-5'>
+          <div className='flex items-center gap-3'>
+            <Image src={logo} alt='logo' style={{ width: '54px', height: '64px' }} />
             <AnimatePresence>
               {isHovered && (
                 <motion.span
@@ -46,11 +46,10 @@ export const Sidebar = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                   style={{
-                    background:
-                      "linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    color: "transparent",
+                    background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    color: 'transparent',
                   }}
                 >
                   LAMPAPUY
@@ -58,13 +57,13 @@ export const Sidebar = () => {
               )}
             </AnimatePresence>
           </div>
-          <div className="flex flex-col gap-5">
-            <Link href="/launchpad" className="flex items-center gap-3">
-              <Image src={launchpadLogo} alt="logo" width={28} />
+          <div className='flex pl-3 flex-col gap-5'>
+            <Link href='/launchpad' className='flex items-center pt-[8px] gap-3'>
+              <Image src={launchpadLogo} alt='logo' width={28} />
               <AnimatePresence>
                 {isHovered && (
                   <motion.span
-                    className="font-normal text-lg"
+                    className='font-normal text-lg'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -75,12 +74,12 @@ export const Sidebar = () => {
                 )}
               </AnimatePresence>
             </Link>
-            <Link href="/" className="flex items-center gap-3">
-              <Image src={marketplaceLogo} alt="logo" width={28} />
+            <Link href='/' className='flex items-center pt-[24px] gap-3'>
+              <Image src={marketplaceLogo} alt='logo' width={28} />
               <AnimatePresence>
                 {isHovered && (
                   <motion.span
-                    className="font-medium text-lg"
+                    className='font-medium text-lg'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -91,12 +90,12 @@ export const Sidebar = () => {
                 )}
               </AnimatePresence>
             </Link>
-            <Link href="/" className="flex items-center gap-3 w-full">
-              <Image src={privateLogo} alt="private" width={28} />
+            <Link href='/' className='flex items-center pt-[24px] gap-3 '>
+              <Image src={privateLogo} alt='private' width={28} />
               <AnimatePresence>
                 {isHovered && (
                   <motion.span
-                    className="font-medium w-full whitespace-nowrap"
+                    className='font-medium w-full whitespace-nowrap'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -109,17 +108,13 @@ export const Sidebar = () => {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col p-3 gap-5">
-          <Link href="/" className="flex items-center gap-3">
-            <Icon
-              icon="octicon:verified-16"
-              width={32}
-              style={{ color: "#C4C4C4 " }}
-            />
+        <div className='flex pl-5 flex-col p-3 gap-5'>
+          <Link href='/' className='flex items-center pt-[8px] gap-3'>
+            <Icon icon='octicon:verified-16' width={28} style={{ color: '#C4C4C4 ' }} />
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium text-lg"
+                  className='font-medium text-lg'
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -130,20 +125,12 @@ export const Sidebar = () => {
               )}
             </AnimatePresence>
           </Link>
-
-          <Link
-            href="https://t.me/lampapuy"
-            className="flex items-center gap-3"
-          >
-            <Icon
-              icon="mingcute:telegram-fill"
-              width={32}
-              style={{ color: "#C4C4C4 " }}
-            />
+          <Link href='https://t.me/lampapuy' className='flex items-center pt-[24px] gap-3'>
+            <Icon icon='mingcute:telegram-fill' width={28} style={{ color: '#C4C4C4 ' }} />
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium text-lg"
+                  className='font-medium text-lg'
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -154,19 +141,12 @@ export const Sidebar = () => {
               )}
             </AnimatePresence>
           </Link>
-          <Link
-            href="https://discord.gg/lampapuy"
-            className="flex items-center gap-3"
-          >
-            <Icon
-              icon="ic:baseline-discord"
-              width={32}
-              style={{ color: "#C4C4C4 " }}
-            />
+          <Link href='https://discord.gg/lampapuy' className='flex items-center pt-[24px] gap-3'>
+            <Icon icon='ic:baseline-discord' width={28} style={{ color: '#C4C4C4 ' }} />
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium text-lg"
+                  className='font-medium text-lg'
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -177,16 +157,13 @@ export const Sidebar = () => {
               )}
             </AnimatePresence>
           </Link>
-          <Link href="/" className="flex items-center gap-3">
-            <Icon
-              icon="simple-icons:linktree"
-              width={32}
-              style={{ color: "#C4C4C4 " }}
-            />
+
+          <Link href='/' className='flex items-center pt-[32px] pb-6 gap-3'>
+            <Icon icon='simple-icons:linktree' width={28} style={{ color: '#C4C4C4 ' }} />
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className="font-medium text-lg"
+                  className='font-medium text-lg'
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
