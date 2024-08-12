@@ -92,12 +92,18 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
-      {loading ? (
+      {!wallet ? (
+        <div className='flex text-neutral-500 text-xl justify-center'>
+          <p>Connect wallet to see your profile page</p>
+        </div>
+      ) : wallet.connected && loading ? (
         <BigSpinner />
       ) : (
         <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
           {!nfts || nfts.length === 0 ? (
-            <div className='text-neutral-500 text-xl'>No NFT found</div>
+            <div className='text-neutral-500 text-xl'>
+              Connect wallet to see your profile page
+            </div>
           ) : (
             nfts &&
             nfts.map((nft: NFT) => (

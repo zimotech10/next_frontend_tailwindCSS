@@ -37,7 +37,12 @@ const DesktopNav = (
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target as Node)
+    ) {
       setDropdown(false);
     }
   };
@@ -74,7 +79,6 @@ const DesktopNav = (
           CookieRepository.setAccessToken(accessToken);
           CookieRepository.setRefreshToken(refreshToken);
           setLoggedIn(true);
-          router.push('/');
         })
         .catch((error) => {
           loginCalled.current = false;
@@ -87,7 +91,13 @@ const DesktopNav = (
   };
 
   useEffect(() => {
-    if (!isLoggedIn && !CookieRepository.getAccessToken() && !CookieRepository.getRefreshToken() && wallet.publicKey && !loginCalled.current) {
+    if (
+      !isLoggedIn &&
+      !CookieRepository.getAccessToken() &&
+      !CookieRepository.getRefreshToken() &&
+      wallet.publicKey &&
+      !loginCalled.current
+    ) {
       loginUser();
     }
   }, [isLoggedIn, wallet]);
@@ -110,16 +120,41 @@ const DesktopNav = (
     <div
       className={`w-full h-[71px] sticky py-5 px-16 top-0 z-40 text-base justify-between flex flex-row items-center pl-20 bg-[#181818] ${ibmSans.className}`}
     >
-      {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
-      <div className='relative' style={{ left: '23px' }}>
-        <Icon icon='mingcute:search-line' className='absolute left-[20px] top-1/2 transform -translate-y-1/2' width={20} height={20} />
-        <input type='text' className='py-2 h-11 pl-10 pr-3 rounded-md' style={{ backgroundColor: '#262626', width: '491px' }} />
+      {connectModal && (
+        <ConnectModal
+          handleConnectModal={handleConnectModal}
+          isOpen={connectModal}
+        />
+      )}
+      <div
+        className='relative'
+        style={{ left: '23px' }}
+      >
+        <Icon
+          icon='mingcute:search-line'
+          className='absolute left-[20px] top-1/2 transform -translate-y-1/2'
+          width={20}
+          height={20}
+        />
+        <input
+          type='text'
+          className='py-2 h-11 pl-10 pr-3 rounded-md'
+          style={{ backgroundColor: '#262626', width: '491px' }}
+        />
       </div>
 
       {wallet.connected ? (
         <div>
-          <button ref={buttonRef} onClick={() => setDropdown(!dropdown)}>
-            <Image src={userSvg} alt='user' width={48} height={48} />
+          <button
+            ref={buttonRef}
+            onClick={() => setDropdown(!dropdown)}
+          >
+            <Image
+              src={userSvg}
+              alt='user'
+              width={48}
+              height={48}
+            />
           </button>
           <AnimatePresence>
             {dropdown && (
@@ -142,7 +177,8 @@ const DesktopNav = (
                     className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
                     style={{
                       width: '156px',
-                      background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      background:
+                        'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={() => disConnectWallet()}
                   >
@@ -159,7 +195,8 @@ const DesktopNav = (
           style={{
             width: '136px',
             height: '34px',
-            background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+            background:
+              'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
             fontFamily: 'IBM Plex Sans',
             fontWeight: 600,
             fontSize: '14px',
