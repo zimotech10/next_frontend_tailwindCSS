@@ -28,8 +28,7 @@ const Footer = () => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
 
-  const apiKey =
-    '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';
+  const apiKey = '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';
 
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,44 +67,41 @@ const Footer = () => {
   };
 
   return (
-    <div className='flex flex-col p-4 md:pl-7  md:pb-[83px] relative bg-black md:mx-[103px]'>
+    <div className='flex flex-col p-4 footer:pl-7  footer:pb-[83px] relative bg-black footer:mx-[103px]'>
       {showModal && (
         <div className='w-full h-full fixed top-0 left-0 flex items-center justify-center font-inter z-40 modal'>
-          <div className='w-9/12 md:w-4/12 p-7 justify-center gap-2 md:gap-4 items-center flex flex-col modal-card'>
+          <div className='w-9/12 footer:w-4/12 p-7 justify-center gap-2 footer:gap-4 items-center flex flex-col modal-card'>
             <p className='text-xl'>Thanks for subscribing!</p>
-            <button
-              className='modal-button w-full font-semibold md:w-2/3 text-black py-2 px-3'
-              onClick={closeModal}
-            >
+            <button className='modal-button w-full font-semibold footer:w-2/3 text-black py-2 px-3' onClick={closeModal}>
               Continue
             </button>
           </div>
         </div>
       )}
-      <div className='flex flex-col md:flex-row w-full md:items-end items-center md:justify-between'>
-        <div className='flex flex-col items-center md:items-start md:w-1/2 md:p-5'>
+      <div className='flex flex-col footer:flex-row w-full footer:items-end items-center footer:justify-between'>
+        <div className='flex flex-col items-center footer:items-start footer:w-1/2 footer:p-5'>
           <div className='flex items-center'>
-            <Image
-              src={logo}
-              width={isMobile ? 50 : 74.77}
-              height={isMobile ? 72 : 72.97}
-              alt='logo'
-            />
+            <Image src={logo} width={isMobile ? 50 : 74.77} height={isMobile ? 72 : 72.97} alt='logo' />
             <div
               className={`font-normal text-lg ${electronica.className}`}
               style={{
-                background:
-                  'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
-                fontSize: '22.5px',
+                fontSize: isMobile ? '18px' : '22.5px',
                 color: 'transparent',
               }}
             >
-              LAMPAPUY
+              {isMobile && (
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1' }}>
+                  <div style={{ fontSize: '14px', color: 'white', fontWeight: '100', fontFamily: 'DM Sans, sans-serif' }}>Powered by</div>
+                  <div>LAMPAPUY</div>
+                </div>
+              )}
+              {!isMobile && 'LAMPAPUY'}
             </div>
-            {/* <Image src={logo} width={isMobile ? 200 : 288} height={isMobile ? 72 : 144} alt='logo' /> */}
           </div>
+
           <div className='text-xl pt-3 pb-5'>Subscribe to our newsletter</div>
           <div className='flex flex-col relative'>
             <form
@@ -134,10 +130,9 @@ const Footer = () => {
               />
               <button
                 type='submit'
-                className='text-black md:h-[40px] md:w-[50px] h-[38.21px] w-[50px]'
+                className='text-black footer:h-[40px] footer:w-[50px] h-[38.21px] w-[50px]'
                 style={{
-                  background:
-                    'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                  background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                   marginLeft: '8px', // Add margin to ensure proper spacing
                   borderRadius: '8px 8px 0px 0px',
                 }}
@@ -158,12 +153,11 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        <div className='flex flex-col gap-2 md:p-5 px-5 items-center md:items-start md:pr-[160px]'>
+        <div className='flex flex-col gap-2 footer:p-5 px-5 items-center footer:items-start footer:pr-[160px]'>
           <div
             className={`text-lg ${electronica.className}`}
             style={{
-              background:
-                'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent',
@@ -171,7 +165,7 @@ const Footer = () => {
           >
             About
           </div>
-          <div className='flex flex-row gap-12 md:gap-16'>
+          <div className='flex flex-row gap-12 footer:gap-16'>
             <Link
               href='https://bictory.foundation/'
               target='_blank'
@@ -213,9 +207,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-col-reverse md:flex-row pt-7 justify-between'>
-        <div className='flex flex-col md:flex-row gap-2 md:gap-10'>
-          <div className='flex flex-row md:gap-10 gap-8 py-5 md:py-0 justify-center items-center'>
+      <div className='flex flex-col-reverse footer:flex-row pt-7 justify-between'>
+        <div className='flex flex-col footer:flex-row gap-2 footer:gap-10'>
+          <div className='order-2 footer:order-1 flex flex-row footer:gap-10 gap-8 pb-5 footer:py-0 justify-center items-center'>
             <Link
               href='/'
               style={{
@@ -228,7 +222,7 @@ const Footer = () => {
               }}
             >
               Terms & Conditions
-            </Link>{' '}
+            </Link>
             <Link
               href='/'
               style={{
@@ -243,9 +237,11 @@ const Footer = () => {
               Privacy Policy
             </Link>
           </div>
+
+          {/* View Contract link, which will appear at the top on mobile and last on larger screens */}
           <Link
             href='/'
-            className='flex items-center justify-center underline text-[#FFB703]'
+            className='order-1 footer:order-2 flex items-center justify-center pt-2 footer:pt-0 underline text-[#FFB703]'
             style={{
               fontFamily: 'Poppins, sans-serif',
               fontWeight: 500,
@@ -254,42 +250,28 @@ const Footer = () => {
               letterSpacing: '-0.24px', // Equivalent to -2% of font size (12px * 0.02 = 0.24px)
             }}
           >
-            <Icon
-              icon='system-uicons:chain'
-              width='20px'
-              height='20px'
-            />
-            View Contract
+            <Icon icon='system-uicons:chain' width='20px' height='20px' />
+            {isMobile ? 'View Contract in Explorer' : 'View Contract'}
           </Link>
         </div>
-        <div className='flex flex-col md:flex-row justify-center gap-2 pt-2 items-center md:pr-[70px]'>
+
+        <div className='flex flex-col footer:flex-row justify-center gap-2 pt-2 items-center footer:pr-[70px]'>
           <div
-            className='text-base'
+            className='text-base footer:text-[22px] text-[16px]'
             style={{
               fontFamily: 'Forma DJR Banner, sans-serif', // Ensure the font is available or imported
               fontWeight: 400,
-              fontSize: '22px',
               lineHeight: '26.4px',
               letterSpacing: '2px',
               color: '#F5F5F5',
             }}
           >
-            Follow Us:
+            {isMobile ? 'Community:' : 'Follow Us'}
           </div>
           <div className='flex flex-row gap-3'>
             {socials.map((social) => (
-              <motion.a
-                href={social.link}
-                key={social.id}
-                target='_blank'
-                whileHover={{ scale: 1.1 }}
-              >
-                <Image
-                  src={social.icon}
-                  width={isMobile ? 32 : 36}
-                  height={isMobile ? 32 : 36}
-                  alt='social'
-                />
+              <motion.a href={social.link} key={social.id} target='_blank' whileHover={{ scale: 1.1 }}>
+                <Image src={social.icon} width={isMobile ? 32 : 36} height={isMobile ? 32 : 36} alt='social' />
               </motion.a>
             ))}
           </div>

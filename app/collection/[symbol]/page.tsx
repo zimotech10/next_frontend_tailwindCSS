@@ -47,7 +47,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   }, [params.symbol]);
 
   return (
-    <div className='md:p-20'>
+    <div className='mx-[20px] md:px-20 md:pt-10 md:ml-[41px] md:mb-[40px] md:mr-[20px]'>
       <Hero
         heading='Explore Incredible Art'
         desription='Lampapuy NFT provides marketing and smart contract services to Elevate your brand by connecting it with more buyers.'
