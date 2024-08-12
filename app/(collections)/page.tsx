@@ -21,6 +21,7 @@ const Collections = () => {
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(20);
   const [isFetching, setIsFetching] = useState(false);
+  const [imgWidth, setImgWidth] = useState(400);
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +54,23 @@ const Collections = () => {
   useEffect(() => {
     fetchCollections();
   }, [searchParam, orderBy, orderDir, offset, limit]);
+
+  useEffect(() => {
+    // Function to update imgWidth based on window size
+    const updateImgWidth = () => {
+      if (window.innerWidth < 768) setImgWidth(448);
+      else setImgWidth(window.innerWidth * 0.4); // Set width to 60% of the window width
+    };
+
+    // Add event listener to handle window resizing
+    window.addEventListener('resize', updateImgWidth);
+
+    // Call updateImgWidth on component mount
+    updateImgWidth();
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener('resize', updateImgWidth);
+  }, []);
 
   const previousScrollTop = useRef(0); // To track the previous scroll position
 
@@ -95,7 +113,7 @@ const Collections = () => {
         desription='Solana Name services (SNS) are domain names provided for users on the Solana blockchain; which can be bought and sold on a secondary market.'
         buttonText='Go to Launchpad'
         image={collectionImage.src}
-        imgWidth={448}
+        imgWidth={imgWidth}
         imgHeight={359}
       />
       <TabBar pathname='collections' />
@@ -107,7 +125,7 @@ const Collections = () => {
           </div>
         )}
 
-        <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0'>
+        <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0 justify-center'>
           {collections.length == 0 && !isFetching ? (
             <div className='text-neutral-500 text-xl'>No Collection found</div>
           ) : (

@@ -42,7 +42,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   }, [params.symbol]);
 
   return (
-    <div className='md:p-20'>
+    <div className='mx-[20px] md:px-20 md:pt-10 md:ml-[41px] md:mb-[40px] md:mr-[20px]'>
       <Hero
         heading='Explore Incredible Art'
         desription='Lampapuy NFT provides marketing and smart contract services to Elevate your brand by connecting it with more buyers.'
@@ -52,12 +52,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         imgWidth={1000}
       />
       <TabBar pathname='items' />
-      <SearchBar
-        setSearchParam={setSearchParam}
-        setOrderBy={setOrderBy}
-        setOrderDir={setOrderDir}
-        placeholder='Search NFT by Title'
-      />
+      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
       <div className='flex flex-col md:gap-8 md:flex-row'>
         <div className='h-0 md:h-fit invisible md:visible'>
           <Filter />
@@ -67,8 +62,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             onClick={() => setFilter(!filter)}
             className='w-40 flex justify-center py-2 font-semibold text-black'
             style={{
-              background:
-                'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               borderRadius: '40px',
             }}
             aria-label='Add filter'
@@ -94,20 +88,9 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         </div>
         <div className='flex h-full gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
           {!nfts || nfts.length === 0 ? (
-            <div className='text-neutral-500 text-xl'>
-              No NFT Found In This Collection
-            </div>
+            <div className='text-neutral-500 text-xl'>No NFT Found In This Collection</div>
           ) : (
-            nfts &&
-            nfts.map((nft, index) => (
-              <ItemCard
-                key={index}
-                name={nft.name}
-                uri={nft.uri}
-                price={nft.price}
-                mintAddress={nft.mintAddress?.toString()}
-              />
-            ))
+            nfts && nfts.map((nft, index) => <ItemCard key={index} name={nft.name} uri={nft.uri} price={nft.price} mintAddress={nft.mintAddress?.toString()} />)
           )}
         </div>
       </div>

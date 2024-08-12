@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 const TabBar = ({ pathname }: { pathname: string }) => {
   return (
-    <div className='flex flex-row justify-center md:justify-between pt-10 pl-5 pr-10 items-center md:pt-20'>
+    <div className='flex flex-row justify-center md:justify-between pl-5 pr-10 items-center md:pt-20'>
       <div className='flex flex-row gap-1 items-center justify-between'>
         <Link
           href='/'
