@@ -84,6 +84,7 @@ export const DetailsCard = (
 
   const handleInstantBuy = async () => {
     try {
+      if (!wallet) router.push('/');
       const provider = new anchor.AnchorProvider(
         connection,
         wallet as AnchorWallet,
@@ -124,7 +125,7 @@ export const DetailsCard = (
     }
   };
 
-  const handleAcceptOffer = async () => {
+  const handleAcceptOffer = async (id: number) => {
     try {
       const provider = new anchor.AnchorProvider(
         connection,
@@ -142,14 +143,13 @@ export const DetailsCard = (
       const treasuryMint = NATIVE_MINT;
       const nftMint = new web3.PublicKey(props.mintAddress as string);
       const buyer = new web3.PublicKey(
-        props.offers.find(
-          (offer: any) => offer.id === selectedOfferId
-        ).walletAddress
+        props.offers.find((offer: any) => offer.id === id).walletAddress
       );
       const creators = props.creators.map(
         (creator: string) => new PublicKey(creator)
       );
-      console.log(buyer);
+      console.log(buyer.toString());
+      console.log(wallet?.publicKey.toString());
       const seller = wallet;
       const tx = await acceptBuy(
         program,
@@ -342,14 +342,15 @@ export const DetailsCard = (
           <div className='flex flex-row justify-between w-full'>
             <div className='flex flex-col gap-2'>
               <div className='font-normal text-sm text-[#AFAFAF]'>Creator:</div>
-              {props.creators.map((creator: any, index: number) => (
-                <div
-                  key={index}
-                  className='font-semibold text-base'
-                >
-                  {formatAddress(creator)}
-                </div>
-              ))}
+              {props.creators &&
+                props.creators.map((creator: any, index: number) => (
+                  <div
+                    key={index}
+                    className='font-semibold text-base'
+                  >
+                    {formatAddress(creator)}
+                  </div>
+                ))}
             </div>
             <div className='flex flex-col gap-2'>
               <div className='font-normal text-sm text-[#AFAFAF]'>
@@ -386,7 +387,6 @@ export const DetailsCard = (
           <table className='w-full border-collapse border border-gray-300 py-8'>
             <thead>
               <tr>
-                <th className='border border-gray-300 px-4 py-2'>Select</th>
                 <th className='border border-gray-300 px-4 py-2'>From</th>
                 <th className='border border-gray-300 px-4 py-2'>Price</th>
                 <th className='border border-gray-300 px-4 py-2'>Action</th>
@@ -401,13 +401,6 @@ export const DetailsCard = (
                   }`}
                 >
                   <td className='border border-gray-300 px-4 py-2'>
-                    <input
-                      type='checkbox'
-                      checked={selectedOfferId === row.id}
-                      onChange={() => handleSelect(row.id)}
-                    />
-                  </td>
-                  <td className='border border-gray-300 px-4 py-2'>
                     {row.walletAddress}
                   </td>
                   <td className='border border-gray-300 px-4 py-2'>
@@ -420,7 +413,7 @@ export const DetailsCard = (
                         background:
                           'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                       }}
-                      onClick={() => handleAcceptOffer()} // Call openModal when clicked
+                      onClick={() => handleAcceptOffer(row.id)} // Call openModal when clicked
                     >
                       AcceptOffer
                     </button>

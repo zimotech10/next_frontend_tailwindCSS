@@ -16,6 +16,7 @@ import {
 // import  {BictoryMarketplace}  from "../stores/idl";
 import {
   AUTHORIZATION_RULES_PROGRAM_ID,
+  findAuctionAccount,
   findAuctionHouse,
   findAuctionHouseTreasury,
   findEditionPda,
@@ -28,7 +29,7 @@ import {
 } from './utils';
 import { AnchorWallet } from '@solana/wallet-adapter-react';
 
-export async function listing(
+export const listing = async (
   program: anchor.Program,
   wallet: AnchorWallet,
   authority: PublicKey,
@@ -36,7 +37,7 @@ export async function listing(
   nftMint: PublicKey,
   price: anchor.BN,
   expiry: anchor.BN | null
-) {
+) => {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
   const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const listingAccount = findListingAccount(nftMint);
@@ -101,15 +102,15 @@ export async function listing(
   } catch (ex) {
     console.log(ex);
   }
-}
+};
 
-export async function unlisting(
+export const unlisting = async (
   program: anchor.Program,
   wallet: AnchorWallet,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey
-) {
+) => {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
   const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const listingAccount = findListingAccount(nftMint);
@@ -174,7 +175,7 @@ export async function unlisting(
   } catch (ex) {
     console.log(ex);
   }
-}
+};
 
 export const offer = async (
   program: anchor.Program,
@@ -242,7 +243,7 @@ export const cancelBuy = async (
   }
 };
 
-export async function instantBuy(
+export const instantBuy = async (
   program: anchor.Program,
   buyer: AnchorWallet,
   seller: PublicKey,
@@ -253,7 +254,7 @@ export async function instantBuy(
   discountMint: PublicKey | null = null,
   discountTokenAccount: PublicKey | null = null,
   discountMetadata: PublicKey | null = null
-) {
+) => {
   const isNative = treasuryMint == NATIVE_MINT;
 
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
@@ -364,9 +365,9 @@ export async function instantBuy(
   } catch (ex) {
     console.log(ex);
   }
-}
+};
 
-export async function acceptBuy(
+export const acceptBuy = async (
   program: anchor.Program,
   buyer: PublicKey,
   seller: AnchorWallet,
@@ -377,7 +378,7 @@ export async function acceptBuy(
   discountMint: PublicKey | null = null,
   discountTokenAccount: PublicKey | null = null,
   discountMetadata: PublicKey | null = null
-) {
+) => {
   const isNative = treasuryMint == NATIVE_MINT;
 
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
@@ -484,7 +485,7 @@ export async function acceptBuy(
   } catch (ex) {
     console.log(ex);
   }
-}
+};
 
 export const deposit = async (
   program: anchor.Program,
@@ -525,5 +526,77 @@ export const deposit = async (
   } catch (error) {
     console.log('deposit error', error);
     return null;
+  }
+};
+
+export const createAuction = async (
+  program: anchor.Program,
+  wallet: AnchorWallet,
+  authority: PublicKey,
+  treasuryMint: PublicKey,
+  nftMint: PublicKey,
+  price: anchor.BN,
+  startTime: anchor.BN,
+  endTime: anchor.BN
+) => {
+  const auctionHouse = findAuctionHouse(authority, treasuryMint);
+  const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
+  const auctionAccount = findAuctionAccount(nftMint);
+  const nftAccount = await getAssociatedTokenAddress(nftMint, wallet.publicKey);
+
+  try {
+    const tx = await program.methods
+      .createAuction(price, startTime, endTime)
+      .accounts({
+        seller: wallet.publicKey,
+        authority: authority,
+        treasuryMint: treasuryMint,
+        auctionHouse: auctionHouse,
+        auctionHouseTreasury: auctionHouseTreasury,
+        nftMint: nftMint,
+        nftAccount: nftAccount,
+        auctionAccount: auctionAccount,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        rent: SYSVAR_RENT_PUBKEY,
+      })
+      .rpc({ commitment: 'confirmed' });
+    return tx;
+  } catch (ex) {
+    console.log(ex);
+  }
+};
+
+export const cancelAuction = async (
+  program: anchor.Program,
+  wallet: AnchorWallet,
+  authority: PublicKey,
+  treasuryMint: PublicKey,
+  nftMint: PublicKey
+) => {
+  const auctionHouse = findAuctionHouse(authority, treasuryMint);
+  const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
+  const auctionAccount = findAuctionAccount(nftMint);
+  const nftAccount = await getAssociatedTokenAddress(nftMint, wallet.publicKey);
+
+  try {
+    const tx = await program.methods
+      .cancelAuction()
+      .accounts({
+        seller: wallet.publicKey,
+        authority: authority,
+        treasuryMint: treasuryMint,
+        auctionHouse: auctionHouse,
+        auctionHouseTreasury: auctionHouseTreasury,
+        nftMint: nftMint,
+        nftAccount: nftAccount,
+        auctionAccount: auctionAccount,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      })
+      .rpc({ commitment: 'confirmed' });
+    return tx;
+  } catch (ex) {
+    console.log(ex);
   }
 };

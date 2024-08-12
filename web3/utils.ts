@@ -99,6 +99,15 @@ export const findOfferAccount = (
   return pubkey;
 };
 
+export const findAuctionAccount = (nftMint: PublicKey): PublicKey => {
+  let [pubkey, bump] = PublicKey.findProgramAddressSync(
+    [Buffer.from(PREFIX), nftMint.toBuffer(), Buffer.from(AUCTION)],
+    PROGRAM_ID
+  );
+
+  return pubkey;
+};
+
 export const findListingAccount = (nftMint: PublicKey): PublicKey => {
   let [pubkey, bump] = PublicKey.findProgramAddressSync(
     [Buffer.from(PREFIX), nftMint.toBuffer(), Buffer.from(LISTING)],
