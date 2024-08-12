@@ -102,6 +102,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             nfts.map((nft, index) => (
               <ItemCard
                 key={index}
+                collection={nft.collection}
                 name={nft.name}
                 uri={nft.uri}
                 price={nft.price}

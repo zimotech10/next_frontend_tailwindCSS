@@ -13,6 +13,7 @@ import { NATIVE_MINT } from '@solana/spl-token';
 import { useRouter } from 'next/navigation';
 import { ItemImage } from './ItemImage';
 import { PublicKey } from '@metaplex-foundation/js';
+import ConnectModal from '@/components/modals/Connect';
 
 export const DetailsCard = (
   props: React.PropsWithChildren<{
@@ -39,14 +40,17 @@ export const DetailsCard = (
   const wallet = useAnchorWallet();
   const router = useRouter();
 
-  const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
-
-  const handleSelect = (offerId: string) => {
-    setSelectedOfferId(offerId);
+  const [connectModal, setConnectModal] = useState(false);
+  const handleConnectModal = () => {
+    setConnectModal(!connectModal);
   };
 
   const handleUnlisting = async () => {
     try {
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
       const provider = new anchor.AnchorProvider(
         connection,
         wallet as AnchorWallet,
@@ -84,7 +88,10 @@ export const DetailsCard = (
 
   const handleInstantBuy = async () => {
     try {
-      if (!wallet) router.push('/');
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
       const provider = new anchor.AnchorProvider(
         connection,
         wallet as AnchorWallet,
@@ -127,6 +134,10 @@ export const DetailsCard = (
 
   const handleAcceptOffer = async (id: number) => {
     try {
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
       const provider = new anchor.AnchorProvider(
         connection,
         wallet as AnchorWallet,
@@ -148,6 +159,7 @@ export const DetailsCard = (
       const creators = props.creators.map(
         (creator: string) => new PublicKey(creator)
       );
+      console.log(creators);
       console.log(buyer.toString());
       console.log(wallet?.publicKey.toString());
       const seller = wallet;
@@ -174,6 +186,10 @@ export const DetailsCard = (
 
   const handleCancelOffer = async () => {
     try {
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
       const provider = new anchor.AnchorProvider(
         connection,
         wallet as AnchorWallet,
@@ -211,6 +227,12 @@ export const DetailsCard = (
 
   return (
     <div className='flex flex-col w-full h-full justify-center'>
+      {connectModal && (
+        <ConnectModal
+          handleConnectModal={handleConnectModal}
+          isOpen={connectModal}
+        />
+      )}
       <div className='flex md:flex-row flex-col justify-center'>
         <ItemImage imageSrc={props.image} />
         <div className='flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 w-full md:w-1/2'>
@@ -394,12 +416,7 @@ export const DetailsCard = (
             </thead>
             <tbody>
               {props.offers.map((row: any) => (
-                <tr
-                  key={row.id}
-                  className={`${
-                    selectedOfferId === row.id ? 'bg-gray-100' : ''
-                  }`}
-                >
+                <tr key={row.id}>
                   <td className='border border-gray-300 px-4 py-2'>
                     {row.walletAddress}
                   </td>
