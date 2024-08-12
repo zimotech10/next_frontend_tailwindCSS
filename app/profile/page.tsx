@@ -109,7 +109,6 @@ export default function ProfilePage() {
             nfts.map((nft: NFT) => (
               <ItemCard
                 key={nft.id}
-                collection={nft.collection}
                 name={nft.name}
                 uri={nft.uri}
                 mintAddress={nft.mintAddress?.toString()}
