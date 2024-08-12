@@ -1,23 +1,15 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import DesktopNav from "./DesktopNav";
-import MobileNav from "./MobileNav";
-import logo from "@/public/images/horizontal-logo.png";
-import useScreen from "@/hooks/useScreen";
+import React, { useState, useEffect } from 'react';
+import DesktopNav from './DesktopNav';
+import MobileNav from './MobileNav';
+import logo from '@/public/images/horizontal-logo.png';
+import useScreen from '@/hooks/useScreen';
 
 const Navbar = () => {
   const isMobile = useScreen();
 
-  return (
-    <div className="z-50">
-      {isMobile ? (
-        <MobileNav logo={logo.src} />
-      ) : (
-        <DesktopNav logo={logo.src} />
-      )}
-    </div>
-  );
+  return <div className='z-50'>{isMobile ? <MobileNav logo={logo.src} /> : <DesktopNav logo={logo.src} />}</div>;
 };
 
 export default Navbar;
