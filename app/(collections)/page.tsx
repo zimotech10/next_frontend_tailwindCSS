@@ -29,7 +29,13 @@ const Collections = () => {
   const fetchCollections = async () => {
     try {
       setIsFetching(true);
-      const data = await CollectionApi.getCollectionByParams(searchParam, orderBy, orderDir, offset, limit);
+      const data = await CollectionApi.getCollectionByParams(
+        searchParam,
+        orderBy,
+        orderDir,
+        offset,
+        limit
+      );
       const collectionData = data.rows;
       setTotalCount(data.totalCount);
       setCollections((prevCollections) => {
@@ -75,7 +81,10 @@ const Collections = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 200
+      ) {
         // Near the bottom of the page
         if (!isFetching && offset + limit - 1 < totalCount) {
           // Prevent fetching if all items are loaded
@@ -111,8 +120,17 @@ const Collections = () => {
         imgWidth={imgWidth}
         imgHeight={359}
       />
-      <TabBar pathname='collections' onFilledIconClick={handleFilledIconClick} onDashboardIconClick={handleDashboardIconClick} />
-      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
+      <TabBar
+        pathname='collections'
+        onFilledIconClick={handleFilledIconClick}
+        onDashboardIconClick={handleDashboardIconClick}
+      />
+      <SearchBar
+        setSearchParam={setSearchParam}
+        setOrderBy={setOrderBy}
+        setOrderDir={setOrderDir}
+        placeholder='Search NFT by Title'
+      />
       <div className='flex py-5 justify-center gap-2 md:gap-4'>
         {isFetching && offset === 0 ? (
           <div className='h-full absolute items-center justify-center w-full z-10'>
@@ -120,11 +138,16 @@ const Collections = () => {
           </div>
         ) : (
           <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0 justify-center'>
-            {collections.length == 0 && !isFetching ? (
-              <div className='text-neutral-500 text-xl'>No Collection found</div>
+            {collections && collections.length == 0 && !isFetching ? (
+              <div className='text-neutral-500 text-xl'>
+                No Collection found
+              </div>
             ) : (
               collections.map((collection, index) => (
-                <Link href={{ pathname: `collection/${collection.symbol}` }} key={index}>
+                <Link
+                  href={{ pathname: `collection/${collection.symbol}` }}
+                  key={index}
+                >
                   <CollectionCard
                     id={collection.id}
                     name={collection.name}
@@ -138,7 +161,10 @@ const Collections = () => {
               ))
             )}
             {isFetching && offset > 0 && (
-              <div ref={loaderRef} className='flex justify-center items-center w-full'>
+              <div
+                ref={loaderRef}
+                className='flex justify-center items-center w-full'
+              >
                 <BigSpinner />
               </div>
             )}
