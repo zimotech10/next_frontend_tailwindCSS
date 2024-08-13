@@ -31,7 +31,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [orderBy, setOrderBy] = useState('date');
   const [orderDir, setOrderDir] = useState('desc');
   const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(16);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
   const [attributes, setAttribute] = useState([]);
