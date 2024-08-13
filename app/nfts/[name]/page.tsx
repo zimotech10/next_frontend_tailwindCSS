@@ -84,12 +84,21 @@ export default function NFTDetailsPage() {
       ) : metadata ? (
         <NFTDetail
           mintAddress={mintAddress}
-          description={metadata.description}
+          // description={metadata.description}
+          description={
+            'Bridging the gap between 1/1 art and PFP, Deck of Dark Dreams is an ever-evolving collectible and tangible CNFT art project, set in a dystopian and chaotic universe exploring the darkest depths of the human condition.'
+          }
           name={metadata.name}
           owner={owner?.toString()}
           image={metadata.image}
           uri={uri}
-          attributes={metadata.attributes}
+          // attributes={metadata.attributes}
+          attributes={[
+            { traitType: 'Head', value: 'Grey and silver' },
+            { traitType: 'Head', value: 'Grey and silver' },
+            { traitType: 'Head', value: 'Grey and silver' },
+          ]}
+          detailsProfile={{ creatorRoyaltyFee: '10', itemContent: 'JPEG Image (Size 6mb)' }}
           isOwner={isOwner}
           isListed={isListed}
           isOffered={isOffered}
