@@ -228,7 +228,7 @@ const DesktopNav = (
           <AnimatePresence>
             {dropdown && (
               <motion.div
-                className='absolute right-80'
+                className='absolute right-80 pt-[60px]'
                 ref={dropdownRef}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}

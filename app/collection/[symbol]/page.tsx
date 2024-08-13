@@ -46,6 +46,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
       const price = { min: minPrice, max: maxPrice };
       const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, attributes);
       const nftData = data.nfts;
+      setTotalCount(nftData.totalCount);
       setNfts((prevNfts) => {
         // Check if it's the first fetch or the offset is reset
         if (offset === 0) {
