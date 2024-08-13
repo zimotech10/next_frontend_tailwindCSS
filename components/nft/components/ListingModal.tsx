@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import solanaIcon from '@/public/images/solana-logo.png';
 import { ItemSummary } from '@/components/ItemSummary';
-import { listing } from '@/web3/contract';
+import { createAuction, listing } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
 import { connection, PROGRAM_ID, PROGRAM_INTERFACE, commitmentLevel } from '@/web3/utils';
@@ -102,6 +102,56 @@ export const ListingModal: React.FC<ListingModalProps> = ({ name, image, mintAdd
     onClose();
     router.push('/profile');
   };
+
+  const handleCreateAuction = async () => {
+    if (!wallet || !wallet.publicKey) {
+      alert('Please connect your wallet.');
+      return;
+    }
+
+    if (!minimumBid) {
+      alert('Please enter a price.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const provider = new anchor.AnchorProvider(connection, wallet, {
+        preflightCommitment: commitmentLevel,
+      });
+
+      const program = new anchor.Program(PROGRAM_INTERFACE, provider);
+
+      const price = new BN(minimumBid * web3.LAMPORTS_PER_SOL);
+      const startTime = null;
+      const endTime = null;
+
+      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
+      const treasuryMint = NATIVE_MINT;
+      const nftMint = new web3.PublicKey(mintAddress as string);
+
+      const tx = await createAuction(program, wallet, authority, treasuryMint, nftMint, price, startTime, endTime);
+
+      if (tx) {
+        setModalVariant('success');
+        setModalMessage('Auction Creating successful!');
+      } else {
+        setModalVariant('error');
+        setModalMessage('Auction Creating failed.');
+      }
+    } catch (error) {
+      console.error('Auction Creating error:', error);
+      setModalVariant('error');
+      setModalMessage('An error occurred during Auction Creating.');
+    }
+
+    setLoading(false);
+    setIsModalOpen(true);
+    onClose();
+    router.push('/profile');
+  };
+
   return (
     <>
       <PopUp isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} message={modalMessage} variant={modalVariant} />
@@ -250,6 +300,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({ name, image, mintAdd
                   className={`my-2 py-3 rounded-full font-semibold ${
                     minimumBid && expirationDate && expirationTime ? 'bg-gradient-orange text-black' : 'bg-none border'
                   }`}
+                  onClick={() => handleCreateAuction()}
                 >
                   Start Auction
                 </button>

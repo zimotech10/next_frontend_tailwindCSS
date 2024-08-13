@@ -120,11 +120,11 @@ const Collections = () => {
           </div>
         ) : (
           <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0 justify-center'>
-            {collections.length === 0 && !isFetching ? (
+            {collections.length == 0 && !isFetching ? (
               <div className='text-neutral-500 text-xl'>No Collection found</div>
             ) : (
               collections.map((collection, index) => (
-                <Link href={{ pathname: `collection/${collection.symbol}` }} key={collection.id}>
+                <Link href={{ pathname: `collection/${collection.symbol}` }} key={index}>
                   <CollectionCard
                     id={collection.id}
                     name={collection.name}

@@ -25,7 +25,7 @@ export default function NFTDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState('');
   const [isOwner, setIsOwner] = useState<boolean>(false);
-  const [isListed, setIsListed] = useState<boolean>(false);
+  const [listStatus, setlistStatus] = useState(0);
   const [isOffered, setIsOffered] = useState<boolean>(false);
   const [offers, setOffers] = useState();
   const [creators, setCreators] = useState();
@@ -47,12 +47,12 @@ export default function NFTDetailsPage() {
     const fetchNFTStatus = async () => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(({ isOwner, isListed, isOffered, owner, bids, creators }) => {
+          .then(({ isOwner, listStatus, isOffered, owner, bids, creators }) => {
             if (isOwner) {
               setIsOwner(isOwner);
             }
-            if (isListed) {
-              setIsListed(isListed);
+            if (listStatus) {
+              setlistStatus(listStatus);
             }
             if (bids) {
               setOffers(bids);
@@ -100,7 +100,7 @@ export default function NFTDetailsPage() {
           ]}
           detailsProfile={{ creatorRoyaltyFee: '10', itemContent: 'JPEG Image (Size 6mb)' }}
           isOwner={isOwner}
-          isListed={isListed}
+          listStatus={listStatus}
           isOffered={isOffered}
           offers={offers}
           creators={creators}

@@ -7,7 +7,7 @@ export interface NFT {
   description?: string;
   owner?: string;
   mintAddress?: string | null;
-  isListed?: boolean;
+  listStatus?: number;
   isOffered?: boolean;
   offers?: any;
   creators?: any;

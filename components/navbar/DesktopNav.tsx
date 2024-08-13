@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import { IBM_Plex_Sans } from 'next/font/google';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 import ConnectModal from '../modals/Connect';
 import userSvg from '@/public/vectors/user.svg';
 import Image from 'next/image';
@@ -13,6 +13,14 @@ import { CookieRepository } from '@/storages/cookie/cookie-repository';
 import { AuthService } from '@/services/auth-service';
 import { useRouter } from 'next/navigation';
 import quitImage from '@/public/images/power.png';
+import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
+import * as anchor from '@coral-xyz/anchor';
+import { BN } from '@coral-xyz/anchor';
+import { NATIVE_MINT } from '@solana/spl-token';
+import { deposit } from '@/web3/contract';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import axios from 'axios';
+import createAxiosClient from '@/api/axiosClient';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['500', '600', '700'],
@@ -26,15 +34,51 @@ const DesktopNav = (
 ) => {
   const [connectModal, setConnectModal] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [depositDropdown, setDepositDropdown] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const wallet = useWallet();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
+  const previousPublicKey = useRef(wallet.publicKey);
+  const [depositAmount, setDepositAmount] = useState(1);
+  const [amount, setAmount] = useState(0);
   const router = useRouter();
 
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
+  };
+
+  const handleDepositAmountChange = (e: any) => {
+    setDepositAmount(Number(e.target.value));
+  };
+
+  const handleDeposit = async () => {
+    try {
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
+      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
+        preflightCommitment: commitmentLevel,
+      });
+
+      const program = new anchor.Program(PROGRAM_INTERFACE, provider);
+
+      const authority = new anchor.web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
+      const treasuryMint = NATIVE_MINT;
+
+      const tx = await deposit(program, wallet as AnchorWallet, authority, treasuryMint, new anchor.BN(depositAmount * LAMPORTS_PER_SOL));
+
+      if (tx) {
+        alert('Deposit successful!');
+      } else {
+        alert('Deposit failed.');
+      }
+      router.push('/');
+    } catch (error) {
+      console.error('Deposit error:', error);
+    }
+    setDepositDropdown(!depositDropdown);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -75,6 +119,7 @@ const DesktopNav = (
           CookieRepository.setAccessToken(accessToken);
           CookieRepository.setRefreshToken(refreshToken);
           setLoggedIn(true);
+          router.refresh();
         })
         .catch((error) => {
           loginCalled.current = false;
@@ -90,12 +135,18 @@ const DesktopNav = (
     if (!isLoggedIn && !CookieRepository.getAccessToken() && !CookieRepository.getRefreshToken() && wallet.publicKey && !loginCalled.current) {
       loginUser();
     }
+    return () => {
+      loginCalled.current = false; // Reset the flag when the effect is cleaned up
+    };
   }, [isLoggedIn, wallet]);
 
   const disConnectWallet = async () => {
     CookieRepository.removeAccessToken();
     CookieRepository.removeRefreshToken();
     await wallet.disconnect();
+    setLoggedIn(false);
+    loginCalled.current = false;
+    previousPublicKey.current = null;
   };
 
   useEffect(() => {
@@ -105,6 +156,15 @@ const DesktopNav = (
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchAmount = async () => {
+      const axiosClient = await createAxiosClient();
+      const response = await axiosClient.get('/deposit');
+      setAmount(response.data.amount);
+    };
+    fetchAmount();
+  }, [wallet.connected]);
 
   return (
     <div
@@ -117,7 +177,51 @@ const DesktopNav = (
       </div>
 
       {wallet.connected ? (
-        <div>
+        <div className='flex gap-8'>
+          <p className='flex justify-center items-center'>Deposited Amount: {amount}</p>
+          <button className='select-none' onClick={() => setDepositDropdown(!depositDropdown)}>
+            Deposit
+          </button>
+          <AnimatePresence>
+            {depositDropdown && (
+              <motion.div
+                className='absolute right-96'
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Dropdown>
+                  <div className='flex flex-row w-full'>
+                    <p className='me-2'>Deposit Amount</p>
+                    <input className='bg-black text-white outline-none' type='number' value={depositAmount} onChange={(e) => handleDepositAmountChange(e)} />
+                  </div>
+                  <div className='flex flex-row w-full'>
+                    <button
+                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
+                      style={{
+                        width: '156px',
+                        background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      }}
+                      onClick={() => handleDeposit()}
+                    >
+                      Deposit
+                    </button>
+                    <button
+                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
+                      style={{
+                        width: '156px',
+                        background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      }}
+                      onClick={() => setDepositDropdown(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Dropdown>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <button ref={buttonRef} onClick={() => setDropdown(!dropdown)}>
             <Image src={userSvg} alt='user' width={48} height={48} />
           </button>
@@ -137,10 +241,10 @@ const DesktopNav = (
                       Manage Wallets
                     </Link>
                   </div>
-                  <div className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]' onClick={() => disConnectWallet()}>
+                  <button className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]' onClick={() => disConnectWallet()}>
                     <Image src={quitImage} alt='Quit' width={24} height={24} style={{ marginRight: '8px' }} />
                     Disconnect Wallet
-                  </div>
+                  </button>
                 </Dropdown>
               </motion.div>
             )}
