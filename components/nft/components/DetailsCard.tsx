@@ -263,9 +263,19 @@ export const DetailsCard = (
     }
   };
 
+  const handleBackClick = () => {
+    router.back(); // Navigate to the previous page
+  };
+
   return (
     <div className='flex flex-col w-full h-full justify-center'>
       {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
+      <div className='w-full mb-4'>
+        <button className='hover:underline md:pl-[160px] flex items-center gap-1' onClick={handleBackClick}>
+          <Icon icon='mdi:arrow-left'></Icon>
+          Back
+        </button>
+      </div>
       <div className='flex md:flex-row flex-col justify-center'>
         <div className='flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 max-h-[700px]'>
           <ItemImage imageSrc={props.image} />
@@ -306,7 +316,7 @@ export const DetailsCard = (
                 <button
                   className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                   style={{
-                    background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                    background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                   }}
                   onClick={() => handleUnlisting()} // Call openModal when clicked
                 >
@@ -326,7 +336,7 @@ export const DetailsCard = (
                   <button
                     className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                     style={{
-                      background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={() => handleWinPrize()} // Call openModal when clicked
                   >
