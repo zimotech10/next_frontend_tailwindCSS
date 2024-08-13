@@ -62,7 +62,6 @@ const MobileNav: React.FC<MobileNavProps> = (props) => {
         signedMessage: signature,
       })
         .then((response) => {
-          console.log(response.data);
           const { accessToken, refreshToken } = response.data;
           CookieRepository.setAccessToken(accessToken);
           CookieRepository.setRefreshToken(refreshToken);

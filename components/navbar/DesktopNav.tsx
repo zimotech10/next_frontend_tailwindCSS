@@ -79,6 +79,7 @@ const DesktopNav = (
           CookieRepository.setAccessToken(accessToken);
           CookieRepository.setRefreshToken(refreshToken);
           setLoggedIn(true);
+          router.refresh();
         })
         .catch((error) => {
           loginCalled.current = false;
@@ -100,12 +101,17 @@ const DesktopNav = (
     ) {
       loginUser();
     }
+    return () => {
+      loginCalled.current = false; // Reset the flag when the effect is cleaned up
+    };
   }, [isLoggedIn, wallet]);
 
   const disConnectWallet = async () => {
     CookieRepository.removeAccessToken();
     CookieRepository.removeRefreshToken();
     await wallet.disconnect();
+    setLoggedIn(false);
+    loginCalled.current = false;
   };
 
   useEffect(() => {

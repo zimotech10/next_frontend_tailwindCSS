@@ -160,14 +160,10 @@ export const DetailsCard = (
       const creators = props.creators.map(
         (creator: string) => new PublicKey(creator)
       );
-      console.log(creators);
-      console.log(buyer.toString());
-      console.log(wallet?.publicKey.toString());
-      const seller = wallet;
       const tx = await acceptBuy(
         program,
         buyer,
-        seller as AnchorWallet,
+        wallet as AnchorWallet,
         authority,
         treasuryMint,
         nftMint,

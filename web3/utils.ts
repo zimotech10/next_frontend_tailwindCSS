@@ -19,7 +19,7 @@ export const METADATA_PROGRAM_ID = new PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
 );
 export const PROGRAM_ID = new PublicKey(
-  'GDW1qzqhhTMghr7nAZSB6fG7anG1EeHUeRByCNcXdjQ1'
+  '4dt2Mo9ou9St8WrzPEtqzz9vmXHdyUf8NrLLT4KWcEkF'
 );
 export const AUTHORIZATION_RULES_PROGRAM_ID = new PublicKey(
   'auth9SigNpDKz4sJJ1DfCTuZrZNSAgh9sFD3rboVmgg'

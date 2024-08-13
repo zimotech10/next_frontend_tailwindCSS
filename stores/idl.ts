@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/bictory_marketplace.json`.
  */
 export type BictoryMarketplace = {
-  address: 'GDW1qzqhhTMghr7nAZSB6fG7anG1EeHUeRByCNcXdjQ1';
+  address: '4dt2Mo9ou9St8WrzPEtqzz9vmXHdyUf8NrLLT4KWcEkF';
   metadata: {
     name: 'bictoryMarketplace';
     version: '0.1.0';

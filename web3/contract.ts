@@ -327,7 +327,35 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
+  console.log(remainingAccounts);
 
+  console.log({
+    buyer: buyer.publicKey,
+    seller: seller,
+    escrowPaymentAccount: escrowWallet,
+    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
+    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+    authority: authority,
+    treasuryMint: treasuryMint,
+    auctionHouse: auctionHouse,
+    auctionHouseTreasury: auctionHouseTreasury,
+    nftMint: nftMint,
+    metadata: nftMetadata,
+    edition: edition,
+    nftFromAccount: nftFromAccount,
+    nftToAccount: nftToAccount,
+    listingAccount: listingAccount,
+    fromTokenRecord: fromTokenRecord,
+    toTokenRecord: toTokenRecord,
+    systemProgram: anchor.web3.SystemProgram.programId,
+    tokenProgram: TOKEN_PROGRAM_ID,
+    authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
+    authorizationRules: new PublicKey('11111111111111111111111111111111'),
+    instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+    associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+    metadataProgram: METADATA_PROGRAM_ID,
+    rent: SYSVAR_RENT_PUBKEY,
+  });
   try {
     const tx = await program.methods
       .instantBuy()
@@ -401,12 +429,15 @@ export const acceptBuy = async (
 
   const escrowWallet = findEscrowWallet(buyer, auctionHouse);
   const listingAccount = findListingAccount(nftMint);
+  console.log(listingAccount);
   const nftToAccountInfo = await program.provider.connection.getAccountInfo(
     nftToAccount
   );
   let preInstructions: anchor.web3.TransactionInstruction[] = [];
   const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
   const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
+  const offerAccount = findOfferAccount(buyer, nftMint);
+  console.log(offerAccount);
   if (!nftToAccountInfo) {
     preInstructions.push(
       createAssociatedTokenAccountInstruction(
@@ -418,6 +449,7 @@ export const acceptBuy = async (
       )
     );
   }
+
   const remainingAccounts = creators
     ? creators.map((creator) => {
         return {
@@ -448,6 +480,37 @@ export const acceptBuy = async (
     });
   }
 
+  console.log(remainingAccounts);
+
+  console.log({
+    buyer: buyer,
+    seller: seller.publicKey,
+    escrowPaymentAccount: escrowWallet,
+    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
+    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+    authority: authority,
+    treasuryMint: treasuryMint,
+    auctionHouseTreasury: auctionHouseTreasury,
+    auctionHouse: auctionHouse,
+    nftMint: nftMint,
+    nftFromAccount: nftFromAccount,
+    nftToAccount: nftToAccount,
+    metadata: nftMetadata,
+    edition: edition,
+    listingAccount: listingAccount,
+    offerAccount: offerAccount,
+    fromTokenRecord: fromTokenRecord,
+    toTokenRecord: toTokenRecord,
+    systemProgram: anchor.web3.SystemProgram.programId,
+    tokenProgram: TOKEN_PROGRAM_ID,
+    authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
+    authorizationRules: new PublicKey('11111111111111111111111111111111'),
+    instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+    associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+    metadataProgram: METADATA_PROGRAM_ID,
+    rent: SYSVAR_RENT_PUBKEY,
+  });
+
   try {
     const tx = await program.methods
       .acceptBuy()
@@ -459,14 +522,15 @@ export const acceptBuy = async (
         buyerReceiptTokenAccount: buyerReceiptTokenAccount,
         authority: authority,
         treasuryMint: treasuryMint,
-        auctionHouse: auctionHouse,
         auctionHouseTreasury: auctionHouseTreasury,
+        auctionHouse: auctionHouse,
         nftMint: nftMint,
-        metadata: nftMetadata,
-        edition: edition,
         nftFromAccount: nftFromAccount,
         nftToAccount: nftToAccount,
+        metadata: nftMetadata,
+        edition: edition,
         listingAccount: listingAccount,
+        offerAccount: offerAccount,
         fromTokenRecord: fromTokenRecord,
         toTokenRecord: toTokenRecord,
         systemProgram: anchor.web3.SystemProgram.programId,
