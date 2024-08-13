@@ -22,7 +22,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   image,
   attributes,
   mintAddress,
-  isListed,
+  listStatus,
   isOffered,
   offers,
   creators,
@@ -56,7 +56,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           image={image}
           isOwner={isOwner}
           attributes={attributes}
-          isListed={isListed}
+          listStatus={listStatus}
           isOffered={isOffered}
           mintAddress={mintAddress}
           offers={offers}
@@ -77,6 +77,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
         <OfferModal
           name={name}
           image={image}
+          listStatus={listStatus}
           mintAddress={mintAddress}
           onClose={closeBuyModal}
         />

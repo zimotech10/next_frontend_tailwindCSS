@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import { IBM_Plex_Sans } from 'next/font/google';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 import ConnectModal from '../modals/Connect';
 import userSvg from '@/public/vectors/user.svg';
 import Image from 'next/image';
@@ -12,6 +12,12 @@ import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes';
 import { CookieRepository } from '@/storages/cookie/cookie-repository';
 import { AuthService } from '@/services/auth-service';
 import { useRouter } from 'next/navigation';
+import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
+import * as anchor from '@coral-xyz/anchor';
+import { BN } from '@coral-xyz/anchor';
+import { NATIVE_MINT } from '@solana/spl-token';
+import { deposit } from '@/web3/contract';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['500', '600', '700'],
@@ -25,15 +31,62 @@ const DesktopNav = (
 ) => {
   const [connectModal, setConnectModal] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [depositDropdown, setDepositDropdown] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const wallet = useWallet();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
+  const previousPublicKey = useRef(wallet.publicKey);
+  const [depositAmount, setDepositAmount] = useState(1);
   const router = useRouter();
+
+  const handleDepositAmountChange = (e: any) => {
+    setDepositAmount(Number(e.target.value));
+  };
 
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
+  };
+
+  const handleDeposit = async () => {
+    try {
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
+
+      const program = new anchor.Program(PROGRAM_INTERFACE, provider);
+
+      const authority = new anchor.web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = NATIVE_MINT;
+
+      const tx = await deposit(
+        program,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        new anchor.BN(depositAmount * LAMPORTS_PER_SOL)
+      );
+
+      if (tx) {
+        alert('Deposit successful!');
+      } else {
+        alert('Deposit failed.');
+      }
+      router.push('/');
+    } catch (error) {
+      console.error('Deposit error:', error);
+    }
+    setDepositDropdown(!depositDropdown);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -112,6 +165,7 @@ const DesktopNav = (
     await wallet.disconnect();
     setLoggedIn(false);
     loginCalled.current = false;
+    previousPublicKey.current = null;
   };
 
   useEffect(() => {
@@ -144,13 +198,66 @@ const DesktopNav = (
         />
         <input
           type='text'
-          className='py-2 h-11 pl-10 pr-3 rounded-md'
+          className='text-black py-2 h-11 pl-10 pr-3 rounded-md'
           style={{ backgroundColor: '#262626', width: '491px' }}
         />
       </div>
 
       {wallet.connected ? (
-        <div>
+        <div className='flex gap-8 relative'>
+          <button
+            className='select-none'
+            onClick={() => setDepositDropdown(!depositDropdown)}
+          >
+            Deposit
+          </button>
+          <AnimatePresence>
+            {depositDropdown && (
+              <motion.div
+                className='absolute right-96'
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Dropdown>
+                  <div className='flex flex-row w-full'>
+                    <p className='me-2'>Deposit Amount</p>
+                    <input
+                      className='bg-black text-white outline-none'
+                      type='number'
+                      value={depositAmount}
+                      onChange={(e) => handleDepositAmountChange(e)}
+                    />
+                  </div>
+                  <div className='flex flex-row w-full'>
+                    <button
+                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
+                      style={{
+                        width: '156px',
+                        background:
+                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      }}
+                      onClick={() => handleDeposit()}
+                    >
+                      Deposit
+                    </button>
+                    <button
+                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
+                      style={{
+                        width: '156px',
+                        background:
+                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      }}
+                      onClick={() => setDepositDropdown(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Dropdown>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <button
             ref={buttonRef}
             onClick={() => setDropdown(!dropdown)}
@@ -164,54 +271,58 @@ const DesktopNav = (
           </button>
           <AnimatePresence>
             {dropdown && (
-              <motion.div
-                className='absolute right-60'
-                ref={dropdownRef}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Dropdown>
-                  <Link
-                    href='/profile'
-                    onClick={() => setDropdown(!dropdown)}
-                  >
-                    Profile
-                  </Link>
-                  <button
-                    className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
-                    style={{
-                      width: '156px',
-                      background:
-                        'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-                    }}
-                    onClick={() => disConnectWallet()}
-                  >
-                    Disconnect Wallet
-                  </button>
-                </Dropdown>
-              </motion.div>
+              <>
+                <motion.div
+                  className='absolute right-60'
+                  ref={dropdownRef}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Dropdown>
+                    <Link
+                      href='/profile'
+                      onClick={() => setDropdown(!dropdown)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
+                      style={{
+                        width: '156px',
+                        background:
+                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      }}
+                      onClick={() => disConnectWallet()}
+                    >
+                      Disconnect Wallet
+                    </button>
+                  </Dropdown>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
         </div>
       ) : (
-        <button
-          className=' text-black rounded-3xl py-2 justify-center font-semibold items-center'
-          style={{
-            width: '136px',
-            height: '34px',
-            background:
-              'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-            fontFamily: 'IBM Plex Sans',
-            fontWeight: 600,
-            fontSize: '14px',
-            lineHeight: '18.2px',
-          }}
-          onClick={() => handleConnectModal()}
-        >
-          Connect Wallet
-        </button>
+        <>
+          <button
+            className=' text-black rounded-3xl py-2 justify-center font-semibold items-center'
+            style={{
+              width: '136px',
+              height: '34px',
+              background:
+                'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              fontFamily: 'IBM Plex Sans',
+              fontWeight: 600,
+              fontSize: '14px',
+              lineHeight: '18.2px',
+            }}
+            onClick={() => handleConnectModal()}
+          >
+            Connect Wallet
+          </button>
+        </>
       )}
     </div>
   );
