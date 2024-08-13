@@ -679,7 +679,7 @@ export const cancelAuction = async (
 
   try {
     const tx = await program.methods
-      .unlisting()
+      .cancelAuction()
       .accounts({
         seller: wallet.publicKey,
         authority: authority,

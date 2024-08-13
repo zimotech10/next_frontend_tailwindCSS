@@ -15,7 +15,7 @@ export const NftApi = {
         limit: 10,
         search: '',
       });
-      const nfts = response.data;
+      const { nfts } = response.data;
       return nfts;
     } catch (error) {
       console.error('Error fetching collections:', error);
