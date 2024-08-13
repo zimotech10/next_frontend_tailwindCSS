@@ -18,6 +18,8 @@ import { BN } from '@coral-xyz/anchor';
 import { NATIVE_MINT } from '@solana/spl-token';
 import { deposit } from '@/web3/contract';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import axios from 'axios';
+import createAxiosClient from '@/api/axiosClient';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['500', '600', '700'],
@@ -38,14 +40,15 @@ const DesktopNav = (
   const buttonRef = useRef<HTMLButtonElement>(null);
   const previousPublicKey = useRef(wallet.publicKey);
   const [depositAmount, setDepositAmount] = useState(1);
+  const [amount, setAmount] = useState(0);
   const router = useRouter();
-
-  const handleDepositAmountChange = (e: any) => {
-    setDepositAmount(Number(e.target.value));
-  };
 
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
+  };
+
+  const handleDepositAmountChange = (e: any) => {
+    setDepositAmount(Number(e.target.value));
   };
 
   const handleDeposit = async () => {
@@ -176,6 +179,15 @@ const DesktopNav = (
     };
   }, []);
 
+  useEffect(() => {
+    const fetchAmount = async () => {
+      const axiosClient = await createAxiosClient();
+      const response = await axiosClient.get('/deposit');
+      setAmount(response.data.amount);
+    };
+    fetchAmount();
+  }, [wallet.connected]);
+
   return (
     <div
       className={`w-full h-[71px] sticky py-5 px-16 top-0 z-40 text-base justify-between flex flex-row items-center pl-20 bg-[#181818] ${ibmSans.className}`}
@@ -205,6 +217,9 @@ const DesktopNav = (
 
       {wallet.connected ? (
         <div className='flex gap-8 relative'>
+          <p className='flex justify-center items-center'>
+            Deposited Amount: {amount}
+          </p>
           <button
             className='select-none'
             onClick={() => setDepositDropdown(!depositDropdown)}

@@ -25,7 +25,7 @@ export default function NFTDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState('');
   const [isOwner, setIsOwner] = useState<boolean>(false);
-  const [listStatus, setlistStatus] = useState<boolean>(false);
+  const [listStatus, setlistStatus] = useState(0);
   const [isOffered, setIsOffered] = useState<boolean>(false);
   const [offers, setOffers] = useState();
   const [creators, setCreators] = useState();
