@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Hero from '@/components/Hero';
 import TabBar from '@/components/TabBar';
 import exploreImage from '@/public/images/explore-hero.png';
@@ -26,25 +26,86 @@ interface Nft {
 const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [filter, setFilter] = useState(false);
   const [nfts, setNfts] = useState<Nft[]>([]);
+  const [gridType, setGridType] = useState<Number>(0);
   const [searchParam, setSearchParam] = useState('');
   const [orderBy, setOrderBy] = useState('date');
   const [orderDir, setOrderDir] = useState('desc');
-  const [loading, setLoading] = useState(true);
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(16);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [attributes, setAttribute] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [isFetching, setIsFetching] = useState(true);
+
+  const loaderRef = useRef<HTMLDivElement>(null);
+
+  const fetchNfts = async () => {
+    try {
+      setIsFetching(true);
+      const price = { min: minPrice, max: maxPrice };
+      const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, attributes);
+      const nftData = data.nfts;
+      setNfts((prevNfts) => {
+        // Check if it's the first fetch or the offset is reset
+        if (offset === 0) {
+          return nftData;
+        }
+
+        // Append or prepend based on the offset
+        if (offset >= prevNfts.length) {
+          return [...prevNfts, ...nftData];
+        } else {
+          return [...nftData, ...prevNfts];
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
   useEffect(() => {
-    setLoading(true);
-    const fetchNfts = async () => {
-      try {
-        const nfts = await NftApi.getNftsByCollection(params.symbol);
-        setNfts(nfts);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        console.log(err);
-      }
-    };
+    setOffset(0); // Reset offset to 0
+    setNfts([]); // Clear previous collections
+  }, [searchParam, orderBy, orderDir]);
+
+  useEffect(() => {
     fetchNfts();
   }, [params.symbol]);
+
+  useEffect(() => {
+    fetchNfts();
+  }, [searchParam, orderBy, orderDir, offset, limit]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
+        // Near the bottom of the page
+        if (!isFetching && offset + limit - 1 < totalCount) {
+          // Prevent fetching if all items are loaded
+          setOffset((prevOffset) => prevOffset + limit);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isFetching]);
+
+  const handleFilledIconClick = () => {
+    setGridType(1);
+    setLimit(21); // Change limit to 21
+    setOffset(0); // Reset offset
+  };
+
+  const handleDashboardIconClick = () => {
+    setGridType(0);
+    setLimit(16); // Change limit to 21
+    setOffset(0); // Reset offset
+  };
 
   return (
     <div className='mx-[20px] md:px-20 md:pt-10 md:ml-[41px] md:mb-[40px] md:mr-[20px]'>
@@ -56,13 +117,8 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         imgHeight={1000}
         imgWidth={1000}
       />
-      <TabBar pathname='items' />
-      <SearchBar
-        setSearchParam={setSearchParam}
-        setOrderBy={setOrderBy}
-        setOrderDir={setOrderDir}
-        placeholder='Search NFT by Title'
-      />
+      <TabBar pathname='collections' onFilledIconClick={handleFilledIconClick} onDashboardIconClick={handleDashboardIconClick} />
+      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
       <div className='flex flex-col md:gap-8 md:flex-row'>
         <div className='h-0 md:h-fit invisible md:visible'>
           <Filter />
@@ -70,10 +126,9 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         <div className='flex flex-row p-5 justify-between md:hidden relative'>
           <button
             onClick={() => setFilter(!filter)}
-            className='w-40 flex justify-center py-2 font-semibold text-black'
+            className='md:w-40 w-36 flex justify-center py-2 font-semibold text-black'
             style={{
-              background:
-                'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               borderRadius: '40px',
             }}
             aria-label='Add filter'
@@ -81,7 +136,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             Add filter
           </button>
           <button
-            className='w-40 flex items-center gap-1 justify-center py-2 font-semibold text-white'
+            className='md:w-40 w-36 flex items-center gap-1 justify-center py-2 font-semibold text-white'
             style={{
               border: '1.5px solid var(--Color-Gradient-01, #F88430)',
               borderRadius: '40px',
@@ -97,27 +152,23 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             </div>
           )}
         </div>
-        {loading ? (
+        {isFetching && offset === 0 ? (
           <div className='flex w-full justify-center items-center'>
             <BigSpinner />
           </div>
         ) : (
           <div className='flex h-full gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
-            {!nfts || nfts.length === 0 ? (
-              <div className='text-neutral-500 text-xl'>
-                No NFT Found In This Collection
-              </div>
+            {nfts.length === 0 && !isFetching ? (
+              <div className='text-neutral-500 text-xl'>No NFT Found In This Collection</div>
             ) : (
-              nfts &&
               nfts.map((nft, index) => (
-                <ItemCard
-                  key={index}
-                  name={nft.name}
-                  uri={nft.uri}
-                  price={nft.price}
-                  mintAddress={nft.mintAddress?.toString()}
-                />
+                <ItemCard key={index} name={nft.name} uri={nft.uri} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
               ))
+            )}
+            {isFetching && offset > 0 && (
+              <div ref={loaderRef} className='flex justify-center items-center w-full'>
+                <BigSpinner />
+              </div>
             )}
           </div>
         )}

@@ -12,6 +12,7 @@ import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes';
 import { CookieRepository } from '@/storages/cookie/cookie-repository';
 import { AuthService } from '@/services/auth-service';
 import { useRouter } from 'next/navigation';
+import quitImage from '@/public/images/power.png';
 import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
@@ -57,28 +58,16 @@ const DesktopNav = (
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(
-        connection,
-        wallet as AnchorWallet,
-        {
-          preflightCommitment: commitmentLevel,
-        }
-      );
+      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
+        preflightCommitment: commitmentLevel,
+      });
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new anchor.web3.PublicKey(
-        process.env.NEXT_PUBLIC_AUTHORITY as string
-      );
+      const authority = new anchor.web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
       const treasuryMint = NATIVE_MINT;
 
-      const tx = await deposit(
-        program,
-        wallet as AnchorWallet,
-        authority,
-        treasuryMint,
-        new anchor.BN(depositAmount * LAMPORTS_PER_SOL)
-      );
+      const tx = await deposit(program, wallet as AnchorWallet, authority, treasuryMint, new anchor.BN(depositAmount * LAMPORTS_PER_SOL));
 
       if (tx) {
         alert('Deposit successful!');
@@ -93,12 +82,7 @@ const DesktopNav = (
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node) &&
-      buttonRef.current &&
-      !buttonRef.current.contains(event.target as Node)
-    ) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
       setDropdown(false);
     }
   };
@@ -148,13 +132,7 @@ const DesktopNav = (
   };
 
   useEffect(() => {
-    if (
-      !isLoggedIn &&
-      !CookieRepository.getAccessToken() &&
-      !CookieRepository.getRefreshToken() &&
-      wallet.publicKey &&
-      !loginCalled.current
-    ) {
+    if (!isLoggedIn && !CookieRepository.getAccessToken() && !CookieRepository.getRefreshToken() && wallet.publicKey && !loginCalled.current) {
       loginUser();
     }
     return () => {
@@ -192,38 +170,16 @@ const DesktopNav = (
     <div
       className={`w-full h-[71px] sticky py-5 px-16 top-0 z-40 text-base justify-between flex flex-row items-center pl-20 bg-[#181818] ${ibmSans.className}`}
     >
-      {connectModal && (
-        <ConnectModal
-          handleConnectModal={handleConnectModal}
-          isOpen={connectModal}
-        />
-      )}
-      <div
-        className='relative'
-        style={{ left: '23px' }}
-      >
-        <Icon
-          icon='mingcute:search-line'
-          className='absolute left-[20px] top-1/2 transform -translate-y-1/2'
-          width={20}
-          height={20}
-        />
-        <input
-          type='text'
-          className='text-black py-2 h-11 pl-10 pr-3 rounded-md'
-          style={{ backgroundColor: '#262626', width: '491px' }}
-        />
+      {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
+      <div className='relative' style={{ left: '23px' }}>
+        <Icon icon='mingcute:search-line' className='absolute left-[20px] top-1/2 transform -translate-y-1/2' width={20} height={20} />
+        <input type='text' className='py-2 h-11 pl-10 pr-3 rounded-md' style={{ backgroundColor: '#262626', width: '491px' }} />
       </div>
 
       {wallet.connected ? (
-        <div className='flex gap-8 relative'>
-          <p className='flex justify-center items-center'>
-            Deposited Amount: {amount}
-          </p>
-          <button
-            className='select-none'
-            onClick={() => setDepositDropdown(!depositDropdown)}
-          >
+        <div className='flex gap-8'>
+          <p className='flex justify-center items-center'>Deposited Amount: {amount}</p>
+          <button className='select-none' onClick={() => setDepositDropdown(!depositDropdown)}>
             Deposit
           </button>
           <AnimatePresence>
@@ -238,20 +194,14 @@ const DesktopNav = (
                 <Dropdown>
                   <div className='flex flex-row w-full'>
                     <p className='me-2'>Deposit Amount</p>
-                    <input
-                      className='bg-black text-white outline-none'
-                      type='number'
-                      value={depositAmount}
-                      onChange={(e) => handleDepositAmountChange(e)}
-                    />
+                    <input className='bg-black text-white outline-none' type='number' value={depositAmount} onChange={(e) => handleDepositAmountChange(e)} />
                   </div>
                   <div className='flex flex-row w-full'>
                     <button
                       className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
                       style={{
                         width: '156px',
-                        background:
-                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                        background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                       }}
                       onClick={() => handleDeposit()}
                     >
@@ -261,8 +211,7 @@ const DesktopNav = (
                       className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
                       style={{
                         width: '156px',
-                        background:
-                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                        background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                       }}
                       onClick={() => setDepositDropdown(false)}
                     >
@@ -273,71 +222,50 @@ const DesktopNav = (
               </motion.div>
             )}
           </AnimatePresence>
-          <button
-            ref={buttonRef}
-            onClick={() => setDropdown(!dropdown)}
-          >
-            <Image
-              src={userSvg}
-              alt='user'
-              width={48}
-              height={48}
-            />
+          <button ref={buttonRef} onClick={() => setDropdown(!dropdown)}>
+            <Image src={userSvg} alt='user' width={48} height={48} />
           </button>
           <AnimatePresence>
             {dropdown && (
-              <>
-                <motion.div
-                  className='absolute right-60'
-                  ref={dropdownRef}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Dropdown>
-                    <Link
-                      href='/profile'
-                      onClick={() => setDropdown(!dropdown)}
-                    >
-                      Profile
+              <motion.div
+                className='absolute right-80'
+                ref={dropdownRef}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Dropdown>
+                  <div className='pl-[45px] rounded-3xl py-2  font-semibold  md:w-[244px]'>
+                    <Link href='/profile' onClick={() => setDropdown(!dropdown)} className='w-full text-center'>
+                      Manage Wallets
                     </Link>
-                    <button
-                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
-                      style={{
-                        width: '156px',
-                        background:
-                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-                      }}
-                      onClick={() => disConnectWallet()}
-                    >
-                      Disconnect Wallet
-                    </button>
-                  </Dropdown>
-                </motion.div>
-              </>
+                  </div>
+                  <button className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]' onClick={() => disConnectWallet()}>
+                    <Image src={quitImage} alt='Quit' width={24} height={24} style={{ marginRight: '8px' }} />
+                    Disconnect Wallet
+                  </button>
+                </Dropdown>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
       ) : (
-        <>
-          <button
-            className=' text-black rounded-3xl py-2 justify-center font-semibold items-center'
-            style={{
-              width: '136px',
-              height: '34px',
-              background:
-                'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-              fontFamily: 'IBM Plex Sans',
-              fontWeight: 600,
-              fontSize: '14px',
-              lineHeight: '18.2px',
-            }}
-            onClick={() => handleConnectModal()}
-          >
-            Connect Wallet
-          </button>
-        </>
+        <button
+          className=' text-black rounded-3xl py-2 justify-center font-semibold items-center'
+          style={{
+            width: '136px',
+            height: '34px',
+            background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+            fontFamily: 'IBM Plex Sans',
+            fontWeight: 600,
+            fontSize: '14px',
+            lineHeight: '18.2px',
+          }}
+          onClick={() => handleConnectModal()}
+        >
+          Connect Wallet
+        </button>
       )}
     </div>
   );

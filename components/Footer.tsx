@@ -85,7 +85,7 @@ const Footer = () => {
             <div
               className={`font-normal text-lg ${electronica.className}`}
               style={{
-                background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                background: 'linear-gradient(140deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 fontSize: isMobile ? '18px' : '22.5px',
@@ -132,7 +132,7 @@ const Footer = () => {
                 type='submit'
                 className='text-black footer:h-[40px] footer:w-[50px] h-[38.21px] w-[50px]'
                 style={{
-                  background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                  background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                   marginLeft: '8px', // Add margin to ensure proper spacing
                   borderRadius: '8px 8px 0px 0px',
                 }}
@@ -153,11 +153,11 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        <div className='flex flex-col gap-2 footer:p-5 px-5 items-center footer:items-start footer:pr-[160px]'>
+        <div className='flex flex-col gap-2 footer:p-5 px-5 items-center footer:items-start footer:pr-[160px] md:pt-0 pt-6'>
           <div
             className={`text-lg ${electronica.className}`}
             style={{
-              background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent',

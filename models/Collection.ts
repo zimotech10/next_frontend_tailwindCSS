@@ -9,6 +9,7 @@ export interface Collection {
   isVerified: boolean;
   items?: number;
   owners?: number;
+  gridType?: number;
 }
 
 export interface Collection2 {

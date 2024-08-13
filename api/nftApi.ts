@@ -2,18 +2,28 @@ import createAxiosClient from './axiosClient';
 import axiosClient from './axiosClient';
 
 export const NftApi = {
-  getNftsByCollection: async (symbol: string) => {
+  getNftsByCollection: async (
+    symbol: string,
+    search: string,
+    orderBy: string,
+    orderDir: string,
+    offset: number,
+    limit: number,
+    price: any,
+    attributes: any
+  ) => {
     try {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.post(`/nft/${symbol}`, {
-        price: {
-          min: 0,
-          max: 1000,
-        },
-        attributes: [],
-        offset: 0,
-        limit: 10,
-        search: '',
+        
+          search,
+          orderBy,
+          orderDir,
+          offset,
+          limit,
+          price,
+          attributes
+        
       });
       const { nfts } = response.data;
       return nfts;

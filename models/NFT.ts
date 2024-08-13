@@ -11,6 +11,7 @@ export interface NFT {
   isOffered?: boolean;
   offers?: any;
   creators?: any;
+  gridType?: Number;
 }
 
 export interface NFTMetadata {
