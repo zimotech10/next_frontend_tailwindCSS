@@ -10,7 +10,7 @@ import ItemCard from '@/components/ItemCard';
 import { Icon } from '@iconify-icon/react';
 import PopUp from '@/components/PopUp';
 import { NftApi } from '@/api/nftApi';
-import BigSpinner from '@/components/Spinner';
+import { BigSpinner } from '@/components/Spinner';
 
 // Define the NFT type
 interface Nft {

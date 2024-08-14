@@ -9,7 +9,7 @@ import { getMetadata } from '@/utils/getMetadata';
 import { useState, useEffect } from 'react';
 import { NFTMetadata } from '@/models/NFT';
 import { getNFTOwner } from '@/utils/getNFTOwner';
-import BigSpinner from '@/components/Spinner'; // Assuming Spinner component is in the components folder
+import { BigSpinner } from '@/components/Spinner'; // Assuming Spinner component is in the components folder
 import { NftApi } from '@/api/nftApi';
 
 const ibmSans = IBM_Plex_Sans({

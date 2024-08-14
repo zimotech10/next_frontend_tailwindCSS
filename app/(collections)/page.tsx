@@ -7,7 +7,7 @@ import TabBar from '@/components/TabBar';
 import collectionImage from '@/public/images/collection-hero.png';
 import CollectionCard from '@/components/CollectionCard';
 import { CollectionApi } from '@/api/collectionApi';
-import BigSpinner from '@/components/Spinner';
+import { BigSpinner } from '@/components/Spinner';
 import { Collection2 } from '@/models/Collection';
 
 const Collections = () => {
