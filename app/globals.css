@@ -74,15 +74,41 @@ button.wallet-adapter-button-trigger {
   align-items: center;
   align-self: stretch;
   border-radius: 23px;
-  border: 1px solid var(--Brand-Gold-Gradient, #ffea7f);
-  color: #ffea7f;
+  background: transparent;
+  color: transparent; /* Set the text color to transparent for gradient text */
   width: 100%;
   position: relative;
+  z-index: 1;
+  background-clip: text;
+  background-image: linear-gradient(175deg, #ffea7f 9.83%, #ab5706 95.76%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+button.wallet-adapter-button-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 23px;
+  padding: 1px; /* Adjust this for border thickness */
+  background: linear-gradient(175deg, #ffea7f 9.83%, #ab5706 95.76%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
 }
 
 button.wallet-adapter-button-trigger:hover {
-  background: linear-gradient(149deg, #ffea7f 9.83%, #ab5706 95.76%) !important;
-  color: black !important;
+  background: linear-gradient(149deg, #ffea7f 9.83%, #ab5706 95.76%);
+  color: black; /* Change text color to black */
+  -webkit-text-fill-color: black; /* Make sure the gradient text is replaced with black on hover */
+}
+
+button.wallet-adapter-button-trigger:hover::before {
+  background: none; /* Remove the gradient border on hover */
 }
 
 /* styles/global.css */

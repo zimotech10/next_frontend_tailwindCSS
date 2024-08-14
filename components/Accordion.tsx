@@ -30,7 +30,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className='p-4'
+            className='px-4'
           >
             {props.children}
           </motion.div>

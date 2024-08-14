@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
+import useScreen from '@/hooks/useScreen';
 
 export const ItemImage = ({ imageSrc }: { imageSrc: string }) => {
+  const isMobile = useScreen();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -14,15 +16,17 @@ export const ItemImage = ({ imageSrc }: { imageSrc: string }) => {
     setIsModalOpen(false);
   };
 
+  const imgHeight = isMobile ? '250px' : '585px';
+
   return (
     <>
-      <div className='relative flex justify-center items-center w-[232px] md:w-[571px] h-full md:py-8 md:px-6 p-[10px] md:p-0 rounded-xl border border-gray-300'>
-        <img src={imageSrc} width={522} height={685} alt='display' />
+      <div className='relative flex md:justify-center justify-end items-center w-[232px] md:w-[571px] h-full md:py-8 md:px-6 p-[10px] md:p-0 rounded-xl border border-gray-300'>
+        <img src={imageSrc} width={522} height={685} alt='display' style={{ height: imgHeight }} />
         <button
           onClick={handleOpenModal}
-          className='absolute md:bottom-10 bottom-3 flex items-center bg-white bg-opacity-70 hover:bg-opacity-100 text-black rounded-full p-2 shadow-lg'
+          className='absolute md:bottom-16 bottom-5 md:px-4 md:py-1 px-2 py-1 flex items-center bg-black bg-opacity-40  text-white rounded-full shadow-lg'
         >
-          <Icon icon='ic:baseline-search' />
+          {isMobile ? <Icon icon='mdi:fullscreen' /> : <Icon icon='ic:baseline-search' />}
           Expand
         </button>
       </div>

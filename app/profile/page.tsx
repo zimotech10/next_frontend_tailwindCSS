@@ -11,7 +11,7 @@ import { formatAddress } from '@/hooks/useFormatAddress';
 import { getWalletNFTs } from '@/utils/getWalletNFTs';
 import ItemCard from '@/components/ItemCard';
 import { NFT } from '@/models/NFT';
-import BigSpinner from '@/components/Spinner';
+import { BigSpinner } from '@/components/Spinner';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['400', '500', '600', '700'],

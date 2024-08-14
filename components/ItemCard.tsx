@@ -32,7 +32,7 @@ const ItemCard: React.FC<NFT> = ({
     if (isHovered) {
       const timeout = setTimeout(() => {
         setShowButton(true);
-      }, 300);
+      }, 100);
       return () => clearTimeout(timeout);
     } else {
       setShowButton(false);
@@ -139,7 +139,7 @@ const ItemCard: React.FC<NFT> = ({
               View Details
             </Link>
           )}
-          {showButton && (
+          {/* {showButton && (
             <div className='flex flex-row items-center gap-1 absolute top-[calc(50%-40px)] md:right-6 right-3'>
               <Icon
                 icon='iconamoon:heart-bold'
@@ -150,7 +150,7 @@ const ItemCard: React.FC<NFT> = ({
               />
               <span style={{ fontSize: '10px', color: '#AFAFAF' }}>1.2k</span>
             </div>
-          )}
+          )} */}
           {price && (
             <div className='flex flex-col pt-1 md:pt-1'>
               <div className='text-xs text-neutral-400'>Price</div>

@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import Image from 'next/image';
 import star from '../public/images/gradient-star.png';
 import ComingSoon from './ComingSoon';
+import useScreen from '@/hooks/useScreen';
 
 const electronica = localFont({ src: '../fonts/Electronica.otf' });
 
@@ -18,6 +19,7 @@ const Hero = (
   }>
 ) => {
   const [showModal, setShowModal] = useState(false);
+  const isMobile = useScreen();
 
   const handleButtonClick = () => {
     setShowModal(true);
@@ -26,6 +28,8 @@ const Hero = (
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const heroWidth = isMobile ? '300px' : '359px';
 
   return (
     <>
@@ -63,7 +67,7 @@ const Hero = (
           </div>
         </div>
         <div className='relative flex items-center justify-end' style={{ height: '100%' }}>
-          <Image src={props.image} width={props.imgWidth} height={props.imgHeight} alt='hero' />
+          <Image src={props.image} width={props.imgWidth} height={props.imgHeight} style={{ height: heroWidth }} alt='hero' />
         </div>
       </div>
       <ComingSoon isOpen={showModal} onClose={handleCloseModal} /> {/* Use the ComingSoonModal component */}
