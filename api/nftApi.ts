@@ -1,5 +1,4 @@
 import createAxiosClient from './axiosClient';
-import axiosClient from './axiosClient';
 
 export const NftApi = {
   getNftsByCollection: async (
@@ -15,17 +14,15 @@ export const NftApi = {
     try {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.post(`/nft/${symbol}`, {
-        
-          search,
-          orderBy,
-          orderDir,
-          offset,
-          limit,
-          price,
-          attributes
-        
+        search,
+        orderBy,
+        orderDir,
+        offset,
+        limit,
+        price,
+        attributes,
       });
-      const  nfts  = response.data;
+      const nfts = response.data;
       return nfts;
     } catch (error) {
       console.error('Error fetching collections:', error);

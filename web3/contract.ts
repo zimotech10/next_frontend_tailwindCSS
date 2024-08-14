@@ -720,6 +720,7 @@ export const offerToAuction = async (
 ) => {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
   const offerAccount = findOfferAccount(wallet.publicKey, nftMint);
+  console.log(offerAccount);
   const auctionAccount = findAuctionAccount(nftMint);
 
   try {
