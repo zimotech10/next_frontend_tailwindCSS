@@ -44,9 +44,18 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
     try {
       setIsFetching(true);
       const price = { min: minPrice, max: maxPrice };
-      const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, attributes);
+      const data = await NftApi.getNftsByCollection(
+        params.symbol,
+        searchParam,
+        orderBy,
+        orderDir,
+        offset,
+        limit,
+        price,
+        attributes
+      );
       const nftData = data.nfts;
-      setTotalCount(nftData.totalCount);
+      setTotalCount(data.totalCount);
       setNfts((prevNfts) => {
         // Check if it's the first fetch or the offset is reset
         if (offset === 0) {
@@ -82,7 +91,10 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 200
+      ) {
         // Near the bottom of the page
         if (!isFetching && offset + limit - 1 < totalCount) {
           // Prevent fetching if all items are loaded
@@ -118,8 +130,17 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         imgHeight={1000}
         imgWidth={1000}
       />
-      <TabBar pathname='collections' onFilledIconClick={handleFilledIconClick} onDashboardIconClick={handleDashboardIconClick} />
-      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
+      <TabBar
+        pathname='collections'
+        onFilledIconClick={handleFilledIconClick}
+        onDashboardIconClick={handleDashboardIconClick}
+      />
+      <SearchBar
+        setSearchParam={setSearchParam}
+        setOrderBy={setOrderBy}
+        setOrderDir={setOrderDir}
+        placeholder='Search NFT by Title'
+      />
       <div className='flex flex-col md:gap-8 md:flex-row'>
         <div className='h-0 md:h-fit invisible md:visible'>
           <Filter />
@@ -129,7 +150,8 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             onClick={() => setFilter(!filter)}
             className='md:w-40 w-36 flex justify-center py-2 font-semibold text-black'
             style={{
-              background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background:
+                'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               borderRadius: '40px',
             }}
             aria-label='Add filter'
@@ -160,14 +182,26 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         ) : (
           <div className='flex h-full gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
             {nfts.length === 0 && !isFetching ? (
-              <div className='text-neutral-500 text-xl'>No NFT Found In This Collection</div>
+              <div className='text-neutral-500 text-xl'>
+                No NFT Found In This Collection
+              </div>
             ) : (
               nfts.map((nft, index) => (
-                <ItemCard key={index} name={nft.name} uri={nft.uri} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
+                <ItemCard
+                  key={index}
+                  name={nft.name}
+                  uri={nft.uri}
+                  price={nft.price}
+                  mintAddress={nft.mintAddress?.toString()}
+                  gridType={gridType}
+                />
               ))
             )}
             {isFetching && offset > 0 && (
-              <div ref={loaderRef} className='flex justify-center items-center w-full'>
+              <div
+                ref={loaderRef}
+                className='flex justify-center items-center w-full'
+              >
                 <BigSpinner />
               </div>
             )}

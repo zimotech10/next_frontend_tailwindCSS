@@ -501,17 +501,32 @@ export const DetailsCard = (
           ) : (
             <div className='flex flex-col font-semibold text-base md:flex-row gap-2 w-full'>
               {props.isOffered ? (
-                <button
-                  className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
-                  style={{ border: '1px solid #F88430', color: '#F88430' }}
-                  onClick={() =>
-                    props.listStatus == 1
-                      ? handleCancelOffer()
-                      : handleCancelOfferFromAuction()
-                  }
-                >
-                  Cancel Offer
-                </button>
+                props.listStatus == 1 ? (
+                  <button
+                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                    style={{ border: '1px solid #F88430', color: '#F88430' }}
+                    onClick={() => handleCancelOffer()}
+                  >
+                    Cancel Offer
+                  </button>
+                ) : (
+                  props.listStatus == 2 &&
+                  new PublicKey(
+                    props.offers.reduce((prev: any, current: any) => {
+                      return current.offerPrice > prev.offerPrice
+                        ? current
+                        : prev;
+                    }).walletAddress
+                  ) != wallet?.publicKey && (
+                    <button
+                      className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                      style={{ border: '1px solid #F88430', color: '#F88430' }}
+                      onClick={() => handleCancelOfferFromAuction()}
+                    >
+                      Cancel Offer
+                    </button>
+                  )
+                )
               ) : (
                 <>
                   {props.listStatus == 1 && (
