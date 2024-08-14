@@ -14,6 +14,7 @@ export const SIGNER = 'signer';
 export const LISTING = 'listing';
 export const OFFER = 'offer';
 export const AUCTION = 'auction';
+export const AUCTION_OFFER = 'auction_offer';
 
 export const METADATA_PROGRAM_ID = new PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
@@ -92,6 +93,23 @@ export const findOfferAccount = (
       nftMint.toBuffer(),
       wallet.toBuffer(),
       Buffer.from(OFFER),
+    ],
+    PROGRAM_ID
+  );
+
+  return pubkey;
+};
+
+export const findOfferAuctionAccount = (
+  wallet: PublicKey,
+  nftMint: PublicKey
+): PublicKey => {
+  let [pubkey, bump] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from(PREFIX),
+      nftMint.toBuffer(),
+      wallet.toBuffer(),
+      Buffer.from(AUCTION_OFFER),
     ],
     PROGRAM_ID
   );

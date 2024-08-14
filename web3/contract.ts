@@ -24,6 +24,7 @@ import {
   findListingAccount,
   findMetadataPda,
   findOfferAccount,
+  findOfferAuctionAccount,
   findTokenRecordAddress,
   METADATA_PROGRAM_ID,
 } from './utils';
@@ -437,7 +438,6 @@ export const acceptBuy = async (
   const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
   const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
   const offerAccount = findOfferAccount(buyer, nftMint);
-  console.log(offerAccount);
   if (!nftToAccountInfo) {
     preInstructions.push(
       createAssociatedTokenAccountInstruction(
@@ -719,7 +719,7 @@ export const offerToAuction = async (
   price: anchor.BN
 ) => {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
-  const offerAccount = findOfferAccount(wallet.publicKey, nftMint);
+  const offerAccount = findOfferAuctionAccount(wallet.publicKey, nftMint);
   const auctionAccount = findAuctionAccount(nftMint);
 
   try {
@@ -753,7 +753,7 @@ export const cancelOfferFromAuction = async (
   nftMint: PublicKey
 ) => {
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
-  const offerAccount = findOfferAccount(wallet.publicKey, nftMint);
+  const offerAccount = findOfferAuctionAccount(wallet.publicKey, nftMint);
   const auctionAccount = findAuctionAccount(nftMint);
 
   try {
@@ -820,8 +820,7 @@ export const winPrize = async (
   let preInstructions: anchor.web3.TransactionInstruction[] = [];
   const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
   const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
-  const offerAccount = findOfferAccount(buyer, nftMint);
-  console.log(offerAccount);
+  const offerAccount = findOfferAuctionAccount(buyer, nftMint);
   if (!nftToAccountInfo) {
     preInstructions.push(
       createAssociatedTokenAccountInstruction(
