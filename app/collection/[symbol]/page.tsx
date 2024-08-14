@@ -38,6 +38,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [totalCount, setTotalCount] = useState(0);
   const [isFetching, setIsFetching] = useState(true);
 
+  const totalCountRef = useRef(0);
   const loaderRef = useRef<HTMLDivElement>(null);
 
   const fetchNfts = async () => {
@@ -46,6 +47,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
       const price = { min: minPrice, max: maxPrice };
       const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, attributes);
       const nftData = data.nfts;
+      totalCountRef.current = data.totalCount;
       setTotalCount(nftData.totalCount);
       setNfts((prevNfts) => {
         // Check if it's the first fetch or the offset is reset
@@ -84,7 +86,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
     const handleScroll = () => {
       if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
         // Near the bottom of the page
-        if (!isFetching && offset + limit - 1 < totalCount) {
+        if (!isFetching && offset + limit - 1 < totalCountRef.current) {
           // Prevent fetching if all items are loaded
           setOffset((prevOffset) => prevOffset + limit);
         }

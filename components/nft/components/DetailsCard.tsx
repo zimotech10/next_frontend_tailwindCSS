@@ -277,8 +277,10 @@ export const DetailsCard = (
         </button>
       </div>
       <div className='flex md:flex-row flex-col justify-center'>
-        <div className='flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 max-h-[700px]'>
-          <ItemImage imageSrc={props.image} />
+        <div className='flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 max-h-[800px]'>
+          <div className='md:px-0 px-16'>
+            <ItemImage imageSrc={props.image} />
+          </div>
           {props.detailsProfile && (
             <Accordion title='Details'>
               <div className='flex md:flex-row flex-col md:gap-16 gap-4'>

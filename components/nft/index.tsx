@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ItemImage } from './components/ItemImage';
 import { DetailsCard } from './components/DetailsCard';
 import { ListingModal } from './components/ListingModal'; // Import the ListingModal
 import { NFT } from '@/models/NFT';
