@@ -16,6 +16,7 @@ interface NFTDetails extends NFT {
     creatorRoyaltyFee: string;
     itemContent: string;
   };
+  price?: string | null;
 }
 
 export const NFTDetail: React.FC<NFTDetails> = ({
@@ -31,6 +32,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   isOffered,
   offers,
   creators,
+  price,
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
@@ -57,7 +59,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
         <DetailsCard
           name={name}
           description={description}
-          listingPrice={'0.35'}
+          listingPrice={price}
           owner={owner}
           image={image}
           isOwner={isOwner}
@@ -72,8 +74,23 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           openBuyModal={openBuyModal} // Pass openModal to DetailsCard
         />
       </div>
-      {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
-      {isBuyModalOpen && <OfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBuyModal} />}
+      {isListModalOpen && (
+        <ListingModal
+          name={name}
+          image={image}
+          mintAddress={mintAddress}
+          onClose={closeListModal}
+        />
+      )}
+      {isBuyModalOpen && (
+        <OfferModal
+          name={name}
+          image={image}
+          listStatus={listStatus}
+          mintAddress={mintAddress}
+          onClose={closeBuyModal}
+        />
+      )}
     </div>
   );
 };

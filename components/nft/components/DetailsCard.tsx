@@ -23,6 +23,7 @@ import { ItemImage } from './ItemImage';
 import { PublicKey } from '@metaplex-foundation/js';
 import ConnectModal from '@/components/modals/Connect';
 import HeartIcon from '@/public/images/heart-filled.png';
+import CountdownTimer from '@/components/CountdownTimer';
 
 export const DetailsCard = (
   props: React.PropsWithChildren<{
@@ -30,7 +31,7 @@ export const DetailsCard = (
     name: string;
     image: string;
     description?: string;
-    listingPrice?: string;
+    listingPrice?: string | null;
     owner?: string;
     isOwner: boolean;
     attributes?: {
@@ -339,19 +340,15 @@ export const DetailsCard = (
       );
       const treasuryMint = NATIVE_MINT;
       const nftMint = new web3.PublicKey(props.mintAddress as string);
+      const seller = new web3.PublicKey(props.owner as string);
 
-      const buyer = new web3.PublicKey(
-        props.offers.reduce((max: any, offer: any) => {
-          return offer.price > max.price ? offer : max;
-        }).walletAddress
-      );
       const creators = props.creators.map(
         (creator: string) => new PublicKey(creator)
       );
       const tx = await winPrize(
         program,
-        buyer,
         wallet as AnchorWallet,
+        seller,
         authority,
         treasuryMint,
         nftMint,
@@ -440,6 +437,12 @@ export const DetailsCard = (
                 <div className='font-semibold text-base '>($200)</div>
               </div>
             </div>
+          )}
+          {props.isOffered && props.listStatus == 2 && (
+            <CountdownTimer
+              startTime={1000}
+              endTime={1000}
+            />
           )}
           {props.isOwner ? (
             <div className='flex flex-col font-semibold text-base md:flex-row gap-2 w-full'>

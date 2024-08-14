@@ -328,35 +328,6 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
-  console.log(remainingAccounts);
-
-  console.log({
-    buyer: buyer.publicKey,
-    seller: seller,
-    escrowPaymentAccount: escrowWallet,
-    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
-    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
-    authority: authority,
-    treasuryMint: treasuryMint,
-    auctionHouse: auctionHouse,
-    auctionHouseTreasury: auctionHouseTreasury,
-    nftMint: nftMint,
-    metadata: nftMetadata,
-    edition: edition,
-    nftFromAccount: nftFromAccount,
-    nftToAccount: nftToAccount,
-    listingAccount: listingAccount,
-    fromTokenRecord: fromTokenRecord,
-    toTokenRecord: toTokenRecord,
-    systemProgram: anchor.web3.SystemProgram.programId,
-    tokenProgram: TOKEN_PROGRAM_ID,
-    authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM_ID,
-    authorizationRules: new PublicKey('11111111111111111111111111111111'),
-    instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
-    associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-    metadataProgram: METADATA_PROGRAM_ID,
-    rent: SYSVAR_RENT_PUBKEY,
-  });
   try {
     const tx = await program.methods
       .instantBuy()
@@ -781,8 +752,8 @@ export const cancelOfferFromAuction = async (
 
 export const winPrize = async (
   program: anchor.Program,
-  buyer: PublicKey,
-  seller: AnchorWallet,
+  buyer: AnchorWallet,
+  seller: PublicKey,
   authority: PublicKey,
   treasuryMint: PublicKey,
   nftMint: PublicKey,
@@ -795,38 +766,32 @@ export const winPrize = async (
 
   const auctionHouse = findAuctionHouse(authority, treasuryMint);
   const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
-  const nftFromAccount = await getAssociatedTokenAddress(
+  const offerAccount = findOfferAuctionAccount(buyer.publicKey, nftMint);
+  const auctionAccount = findAuctionAccount(nftMint);
+  const nftToAccount = await getAssociatedTokenAddress(
     nftMint,
-    auctionHouseTreasury,
-    true
+    buyer.publicKey
   );
-  const nftToAccount = await getAssociatedTokenAddress(nftMint, buyer);
   const nftMetadata = await findMetadataPda(nftMint);
-  const edition = await findEditionPda(nftMint);
   const buyerReceiptTokenAccount = await getAssociatedTokenAddress(
     nftMint,
-    buyer
+    buyer.publicKey
   );
   const sellerPaymentReceiptAccount = isNative
-    ? seller.publicKey
-    : await getAssociatedTokenAddress(treasuryMint, seller.publicKey);
+    ? seller
+    : await getAssociatedTokenAddress(treasuryMint, seller);
 
-  const escrowWallet = findEscrowWallet(buyer, auctionHouse);
-  const listingAccount = findListingAccount(nftMint);
-  console.log(listingAccount);
+  const escrowWallet = findEscrowWallet(buyer.publicKey, auctionHouse);
   const nftToAccountInfo = await program.provider.connection.getAccountInfo(
     nftToAccount
   );
   let preInstructions: anchor.web3.TransactionInstruction[] = [];
-  const fromTokenRecord = await findTokenRecordAddress(nftMint, nftFromAccount);
-  const toTokenRecord = await findTokenRecordAddress(nftMint, nftToAccount);
-  const offerAccount = findOfferAuctionAccount(buyer, nftMint);
   if (!nftToAccountInfo) {
     preInstructions.push(
       createAssociatedTokenAccountInstruction(
-        seller.publicKey,
+        buyer.publicKey,
         nftToAccount,
-        buyer,
+        buyer.publicKey,
         nftMint,
         TOKEN_PROGRAM_ID
       )
@@ -842,8 +807,6 @@ export const winPrize = async (
         };
       })
     : [];
-
-  console.log(discountMint?.toString());
 
   if (discountMint && discountTokenAccount && discountMetadata) {
     remainingAccounts.push({
@@ -862,27 +825,26 @@ export const winPrize = async (
       isWritable: false,
     });
   }
-
   try {
     const tx = await program.methods
-      .winPrize()
+      .instantBuy()
       .accounts({
-        buyer: buyer,
-        seller: seller.publicKey,
+        buyer: buyer.publicKey,
+        seller: seller,
         escrowPaymentAccount: escrowWallet,
         sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
         buyerReceiptTokenAccount: buyerReceiptTokenAccount,
         authority: authority,
         treasuryMint: treasuryMint,
-        auctionHouseTreasury: auctionHouseTreasury,
         auctionHouse: auctionHouse,
+        auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
-        // nftAccount:
-        metadata: nftMetadata,
-        // auctionAccount:
+        auctionAccount: auctionAccount,
         offerAccount: offerAccount,
+        metadata: nftMetadata,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
+        instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
         ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })

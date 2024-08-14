@@ -21,6 +21,7 @@ export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
   const uri = searchParams.get('uri');
   const mintAddress = searchParams.get('mintAddress');
+  const price = searchParams.get('price');
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState('');
@@ -98,12 +99,16 @@ export default function NFTDetailsPage() {
             { traitType: 'Head', value: 'Grey and silver' },
             { traitType: 'Head', value: 'Grey and silver' },
           ]}
-          detailsProfile={{ creatorRoyaltyFee: '10', itemContent: 'JPEG Image (Size 6mb)' }}
+          detailsProfile={{
+            creatorRoyaltyFee: '10',
+            itemContent: 'JPEG Image (Size 6mb)',
+          }}
           isOwner={isOwner}
           listStatus={listStatus}
           isOffered={isOffered}
           offers={offers}
           creators={creators}
+          price={price}
         />
       ) : (
         <div>Cannot find metadata</div>
