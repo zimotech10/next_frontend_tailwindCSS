@@ -324,7 +324,7 @@ export const DetailsCard = (
               </div> */}
             </div>
           </div>
-          {props.listingPrice && (
+          {props.listingPrice ? (
             <div className='flex flex-col gap-2'>
               <div className='font-normal text-sm text-[#AFAFAF]'>Listing Price</div>
               <div className='flex flex-row gap-1 items-center'>
@@ -333,6 +333,8 @@ export const DetailsCard = (
                 {/* <div className='font-semibold text-base '>($200)</div> */}
               </div>
             </div>
+          ) : (
+            ''
           )}
           {props.listStatus == 2 && props.startTime != 0 && props.endTime != 0 && <CountdownTimer startTime={props.startTime} endTime={props.endTime} />}
           {props.isOwner ? (
@@ -488,7 +490,7 @@ export const DetailsCard = (
               <div className='font-semibold text-base'>{formatAddress(props.owner)}</div>
             </div>
           </div>
-          {props.attributes && (
+          {props.attributes?.length ? (
             <Accordion title='Attributes'>
               <div className='flex flex-wrap gap-3 justify-center'>
                 {props.attributes?.map((attribute, index) => (
@@ -501,6 +503,8 @@ export const DetailsCard = (
                 ))}
               </div>
             </Accordion>
+          ) : (
+            ''
           )}
         </div>
       </div>
