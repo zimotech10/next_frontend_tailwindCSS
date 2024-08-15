@@ -113,10 +113,12 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Unlisting successful!');
+        setTimeout(() => {
+          router.refresh();
+        }, 6000);
       } else {
         alert('Unlisting failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('Unlisting error:', error);
     }
@@ -160,10 +162,10 @@ export const DetailsCard = (
 
       if (tx) {
         alert('InstantBuy successful!');
+        router.refresh();
       } else {
         alert('InstantBuy failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('InstantBuy error:', error);
     } finally {
@@ -211,10 +213,10 @@ export const DetailsCard = (
 
       if (tx) {
         alert('AcceptBuy successful!');
+        router.refresh();
       } else {
         alert('AcceptBuy failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('AcceptBuy error:', error);
     }
@@ -252,10 +254,10 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Canceling Offer successful!');
+        router.refresh();
       } else {
         alert('Canceling failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('Canceling error:', error);
     }
@@ -297,10 +299,10 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Cancelling Offer successful!');
+        router.refresh();
       } else {
         alert('Cancelling failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('Cancelling error:', error);
     }
@@ -338,10 +340,10 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Cancelling Auction successful!');
+        router.refresh();
       } else {
         alert('Cancelling Auction failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('Cancelling Auction error:', error);
     }
@@ -386,10 +388,10 @@ export const DetailsCard = (
 
       if (tx) {
         alert('WinPrize successful!');
+        router.refresh();
       } else {
         alert('WinPrize failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('WinPrize error:', error);
     }

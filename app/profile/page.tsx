@@ -62,13 +62,32 @@ export default function ProfilePage() {
       <div className='flex flex-row justify-center md:justify-end p-8 bg-[#4343434d] rounded-xl'>
         {wallet && address && (
           <div className='p-3 rounded-full bg-black flex flex-row items-center gap-2'>
-            <Image src={solanaIcon} width={24} height={24} alt='solana' />
+            <Image
+              src={solanaIcon}
+              width={24}
+              height={24}
+              alt='solana'
+            />
             <div>{formattedAddress}</div>
-            <button onClick={() => copyToClipboard(address)} className='flex items-center'>
-              <Icon icon={copied ? 'pajamas:task-done' : 'solar:copy-outline'} width={24} />
+            <button
+              onClick={() => copyToClipboard(address)}
+              className='flex items-center'
+            >
+              <Icon
+                icon={copied ? 'pajamas:task-done' : 'solar:copy-outline'}
+                width={24}
+              />
             </button>
-            <button onClick={() => openSolscan(address)} className='flex items-center'>
-              <Image src={redirectIcon} width={24} height={24} alt='solana' />
+            <button
+              onClick={() => openSolscan(address)}
+              className='flex items-center'
+            >
+              <Image
+                src={redirectIcon}
+                width={24}
+                height={24}
+                alt='solana'
+              />
             </button>
           </div>
         )}
@@ -82,9 +101,20 @@ export default function ProfilePage() {
       ) : (
         <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
           {!nfts || nfts.length === 0 ? (
-            <div className='text-neutral-500 text-xl'>Connect wallet to see your profile page</div>
+            <div className='text-neutral-500 text-xl'>
+              Connect wallet to see your profile page
+            </div>
           ) : (
-            nfts && nfts.map((nft: NFT) => <ItemCard key={nft.id} name={nft.name} uri={nft.uri} price={nft.price} mintAddress={nft.mintAddress?.toString()} />)
+            nfts &&
+            nfts.map((nft: NFT) => (
+              <ItemCard
+                key={nft.id}
+                name={nft.name}
+                image={nft.image}
+                price={nft.price}
+                mintAddress={nft.mintAddress?.toString()}
+              />
+            ))
           )}
         </div>
       )}

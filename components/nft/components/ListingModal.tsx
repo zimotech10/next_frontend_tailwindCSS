@@ -33,6 +33,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
   mintAddress,
   onClose,
 }) => {
+  const router = useRouter();
   const [listingType, setListingType] = useState<ListingType>('listing-fixed');
   const [fixedPrice, setFixedPrice] = useState<number | undefined>(undefined);
   const [minimumBid, setMinimumBid] = useState<number | undefined>(undefined);
@@ -48,8 +49,6 @@ export const ListingModal: React.FC<ListingModalProps> = ({
   const [modalVariant, setModalVariant] = useState<'error' | 'success'>(
     'success'
   );
-
-  const router = useRouter();
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFixedPrice(Number(event.target.value));
@@ -133,7 +132,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        alert('Listing successful!');
+        router.refresh();
       } else {
         setModalVariant('error');
         alert('Listing failed.');
@@ -147,7 +146,6 @@ export const ListingModal: React.FC<ListingModalProps> = ({
     setLoading(false);
     setIsModalOpen(true);
     onClose();
-    router.push('/profile');
   };
 
   const handleCreateAuction = async () => {
@@ -221,7 +219,6 @@ export const ListingModal: React.FC<ListingModalProps> = ({
     setLoading(false);
     setIsModalOpen(true);
     onClose();
-    router.push('/profile');
   };
 
   return (

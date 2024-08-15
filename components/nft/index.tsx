@@ -81,8 +81,23 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           openBuyModal={openBuyModal} // Pass openModal to DetailsCard
         />
       </div>
-      {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
-      {isBuyModalOpen && <OfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBuyModal} />}
+      {isListModalOpen && (
+        <ListingModal
+          name={name}
+          image={image}
+          mintAddress={mintAddress}
+          onClose={closeListModal}
+        />
+      )}
+      {isBuyModalOpen && (
+        <OfferModal
+          name={name}
+          image={image}
+          listStatus={listStatus}
+          mintAddress={mintAddress}
+          onClose={closeBuyModal}
+        />
+      )}
     </div>
   );
 };
