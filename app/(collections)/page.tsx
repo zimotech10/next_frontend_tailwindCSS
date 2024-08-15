@@ -19,7 +19,7 @@ const Collections = () => {
   const [orderBy, setOrderBy] = useState('date');
   const [orderDir, setOrderDir] = useState('desc');
   const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(16);
+  const [limit, setLimit] = useState(24);
   const [isFetching, setIsFetching] = useState(true);
   const [imgWidth, setImgWidth] = useState(400);
   const [totalCount, setTotalCount] = useState(2);
@@ -100,7 +100,7 @@ const Collections = () => {
 
   const handleDashboardIconClick = () => {
     setGridType(0);
-    setLimit(16); // Change limit to 21
+    setLimit(24); // Change limit to 21
     setOffset(0); // Reset offset
   };
 

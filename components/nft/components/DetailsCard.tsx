@@ -26,7 +26,7 @@ export const DetailsCard = (
     owner?: string;
     isOwner: boolean;
     attributes?: {
-      traitType: string;
+      trait_type: string;
       value: string;
     }[];
     detailsProfile?: {
@@ -43,6 +43,7 @@ export const DetailsCard = (
   }>
 ) => {
   const wallet = useAnchorWallet();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const [connectModal, setConnectModal] = useState(false);
@@ -81,6 +82,7 @@ export const DetailsCard = (
 
   const handleInstantBuy = async () => {
     try {
+      setLoading(true);
       if (!wallet?.publicKey) {
         handleConnectModal();
         return;
@@ -106,6 +108,8 @@ export const DetailsCard = (
       router.push('/');
     } catch (error) {
       console.error('InstantBuy error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -396,14 +400,22 @@ export const DetailsCard = (
                 <>
                   {props.listStatus == 1 && (
                     <button
-                      className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black'
+                      className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
+                                ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
                       style={{
                         background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                       }}
-                      onClick={() => handleInstantBuy()}
+                      onClick={handleInstantBuy}
+                      disabled={loading} // Disable the button while loading
                     >
-                      <Icon icon='ph:lightning' style={{ color: 'black' }} />
-                      Buy now for {props.listingPrice} SOL
+                      {loading ? (
+                        <span className='animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full'></span>
+                      ) : (
+                        <>
+                          <Icon icon='ph:lightning' style={{ color: 'black' }} />
+                          Buy now for {props.listingPrice} SOL
+                        </>
+                      )}
                     </button>
                   )}
                   <button
@@ -440,7 +452,7 @@ export const DetailsCard = (
                 {props.attributes?.map((attribute, index) => (
                   <div key={index} className='flex flex-col gap-1 justify-center items-center  p-[1px] bg-gradient-to-r from-[#FFCA43] to-[#F88430] rounded-md'>
                     <div className='bg-[#0b0a0a] rounded-md p-4'>
-                      <div className='text-xs font-normal text-[#afafaf]'>{attribute.traitType}</div>
+                      <div className='text-xs font-normal text-[#afafaf]'>{attribute.trait_type}</div>
                       <div className='text-sm font-semibold'>{attribute.value}</div>
                     </div>
                   </div>

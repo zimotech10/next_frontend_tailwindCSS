@@ -23,6 +23,12 @@ interface Nft {
   owner: string;
 }
 
+interface Attribute {
+  // Define the structure of Attribute based on your needs
+  trait_type: string;
+  values: string[];
+}
+
 const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [filter, setFilter] = useState(false);
   const [nfts, setNfts] = useState<Nft[]>([]);
@@ -34,18 +40,29 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [limit, setLimit] = useState(16);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
-  const [attributes, setAttribute] = useState([]);
+  const [attributes, setAttribute] = useState<Attribute[]>([]);
+  const [filterAttributes, setFilterAttributes] = useState<Attribute[]>([]);
+  const [status, setStatus] = useState<string[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isFetching, setIsFetching] = useState(true);
 
   const totalCountRef = useRef(0);
   const loaderRef = useRef<HTMLDivElement>(null);
 
+  const fetchAttributes = async () => {
+    try {
+      const attributes = await NftApi.getNFTAttributes(params.symbol);
+      setAttribute(attributes);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchNfts = async () => {
     try {
       setIsFetching(true);
       const price = { min: minPrice, max: maxPrice };
-      const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, attributes);
+      const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, filterAttributes, status);
       const nftData = data.nfts;
       totalCountRef.current = data.totalCount;
       setTotalCount(nftData.totalCount);
@@ -72,15 +89,16 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   useEffect(() => {
     setOffset(0); // Reset offset to 0
     setNfts([]); // Clear previous collections
-  }, [searchParam, orderBy, orderDir]);
+  }, [searchParam, orderBy, orderDir, minPrice, maxPrice]);
 
   useEffect(() => {
     fetchNfts();
+    fetchAttributes();
   }, [params.symbol]);
 
   useEffect(() => {
     fetchNfts();
-  }, [searchParam, orderBy, orderDir, offset, limit]);
+  }, [searchParam, orderBy, orderDir, offset, limit, minPrice, maxPrice, status, filterAttributes]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -110,6 +128,16 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
     setOffset(0); // Reset offset
   };
 
+  const handleStatusChange = (label: string) => {
+    setStatus((prevStatus) => {
+      if (prevStatus.includes(label)) {
+        return prevStatus.filter((status) => status !== label);
+      } else {
+        return [...prevStatus, label];
+      }
+    });
+  };
+
   return (
     <div className='mx-[20px] md:px-20 md:pt-10 md:ml-[41px] md:mb-[40px] md:mr-[20px]'>
       <Hero
@@ -124,7 +152,14 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
       <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
       <div className='flex flex-col md:gap-8 md:flex-row'>
         <div className='h-0 md:h-fit invisible md:visible'>
-          <Filter />
+          <Filter
+            attributes={attributes}
+            filterAttributes={filterAttributes}
+            onStatusChange={handleStatusChange}
+            onMinPriceChange={setMinPrice}
+            onMaxPriceChange={setMaxPrice}
+            onAttributeChange={setFilterAttributes}
+          />
         </div>
         <div className='flex flex-row p-5 justify-between md:hidden relative'>
           <button
@@ -151,7 +186,14 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
           </button>
           {filter && (
             <div className='absolute z-30 top-24'>
-              <Filter />
+              <Filter
+                attributes={attributes}
+                filterAttributes={filterAttributes}
+                onStatusChange={handleStatusChange}
+                onMinPriceChange={setMinPrice}
+                onMaxPriceChange={setMaxPrice}
+                onAttributeChange={setFilterAttributes}
+              />
             </div>
           )}
         </div>
