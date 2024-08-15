@@ -5,10 +5,7 @@ type CountdownTimerProps = {
   endTime: number | undefined; // Target time as a Unix timestamp (in seconds)
 };
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({
-  startTime,
-  endTime,
-}) => {
+const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) => {
   const [timeLeft, setTimeLeft] = useState<number>(calculateTimeLeft());
 
   useEffect(() => {
@@ -44,14 +41,17 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   }
 
   const formatTime = (seconds: number) => {
-    let hours = Math.floor(seconds / 3600);
+    const days = Math.floor(seconds / 86400);
+    let hours = Math.floor((seconds % 86400) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = Math.floor(seconds % 60);
 
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(
-      2,
-      '0'
-    )}:${String(secs).padStart(2, '0')}`;
+    return {
+      days: String(days).padStart(2, '0'),
+      hours: String(hours).padStart(2, '0'),
+      minutes: String(minutes).padStart(2, '0'),
+      secs: String(secs).padStart(2, '0'),
+    };
   };
 
   const unixTimeToDateAndTime = (unixTime: number): string => {
@@ -68,18 +68,87 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
+  const { days, hours, minutes, secs } = formatTime(timeLeft);
+
   return (
-    <div className='text-center text-white bg-gray-800 p-4 rounded-md'>
+    <div
+      className='flex flex-col items-center text-white bg-black p-4 rounded-lg'
+      style={{
+        border: '1px solid transparent',
+        backgroundClip: 'padding-box, border-box',
+        backgroundOrigin: 'border-box',
+        backgroundImage: 'linear-gradient(#000, #000), linear-gradient(to right, #000000 0%, #EEAF0D 80%, #000000 10%, #000000 0%, #EEAF0D 80%, #000000 100%)',
+      }}
+    >
       {isStartedAuction() ? (
         timeLeft > 0 ? (
-          <h1 className='text-2xl'>Time Remaining: {formatTime(timeLeft)}</h1>
+          <>
+            <h1 className='text-xl mb-2'>Auction ends in</h1>
+            <div className='flex space-x-8'>
+              <div className='text-center'>
+                <div className='text-4xl font-bold text-yellow-500'>{days}</div>
+                <div
+                  className='text-sm mt-1 '
+                  style={{
+                    color: '#798694',
+                    margin: '1px',
+                  }}
+                >
+                  days
+                </div>
+              </div>
+              <div className='text-4xl font-bold' style={{ color: '#2e2101' }}>
+                :
+              </div>
+              <div className='text-center'>
+                <div className='text-4xl font-bold text-yellow-500'>{hours}</div>
+                <div
+                  className='text-sm mt-1'
+                  style={{
+                    color: '#798694',
+                    margin: '1px',
+                  }}
+                >
+                  hrs
+                </div>
+              </div>
+              <div className='text-4xl font-bold' style={{ color: '#2e2101' }}>
+                :
+              </div>
+              <div className='text-center'>
+                <div className='text-4xl font-bold text-yellow-500'>{minutes}</div>
+                <div
+                  className='text-sm mt-1'
+                  style={{
+                    color: '#798694',
+                    margin: '1px',
+                  }}
+                >
+                  mins
+                </div>
+              </div>
+              <div className='text-4xl font-bold' style={{ color: '#2e2101' }}>
+                :
+              </div>
+              <div className='text-center'>
+                <div className='text-4xl font-bold text-yellow-500'>{secs}</div>
+                <div
+                  className='text-sm mt-1'
+                  style={{
+                    color: '#798694',
+                    margin: '1px',
+                  }}
+                >
+                  secs
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <h1 className='text-2xl'>Finished Auction!</h1>
         )
       ) : (
-        <h1 className='text-2xl'>
-          Starting from {unixTimeToDateAndTime(Number(startTime))}!
-        </h1>
+        <h1 className='text-2xl'>Starting from {unixTimeToDateAndTime(Number(startTime))}!</h1>
       )}
     </div>
   );
