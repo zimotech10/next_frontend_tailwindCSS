@@ -670,7 +670,7 @@ export const DetailsCard = (
               <tr>
                 <th className='border border-gray-300 px-4 py-2'>From</th>
                 <th className='border border-gray-300 px-4 py-2'>Price</th>
-                {props.listStatus == 1 && (
+                {props.listStatus == 1 && props.isOwner && (
                   <th className='border border-gray-300 px-4 py-2'>Action</th>
                 )}
               </tr>
@@ -684,7 +684,7 @@ export const DetailsCard = (
                   <td className='border border-gray-300 px-4 py-2'>
                     {row.offerPrice}
                   </td>
-                  {props.listStatus == 1 && (
+                  {props.listStatus == 1 && props.isOwner && (
                     <td>
                       <button
                         className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
