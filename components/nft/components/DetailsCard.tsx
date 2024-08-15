@@ -640,7 +640,7 @@ export const DetailsCard = (
               </div>
             </div>
           </div>
-          {props.attributes && (
+          {props.attributes?.length ? (
             <Accordion title='Attributes'>
               <div className='flex flex-wrap gap-3 justify-center'>
                 {props.attributes?.map((attribute, index) => (
@@ -660,6 +660,8 @@ export const DetailsCard = (
                 ))}
               </div>
             </Accordion>
+          ) : (
+            ''
           )}
         </div>
       </div>
