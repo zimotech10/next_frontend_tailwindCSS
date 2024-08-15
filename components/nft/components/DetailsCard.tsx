@@ -15,7 +15,9 @@ import { ItemImage } from './ItemImage';
 import { PublicKey } from '@metaplex-foundation/js';
 import ConnectModal from '@/components/modals/Connect';
 import HeartIcon from '@/public/images/heart-filled.png';
+import useScreen from '@/hooks/useScreen';
 import CountdownTimer from '@/components/CountdownTimer';
+import SolanaImg from '@/public/images/solana-logo.png';
 
 export const DetailsCard = (
   props: React.PropsWithChildren<{
@@ -298,6 +300,7 @@ export const DetailsCard = (
     router.back(); // Navigate to the previous page
   };
 
+  const isMobile = useScreen();
   return (
     <div className='flex flex-col w-full h-full justify-center'>
       {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
@@ -535,29 +538,60 @@ export const DetailsCard = (
       {props.offers && props.offers.length !== 0 && (
         <div className='my-8 md:pl-16 pl-4'>
           <div className='w-full py-8'>
-            <div className='grid grid-cols-4 md:grid-cols-5 text-[#AFAFAF]'>
-              <div className='py-2 text-center'>S/N</div>
-              <div className='py-2 text-center'>From</div>
-              <div className='py-2 text-center'>Price</div>
-              <div className='py-2 text-center'>Timestamp</div>
-              {props.listStatus == 1 && props.isOwner && <div className='py-2 text-center'>Action</div>}
-            </div>
+            {isMobile ? (
+              ''
+            ) : (
+              <div className='grid grid-cols-12 text-[#AFAFAF]'>
+                <div className='col-span-1 py-2 text-center'>S/N</div>
+                <div className='col-span-4 py-2 text-center'>From</div>
+                <div className='col-span-2 py-2 text-right'>Price</div>
+                <div className='col-span-4 py-2 text-center'>Timestamp</div>
+                {props.listStatus == 1 && props.isOwner && <div className='col-span-1 py-2 text-center'>Action</div>}
+              </div>
+            )}
             <div className='py-6'>
-              {props.offers.map((row: any, index: number) => (
-                <div key={row.id} className='grid grid-cols-4 md:grid-cols-5 rounded-lg border border-[#333] m-6 py-6'>
-                  <div className='py-2 text-center'>{index + 1}</div>
-                  <div className='py-2 text-center'>{row.walletAddress}</div>
-                  <div className='py-2 text-center'>{row.offerPrice}</div>
-                  <div className='py-2 text-center'>3 hours ago</div>
-                  {props.listStatus == 1 && props.isOwner && (
-                    <div className='text-center'>
-                      <button className='py-2 px-6 rounded-3xl text-white border-[1px] border-[#AFAFAF]' onClick={() => handleAcceptOffer(row.id)}>
-                        Accept
-                      </button>
+              {props.offers.map((row: any, index: number) =>
+                isMobile ? (
+                  <div className='bg-black text-white p-4 rounded-lg max-w-sm gap-4 md:gap-0 border border-[#333] mb-6 py-6'>
+                    <div className='flex justify-between items-center'>
+                      <div className='flex items-center'>
+                        <span className='font-semibold'>Offer Received</span>
+                      </div>
+                      {props.listStatus == 1 && props.isOwner && (
+                        <button className='bg-transparent border border-green-400 text-green-400 rounded-lg px-4 py-1'>Accept</button>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                    <div className='mt-4'>
+                      <p>From</p>
+                      <p className='text-white'>@heyimjoe</p>
+                    </div>
+                    <div className='flex justify-between items-center mt-4'>
+                      <div className='flex items-center gap-1'>
+                        <Image src={SolanaImg} alt='solana' width={18}></Image>
+                        <span className='text-white text-lg'> {row.offerPrice} Sol</span>
+                      </div>
+                      <p className='text-gray-500'>3 hours ago</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div key={row.id} className='grid grid-cols-12 gap-4 md:gap-0 rounded-lg border border-[#333] mb-6 py-6'>
+                    <div className='col-span-12 md:col-span-1 py-2 text-center'>{index + 1}</div>
+                    <div className='col-span-12 md:col-span-4 py-2 text-center'>{row.walletAddress}</div>
+                    <div className='col-span-12 md:col-span-2 py-2 text-right'>{row.offerPrice}</div>
+                    <div className='col-span-12 md:col-span-4 py-2 text-center'>3 hours ago</div>
+                    {props.listStatus == 1 && props.isOwner && (
+                      <div className='col-span-12 md:col-span-1 text-center'>
+                        <button
+                          className='py-2 px-6 rounded-3xl text-white border-[1px] border-[#AFAFAF] md:w-auto w-full'
+                          onClick={() => handleAcceptOffer(row.id)}
+                        >
+                          Accept
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
