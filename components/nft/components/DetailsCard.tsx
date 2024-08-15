@@ -574,8 +574,8 @@ export const DetailsCard = (
                   ))
                 )
               ) : (
-                <>
-                  {props.listStatus == 1 && (
+                props.listStatus == 1 && (
+                  <>
                     <button
                       className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black'
                       style={{
@@ -590,23 +590,18 @@ export const DetailsCard = (
                       />
                       Buy now for {props.listingPrice} SOL
                     </button>
-                  )}
-                  {props.startTime &&
-                    props.endTime &&
-                    props.startTime * 1000 < new Date().getTime() &&
-                    new Date().getTime() < props.endTime * 1000 && (
-                      <button
-                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
-                        style={{
-                          border: '2px solid #FFB703',
-                          color: '#F5F5F5',
-                        }}
-                        onClick={props.openBuyModal}
-                      >
-                        Place a bid
-                      </button>
-                    )}
-                </>
+                    <button
+                      className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                      style={{
+                        border: '2px solid #FFB703',
+                        color: '#F5F5F5',
+                      }}
+                      onClick={props.openBuyModal}
+                    >
+                      Place a bid
+                    </button>
+                  </>
+                )
               )}
             </div>
           )}
