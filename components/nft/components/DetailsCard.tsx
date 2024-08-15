@@ -316,12 +316,6 @@ export const DetailsCard = (
           <div className='flex flex-col gap-6'>
             <div className='flex flex-row justify-between items-center w-full'>
               <span className='font-semibold text-2xl md:text-3xl'>{props.name}</span>
-              {/* <div className='flex flex-row items-center gap-3'>
-                <div className='flex flex-row gap-1 items-center'>
-                  <span>3.1k</span>
-                  <Image src={HeartIcon} alt='Heart Icon'></Image>
-                </div>
-              </div> */}
             </div>
           </div>
           {props.listingPrice ? (
@@ -330,12 +324,9 @@ export const DetailsCard = (
               <div className='flex flex-row gap-1 items-center'>
                 <Image src={solanaIcon} width={16} height={16} alt='solana' />
                 <div className='font-semibold text-base'>{props.listingPrice} SOL</div>
-                {/* <div className='font-semibold text-base '>($200)</div> */}
               </div>
             </div>
-          ) : (
-            ''
-          )}
+          ) : null}
           {props.listStatus == 2 && props.startTime != 0 && props.endTime != 0 && <CountdownTimer startTime={props.startTime} endTime={props.endTime} />}
           {props.isOwner ? (
             <div className='flex flex-col font-semibold text-base md:flex-row gap-2 w-full'>
@@ -436,8 +427,8 @@ export const DetailsCard = (
                   ))
                 )
               ) : (
-                <>
-                  {props.listStatus == 1 && (
+                props.listStatus == 1 && (
+                  <>
                     <button
                       className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
                                 ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
@@ -456,8 +447,6 @@ export const DetailsCard = (
                         </>
                       )}
                     </button>
-                  )}
-                  {props.startTime && props.endTime && props.startTime * 1000 < new Date().getTime() && new Date().getTime() < props.endTime * 1000 && (
                     <button
                       className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
                       style={{
@@ -468,8 +457,8 @@ export const DetailsCard = (
                     >
                       Place a bid
                     </button>
-                  )}
-                </>
+                  </>
+                )
               )}
             </div>
           )}
@@ -508,7 +497,7 @@ export const DetailsCard = (
           )}
         </div>
       </div>
-      {props.offers.length !== 0 && (
+      {props.offers && props.offers.length !== 0 && (
         <div className='flex my-8'>
           <table className='w-full border-collapse border border-gray-300 py-8'>
             <thead>
