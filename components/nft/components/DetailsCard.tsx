@@ -481,9 +481,20 @@ export const DetailsCard = (
                   Unlist
                 </button>
               ) : props.listStatus == 2 ? (
-                props.offers.length == 0 ||
-                (props.startTime &&
-                  props.startTime * 1000 > new Date().getTime() && (
+                props.startTime &&
+                props.startTime * 1000 > new Date().getTime() ? (
+                  <button
+                    className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
+                    style={{
+                      background:
+                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                    }}
+                    onClick={() => handleCancelAuction()} // Call openModal when clicked
+                  >
+                    Cancel Auction
+                  </button>
+                ) : (
+                  props.offers.length == 0 && (
                     <button
                       className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                       style={{
@@ -494,7 +505,8 @@ export const DetailsCard = (
                     >
                       Cancel Auction
                     </button>
-                  ))
+                  )
+                )
               ) : (
                 <>
                   <button
