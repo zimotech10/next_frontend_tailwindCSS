@@ -7,8 +7,9 @@ import { OfferModal } from './components/OfferModal';
 interface NFTDetails extends NFT {
   isOwner: boolean;
   image: string;
+  listingPrice: any;
   attributes?: {
-    traitType: string;
+    trait_type: string;
     value: string;
   }[];
   detailsProfile?: {
@@ -22,6 +23,7 @@ interface NFTDetails extends NFT {
 
 export const NFTDetail: React.FC<NFTDetails> = ({
   isOwner,
+  listingPrice,
   name,
   description,
   owner,
@@ -62,7 +64,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
         <DetailsCard
           name={name}
           description={description}
-          listingPrice={price}
+          listingPrice={listingPrice}
           owner={owner}
           image={image}
           isOwner={isOwner}
@@ -79,23 +81,8 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           openBuyModal={openBuyModal} // Pass openModal to DetailsCard
         />
       </div>
-      {isListModalOpen && (
-        <ListingModal
-          name={name}
-          image={image}
-          mintAddress={mintAddress}
-          onClose={closeListModal}
-        />
-      )}
-      {isBuyModalOpen && (
-        <OfferModal
-          name={name}
-          image={image}
-          listStatus={listStatus}
-          mintAddress={mintAddress}
-          onClose={closeBuyModal}
-        />
-      )}
+      {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
+      {isBuyModalOpen && <OfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBuyModal} />}
     </div>
   );
 };

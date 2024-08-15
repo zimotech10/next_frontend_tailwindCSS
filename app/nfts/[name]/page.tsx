@@ -31,6 +31,9 @@ export default function NFTDetailsPage() {
   const [endTime, setEndTime] = useState(0);
   const [offers, setOffers] = useState();
   const [creators, setCreators] = useState();
+  const [listingPrice, setListingPrice] = useState(0);
+  const [description, setDescription] = useState('');
+  const [attributes, setAttributes] = useState([]);
 
   useEffect(() => {
     if (uri) {
@@ -49,44 +52,44 @@ export default function NFTDetailsPage() {
     const fetchNFTStatus = async () => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(
-            ({
-              isOwner,
-              listStatus,
-              isOffered,
-              owner,
-              bids,
-              creators,
-              startTime,
-              endTime,
-            }) => {
-              if (isOwner) {
-                setIsOwner(isOwner);
-              }
-              if (listStatus) {
-                setlistStatus(listStatus);
-              }
-              if (bids) {
-                setOffers(bids);
-              }
-              if (isOffered) {
-                setIsOffered(isOffered);
-              }
-              if (owner) {
-                setOwner(owner);
-              }
-              if (creators) {
-                setCreators(creators);
-              }
-              if (startTime) {
-                setStartTime(startTime);
-              }
-              if (endTime) {
-                setEndTime(endTime);
-              }
-              setLoading(false);
+          .then(({ isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes, startTime, endTime }) => {
+            if (isOwner) {
+              setIsOwner(isOwner);
             }
-          )
+            if (listStatus) {
+              setlistStatus(listStatus);
+            }
+            if (bids) {
+              setOffers(bids);
+            }
+            if (isOffered) {
+              setIsOffered(isOffered);
+            }
+            if (owner) {
+              setOwner(owner);
+            }
+            if (creators) {
+              setCreators(creators);
+            }
+            if (startTime) {
+              setStartTime(startTime);
+            }
+            if (endTime) {
+              setEndTime(endTime);
+            }
+            if (price) {
+              setListingPrice(price);
+            }
+            if (description) {
+              setDescription(description);
+            }
+            if (attributes) {
+              setAttributes(attributes);
+            }
+
+            setLoading(false);
+          })
+
           .catch((error) => {
             console.error('Error fetching NFT owner:', error);
             setLoading(false);
@@ -104,24 +107,16 @@ export default function NFTDetailsPage() {
         <NFTDetail
           mintAddress={mintAddress}
           // description={metadata.description}
-          description={
-            'Bridging the gap between 1/1 art and PFP, Deck of Dark Dreams is an ever-evolving collectible and tangible CNFT art project, set in a dystopian and chaotic universe exploring the darkest depths of the human condition.'
-          }
+          description={description}
           name={metadata.name}
           owner={owner?.toString()}
           image={metadata.image}
           uri={uri}
           // attributes={metadata.attributes}
-          attributes={[
-            { traitType: 'Head', value: 'Grey and silver' },
-            { traitType: 'Head', value: 'Grey and silver' },
-            { traitType: 'Head', value: 'Grey and silver' },
-          ]}
-          detailsProfile={{
-            creatorRoyaltyFee: '10',
-            itemContent: 'JPEG Image (Size 6mb)',
-          }}
+          attributes={attributes}
+          detailsProfile={{ creatorRoyaltyFee: '10', itemContent: 'JPEG Image (Size 6mb)' }}
           isOwner={isOwner}
+          listingPrice={listingPrice}
           listStatus={listStatus}
           isOffered={isOffered}
           offers={offers}

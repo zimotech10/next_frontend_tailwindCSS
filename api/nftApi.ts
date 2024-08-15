@@ -9,7 +9,8 @@ export const NftApi = {
     offset: number,
     limit: number,
     price: any,
-    attributes: any
+    attributes: any,
+    status: any
   ) => {
     try {
       const axiosClient = await createAxiosClient();
@@ -21,6 +22,7 @@ export const NftApi = {
         limit,
         price,
         attributes,
+        status
       });
       const data = response.data;
       return data;
@@ -33,30 +35,26 @@ export const NftApi = {
     try {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.get(`/nft/item/${mintAddress}`);
-      const {
-        isOwner,
-        listStatus,
-        isOffered,
-        owner,
-        bids,
-        nftInfo,
-        startTime,
-        endTime,
-      } = response.data;
+      const { isOwner, listStatus, isOffered, owner, bids, nftInfo, price, startTime,endTime } =
+        response.data;
       const creators = nftInfo.creators.map((creator: any) => creator.address);
-      return {
-        isOwner,
-        listStatus,
-        isOffered,
-        owner,
-        bids,
-        creators,
-        startTime,
-        endTime,
-      };
+      const description = nftInfo.json.description;
+      const attributes = nftInfo.json.attributes;
+      return { isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes, startTime, endTime, };
     } catch (error) {
       console.error('Error fetching NFT Status', error);
       throw error;
     }
   },
+  getNFTAttributes: async (symbol: string) => {
+    try{
+      const axiosClient = await createAxiosClient();
+      const response = await axiosClient.get(`/collection/attribute/${symbol}`);
+      const attributes = response.data;
+      return attributes;
+    } catch(error){
+      console.error('Error fetching Attributes Status', error);
+      throw error;
+    }
+  } 
 };

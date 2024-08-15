@@ -30,7 +30,7 @@ const SearchBar = (props: any) => {
   return (
     <div className={`flex flex-col md:flex-row gap-2 items-center md:gap-4 py-2 pl-5 md:py-8 ${ibmSans.className}`}>
       <div className='flex flex-row gap-2 md:gap-4 items-center justify-center'>
-        <Image src={yellowVector} width={36} height={36} alt='vector' />
+        {/* <Image src={yellowVector} width={36} height={36} alt='vector' /> */}
         <div className='relative'>
           <Icon icon='mingcute:search-line' className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500' width={20} height={20} />
           <input
