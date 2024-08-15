@@ -570,46 +570,60 @@ export const DetailsCard = (
                     )
                   ))
                 )
-              ) : (
-                props.listStatus == 1 && (
-                  <>
-                    <button
-                      className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
+              ) : props.listStatus == 1 ? (
+                <>
+                  <button
+                    className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
                                 ${
                                   loading
                                     ? 'opacity-75 cursor-not-allowed'
                                     : 'hover:bg-opacity-90 active:bg-opacity-80'
                                 }`}
-                      style={{
-                        background:
-                          'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-                      }}
-                      onClick={handleInstantBuy}
-                      disabled={loading} // Disable the button while loading
-                    >
-                      {loading ? (
-                        <span className='animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full'></span>
-                      ) : (
-                        <>
-                          <Icon
-                            icon='ph:lightning'
-                            style={{ color: 'black' }}
-                          />
-                          Buy now for {props.listingPrice} SOL
-                        </>
-                      )}
-                    </button>
-                    <button
-                      className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
-                      style={{
-                        border: '2px solid #FFB703',
-                        color: '#F5F5F5',
-                      }}
-                      onClick={props.openBuyModal}
-                    >
-                      Place a bid
-                    </button>
-                  </>
+                    style={{
+                      background:
+                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                    }}
+                    onClick={handleInstantBuy}
+                    disabled={loading} // Disable the button while loading
+                  >
+                    {loading ? (
+                      <span className='animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full'></span>
+                    ) : (
+                      <>
+                        <Icon
+                          icon='ph:lightning'
+                          style={{ color: 'black' }}
+                        />
+                        Buy now for {props.listingPrice} SOL
+                      </>
+                    )}
+                  </button>
+                  <button
+                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                    style={{
+                      border: '2px solid #FFB703',
+                      color: '#F5F5F5',
+                    }}
+                    onClick={props.openBuyModal}
+                  >
+                    Make an offer
+                  </button>
+                </>
+              ) : (
+                props.startTime &&
+                props.endTime &&
+                props.startTime * 1000 < new Date().getTime() &&
+                new Date().getTime() < props.endTime * 1000 && (
+                  <button
+                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                    style={{
+                      border: '2px solid #FFB703',
+                      color: '#F5F5F5',
+                    }}
+                    onClick={props.openBuyModal}
+                  >
+                    Place a bid
+                  </button>
                 )
               )}
             </div>
