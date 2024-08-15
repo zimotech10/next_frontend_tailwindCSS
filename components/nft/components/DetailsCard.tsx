@@ -439,15 +439,9 @@ export const DetailsCard = (
               <span className='font-semibold text-2xl md:text-3xl'>
                 {props.name}
               </span>
-              {/* <div className='flex flex-row items-center gap-3'>
-                <div className='flex flex-row gap-1 items-center'>
-                  <span>3.1k</span>
-                  <Image src={HeartIcon} alt='Heart Icon'></Image>
-                </div>
-              </div> */}
             </div>
           </div>
-          {props.listingPrice && (
+          {props.listingPrice ? (
             <div className='flex flex-col gap-2'>
               <div className='font-normal text-sm text-[#AFAFAF]'>
                 Listing Price
@@ -462,10 +456,9 @@ export const DetailsCard = (
                 <div className='font-semibold text-base'>
                   {props.listingPrice} SOL
                 </div>
-                {/* <div className='font-semibold text-base '>($200)</div> */}
               </div>
             </div>
-          )}
+          ) : null}
           {props.listStatus == 2 &&
             props.startTime != 0 &&
             props.endTime != 0 && (
@@ -670,7 +663,7 @@ export const DetailsCard = (
           )}
         </div>
       </div>
-      {props.offers.length !== 0 && (
+      {props.offers && props.offers.length !== 0 && (
         <div className='flex my-8'>
           <table className='w-full border-collapse border border-gray-300 py-8'>
             <thead>
