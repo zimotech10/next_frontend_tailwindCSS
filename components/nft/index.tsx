@@ -16,6 +16,9 @@ interface NFTDetails extends NFT {
     creatorRoyaltyFee: string;
     itemContent: string;
   };
+  price?: string | null;
+  startTime?: number;
+  endTime?: number;
 }
 
 export const NFTDetail: React.FC<NFTDetails> = ({
@@ -32,6 +35,9 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   isOffered,
   offers,
   creators,
+  price,
+  startTime,
+  endTime,
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
@@ -69,6 +75,8 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           mintAddress={mintAddress}
           offers={offers}
           creators={creators}
+          startTime={startTime}
+          endTime={endTime}
           openListModal={openListModal} // Pass openModal to DetailsCard
           openBuyModal={openBuyModal} // Pass openModal to DetailsCard
         />

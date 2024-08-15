@@ -81,7 +81,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
 
   const convertToUnixTime = (date: any, time: any) => {
     try {
-      const combinedDateTime = new Date(`${date}T${time}:00Z`);
+      const combinedDateTime = new Date(`${date}T${time}:00`);
       const unixTime = Math.floor(combinedDateTime.getTime() / 1000);
       return unixTime;
     } catch (err) {
@@ -133,15 +133,15 @@ export const ListingModal: React.FC<ListingModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        setModalMessage('Listing successful!');
+        alert('Listing successful!');
       } else {
         setModalVariant('error');
-        setModalMessage('Listing failed.');
+        alert('Listing failed.');
       }
     } catch (error) {
       console.error('Listing error:', error);
       setModalVariant('error');
-      setModalMessage('An error occurred during listing.');
+      alert('An error occurred during listing.');
     }
 
     setLoading(false);
@@ -158,6 +158,16 @@ export const ListingModal: React.FC<ListingModalProps> = ({
 
     if (!minimumBid) {
       alert('Please enter a price.');
+      return;
+    }
+
+    if (!startDate || !startTime) {
+      alert('Please enter start time.');
+      return;
+    }
+
+    if (!expirationDate || !expirationTime) {
+      alert('Please enter expiry time');
       return;
     }
 
@@ -197,15 +207,15 @@ export const ListingModal: React.FC<ListingModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        setModalMessage('Auction Creating successful!');
+        alert('Auction Creating successful!');
       } else {
         setModalVariant('error');
-        setModalMessage('Auction Creating failed.');
+        alert('Auction Creating failed.');
       }
     } catch (error) {
       console.error('Auction Creating error:', error);
       setModalVariant('error');
-      setModalMessage('An error occurred during Auction Creating.');
+      alert('An error occurred during Auction Creating.');
     }
 
     setLoading(false);

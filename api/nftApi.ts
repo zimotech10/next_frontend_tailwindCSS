@@ -35,12 +35,12 @@ export const NftApi = {
     try {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.get(`/nft/item/${mintAddress}`);
-      const { isOwner, listStatus, isOffered, owner, bids, nftInfo, price } =
+      const { isOwner, listStatus, isOffered, owner, bids, nftInfo, price, startTime,endTime } =
         response.data;
       const creators = nftInfo.creators.map((creator: any) => creator.address);
       const description = nftInfo.json.description;
       const attributes = nftInfo.json.attributes;
-      return { isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes };
+      return { isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes, startTime, endTime, };
     } catch (error) {
       console.error('Error fetching NFT Status', error);
       throw error;

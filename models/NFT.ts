@@ -3,7 +3,7 @@ export interface NFT {
   name: string;
   uri: any;
   collection?: string | null;
-  price?: string;
+  price?: string | null;
   description?: string;
   owner?: string;
   mintAddress?: string | null;

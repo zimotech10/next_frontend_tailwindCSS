@@ -8,7 +8,6 @@ import { useSearchParams } from 'next/navigation';
 import { getMetadata } from '@/utils/getMetadata';
 import { useState, useEffect } from 'react';
 import { NFTMetadata } from '@/models/NFT';
-import { getNFTOwner } from '@/utils/getNFTOwner';
 import { BigSpinner } from '@/components/Spinner'; // Assuming Spinner component is in the components folder
 import { NftApi } from '@/api/nftApi';
 
@@ -21,12 +20,15 @@ export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
   const uri = searchParams.get('uri');
   const mintAddress = searchParams.get('mintAddress');
+  const price = searchParams.get('price');
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState('');
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [listStatus, setlistStatus] = useState(0);
   const [isOffered, setIsOffered] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState(0);
+  const [endTime, setEndTime] = useState(0);
   const [offers, setOffers] = useState();
   const [creators, setCreators] = useState();
   const [listingPrice, setListingPrice] = useState(0);
@@ -50,7 +52,7 @@ export default function NFTDetailsPage() {
     const fetchNFTStatus = async () => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(({ isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes }) => {
+          .then(({ isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes, startTime, endTime }) => {
             if (isOwner) {
               setIsOwner(isOwner);
             }
@@ -69,6 +71,12 @@ export default function NFTDetailsPage() {
             if (creators) {
               setCreators(creators);
             }
+            if (startTime) {
+              setStartTime(startTime);
+            }
+            if (endTime) {
+              setEndTime(endTime);
+            }
             if (price) {
               setListingPrice(price);
             }
@@ -81,6 +89,7 @@ export default function NFTDetailsPage() {
 
             setLoading(false);
           })
+
           .catch((error) => {
             console.error('Error fetching NFT owner:', error);
             setLoading(false);
@@ -112,6 +121,9 @@ export default function NFTDetailsPage() {
           isOffered={isOffered}
           offers={offers}
           creators={creators}
+          price={price}
+          startTime={startTime}
+          endTime={endTime}
         />
       ) : (
         <div>Cannot find metadata</div>
