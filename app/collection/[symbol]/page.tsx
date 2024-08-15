@@ -16,7 +16,7 @@ import { BigSpinner } from '@/components/Spinner';
 interface Nft {
   id: number;
   name: string;
-  uri: string;
+  image: string;
   collection: string;
   price: string;
   mintAddress: string;
@@ -207,7 +207,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
               <div className='text-neutral-500 text-xl'>No NFT Found In This Collection</div>
             ) : (
               nfts.map((nft, index) => (
-                <ItemCard key={index} name={nft.name} uri={nft.uri} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
+                <ItemCard key={index} name={nft.name} uri={nft.image} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
               ))
             )}
             {isFetching && offset > 0 && (
