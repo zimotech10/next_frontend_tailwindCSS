@@ -122,7 +122,7 @@ const Collections = () => {
             <BigSpinner />
           </div>
         ) : (
-          <div className='flex gap-4 md:gap-4 flex-wrap py-3 md:py-0 justify-center'>
+          <div className={`flex gap-4 ${gridType === 1 ? 'md:gap-12' : 'md:gap-4'} flex-wrap py-3 md:py-0 md:pl-[50px] pl-[16px]`}>
             {collections && collections.length == 0 && !isFetching ? (
               <div className='text-neutral-500 text-xl'>No Collection found</div>
             ) : (

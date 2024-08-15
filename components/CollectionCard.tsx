@@ -19,8 +19,8 @@ const CollectionCard: React.FC<Collection> = ({ name, image, coverImage, descrip
   const [profileImgLoading, setProfileImgLoading] = useState(true);
 
   // Determine styles based on gridType
-  const cardWidth = gridType === 1 ? (isMobile ? '166px' : '200px') : isMobile ? '166px' : '396px';
-  const coverImgWidth = gridType === 1 ? (isMobile ? '163px' : '200px') : isMobile ? '163px' : '396px';
+  const cardWidth = gridType === 1 ? (isMobile ? '166px' : '220px') : isMobile ? '166px' : '396px';
+  const coverImgWidth = gridType === 1 ? (isMobile ? '163px' : '220px') : isMobile ? '163px' : '396px';
   const coverImgHeight = gridType === 1 ? (isMobile ? '70px' : '130px') : isMobile ? '70px' : '167px';
   const profileImgSize = gridType === 1 ? (isMobile ? 34 : 40) : isMobile ? 34 : 81;
 
