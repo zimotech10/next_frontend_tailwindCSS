@@ -177,6 +177,7 @@ export const findTokenRecordAddress = async (
 };
 
 export const commitmentLevel = 'confirmed';
-export const endpoint = clusterApiUrl('devnet');
+export const endpoint =
+  'https://devnet.helius-rpc.com/?api-key=07c35039-b181-434c-855f-228fa7afb68c';
 export const connection = new Connection(endpoint, commitmentLevel);
 export const PROGRAM_INTERFACE = JSON.parse(JSON.stringify(idl));

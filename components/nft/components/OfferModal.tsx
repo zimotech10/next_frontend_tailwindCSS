@@ -106,15 +106,15 @@ export const OfferModal: React.FC<OfferModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        setModalMessage('Listing successful!');
+        alert('Offer successful!');
       } else {
         setModalVariant('error');
-        setModalMessage('Listing failed.');
+        alert('Offer failed.');
       }
     } catch (error) {
-      console.error('Listing error:', error);
+      console.error('Offer error:', error);
       setModalVariant('error');
-      setModalMessage('An error occurred during listing.');
+      alert('An error occurred during offer.');
     }
 
     setLoading(false);
@@ -162,15 +162,15 @@ export const OfferModal: React.FC<OfferModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        setModalMessage('Listing successful!');
+        alert('Offer successful!');
       } else {
         setModalVariant('error');
-        setModalMessage('Listing failed.');
+        alert('Offer failed.');
       }
     } catch (error) {
-      console.error('Listing error:', error);
+      console.error('Offer error:', error);
       setModalVariant('error');
-      setModalMessage('An error occurred during listing.');
+      alert('An error occurred during offer.');
     }
 
     setLoading(false);
@@ -235,29 +235,33 @@ export const OfferModal: React.FC<OfferModalProps> = ({
                       onChange={handlePriceChange}
                     />
                   </div>
-                  <span className='font-semibold text-base'>
-                    Expiration Date
-                  </span>
-                  <div className='text-[#afafaf] font-normal text-sm'>
-                    Set your offer expiration date.
-                  </div>
-                  <div className='flex flex-row gap-2 items-center'>
-                    <input
-                      type='date'
-                      className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-fit cursor-pointer'
-                      placeholder='DD-MM-YYYY'
-                      value={expirationDate ?? ''}
-                      onChange={handleDateChange}
-                    />
-                    <span>UTC</span>
-                    <input
-                      type='time'
-                      className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-fit cursor-pointer'
-                      placeholder='HH:MM'
-                      value={expirationTime ?? ''}
-                      onChange={handleTimeChange}
-                    />
-                  </div>
+                  {listStatus == 1 && (
+                    <>
+                      <span className='font-semibold text-base'>
+                        Expiration Date
+                      </span>
+                      <div className='text-[#afafaf] font-normal text-sm'>
+                        Set your offer expiration date.
+                      </div>
+                      <div className='flex flex-row gap-2 items-center'>
+                        <input
+                          type='date'
+                          className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-fit cursor-pointer'
+                          placeholder='DD-MM-YYYY'
+                          value={expirationDate ?? ''}
+                          onChange={handleDateChange}
+                        />
+                        <span>UTC</span>
+                        <input
+                          type='time'
+                          className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-fit cursor-pointer'
+                          placeholder='HH:MM'
+                          value={expirationTime ?? ''}
+                          onChange={handleTimeChange}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

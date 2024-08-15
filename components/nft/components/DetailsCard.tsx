@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import solanaIcon from '@/public/images/solana-logo.png';
 import Image from 'next/image';
@@ -47,6 +47,8 @@ export const DetailsCard = (
     offers?: any;
     creators?: any;
     mintAddress?: string | null;
+    startTime?: number;
+    endTime?: number;
     openListModal: () => void; // Add openModal prop
     openBuyModal: () => void; // Add openModal prop
   }>
@@ -55,9 +57,28 @@ export const DetailsCard = (
   const router = useRouter();
 
   const [connectModal, setConnectModal] = useState(false);
+  const [isWinner, setIsWinner] = useState(false);
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
   };
+
+  useEffect(() => {
+    try {
+      if (props.offers && props.offers.length != 0) {
+        const topOffer = props.offers.reduce(
+          (maxOffer: any, currentOffer: any) => {
+            return currentOffer.offerPrice > maxOffer.offerPrice
+              ? currentOffer
+              : maxOffer;
+          }
+        );
+        setIsWinner(topOffer.walletAddress == wallet?.publicKey.toString());
+      }
+    } catch (err) {
+      console.log(err);
+      setIsWinner(false);
+    }
+  }, [props.offers]);
 
   const handleUnlisting = async () => {
     try {
@@ -242,6 +263,10 @@ export const DetailsCard = (
         handleConnectModal();
         return;
       }
+      if (isWinner) {
+        alert("You are top bidder. You can't cancel offer.");
+        return;
+      }
       const provider = new anchor.AnchorProvider(
         connection,
         wallet as AnchorWallet,
@@ -356,13 +381,13 @@ export const DetailsCard = (
       );
 
       if (tx) {
-        alert('AcceptBuy successful!');
+        alert('WinPrize successful!');
       } else {
-        alert('AcceptBuy failed.');
+        alert('WinPrize failed.');
       }
       router.push('/');
     } catch (error) {
-      console.error('AcceptBuy error:', error);
+      console.error('WinPrize error:', error);
     }
   };
 
@@ -437,12 +462,14 @@ export const DetailsCard = (
               </div>
             </div>
           )}
-          {props.isOffered && props.listStatus == 2 && (
-            <CountdownTimer
-              startTime={1000}
-              endTime={1000}
-            />
-          )}
+          {props.listStatus == 2 &&
+            props.startTime != 0 &&
+            props.endTime != 0 && (
+              <CountdownTimer
+                startTime={props.startTime}
+                endTime={props.endTime}
+              />
+            )}
           {props.isOwner ? (
             <div className='flex flex-col font-semibold text-base md:flex-row gap-2 w-full'>
               {props.listStatus == 1 ? (
@@ -467,16 +494,6 @@ export const DetailsCard = (
                     onClick={() => handleCancelAuction()} // Call openModal when clicked
                   >
                     Cancel Auction
-                  </button>
-                  <button
-                    className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
-                    style={{
-                      background:
-                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-                    }}
-                    onClick={() => handleWinPrize()} // Call openModal when clicked
-                  >
-                    Win Prize
                   </button>
                 </>
               ) : (
@@ -513,21 +530,48 @@ export const DetailsCard = (
                   </button>
                 ) : (
                   props.listStatus == 2 &&
-                  new PublicKey(
-                    props.offers.reduce((prev: any, current: any) => {
-                      return current.offerPrice > prev.offerPrice
-                        ? current
-                        : prev;
-                    }).walletAddress
-                  ) != wallet?.publicKey && (
-                    <button
-                      className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
-                      style={{ border: '1px solid #F88430', color: '#F88430' }}
-                      onClick={() => handleCancelOfferFromAuction()}
-                    >
-                      Cancel Offer
-                    </button>
-                  )
+                  (props.endTime &&
+                  new Date().getTime() - props.endTime * 1000 > 0 ? (
+                    isWinner ? (
+                      <button
+                        className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
+                        style={{
+                          background:
+                            'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                        }}
+                        onClick={() => handleWinPrize()} // Call openModal when clicked
+                      >
+                        Win Prize
+                      </button>
+                    ) : (
+                      <button
+                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                        style={{
+                          border: '1px solid #F88430',
+                          color: '#F88430',
+                        }}
+                        onClick={() => handleCancelOfferFromAuction()}
+                      >
+                        Cancel Offer Auction
+                      </button>
+                    )
+                  ) : (
+                    props.startTime &&
+                    props.endTime &&
+                    props.startTime * 1000 < new Date().getTime() &&
+                    new Date().getTime() < props.endTime * 1000 && (
+                      <button
+                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                        style={{
+                          border: '2px solid #FFB703',
+                          color: '#F5F5F5',
+                        }}
+                        onClick={props.openBuyModal}
+                      >
+                        Place a bid
+                      </button>
+                    )
+                  ))
                 )
               ) : (
                 <>
@@ -547,13 +591,21 @@ export const DetailsCard = (
                       Buy now for {props.listingPrice} SOL
                     </button>
                   )}
-                  <button
-                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
-                    style={{ border: '2px solid #FFB703', color: '#F5F5F5' }}
-                    onClick={props.openBuyModal}
-                  >
-                    Make an Offer
-                  </button>
+                  {props.startTime &&
+                    props.endTime &&
+                    props.startTime * 1000 < new Date().getTime() &&
+                    new Date().getTime() < props.endTime * 1000 && (
+                      <button
+                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                        style={{
+                          border: '2px solid #FFB703',
+                          color: '#F5F5F5',
+                        }}
+                        onClick={props.openBuyModal}
+                      >
+                        Place a bid
+                      </button>
+                    )}
                 </>
               )}
             </div>
@@ -607,7 +659,7 @@ export const DetailsCard = (
           )}
         </div>
       </div>
-      {props.isOwner && props.offers.length !== 0 && (
+      {props.offers.length !== 0 && (
         <div className='flex my-8'>
           <table className='w-full border-collapse border border-gray-300 py-8'>
             <thead>

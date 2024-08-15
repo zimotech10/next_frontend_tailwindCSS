@@ -98,7 +98,7 @@ export const listing = async (
         rent: SYSVAR_RENT_PUBKEY,
       })
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -171,7 +171,7 @@ export const unlisting = async (
         rent: SYSVAR_RENT_PUBKEY,
       })
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -204,7 +204,7 @@ export const offer = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -236,7 +236,7 @@ export const cancelBuy = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -360,7 +360,7 @@ export const instantBuy = async (
       })
       .remainingAccounts(remainingAccounts)
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -484,7 +484,7 @@ export const acceptBuy = async (
       })
       .remainingAccounts(remainingAccounts)
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -525,7 +525,7 @@ export const deposit = async (
         rent: SYSVAR_RENT_PUBKEY,
         tokenProgram: TOKEN_PROGRAM_ID,
       })
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (error) {
     console.log('deposit error', error);
@@ -602,7 +602,7 @@ export const createAuction = async (
         rent: SYSVAR_RENT_PUBKEY,
       })
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -674,7 +674,8 @@ export const cancelAuction = async (
         metadataProgram: METADATA_PROGRAM_ID,
       })
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
+
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -708,7 +709,8 @@ export const offerToAuction = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
+
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -742,7 +744,7 @@ export const cancelOfferFromAuction = async (
         tokenProgram: TOKEN_PROGRAM_ID,
         rent: SYSVAR_RENT_PUBKEY,
       })
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
@@ -768,6 +770,11 @@ export const winPrize = async (
   const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
   const offerAccount = findOfferAuctionAccount(buyer.publicKey, nftMint);
   const auctionAccount = findAuctionAccount(nftMint);
+  const nftFromAccount = await getAssociatedTokenAddress(
+    nftMint,
+    auctionHouseTreasury,
+    true
+  );
   const nftToAccount = await getAssociatedTokenAddress(
     nftMint,
     buyer.publicKey
@@ -825,9 +832,30 @@ export const winPrize = async (
       isWritable: false,
     });
   }
+  console.log({
+    buyer: buyer.publicKey,
+    seller: seller,
+    escrowPaymentAccount: escrowWallet,
+    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
+    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+    authority: authority,
+    treasuryMint: treasuryMint,
+    auctionHouse: auctionHouse,
+    auctionHouseTreasury: auctionHouseTreasury,
+    nftMint: nftMint,
+    nftAccount: nftFromAccount,
+    auctionAccount: auctionAccount,
+    offerAccount: offerAccount,
+    metadata: nftMetadata,
+    systemProgram: anchor.web3.SystemProgram.programId,
+    tokenProgram: TOKEN_PROGRAM_ID,
+    instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
+    ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+    rent: SYSVAR_RENT_PUBKEY,
+  });
   try {
     const tx = await program.methods
-      .instantBuy()
+      .winPrize()
       .accounts({
         buyer: buyer.publicKey,
         seller: seller,
@@ -839,6 +867,7 @@ export const winPrize = async (
         auctionHouse: auctionHouse,
         auctionHouseTreasury: auctionHouseTreasury,
         nftMint: nftMint,
+        nftAccount: nftFromAccount,
         auctionAccount: auctionAccount,
         offerAccount: offerAccount,
         metadata: nftMetadata,
@@ -850,7 +879,7 @@ export const winPrize = async (
       })
       .remainingAccounts(remainingAccounts)
       .preInstructions(preInstructions)
-      .rpc({ commitment: 'confirmed' });
+      .rpc({ commitment: 'confirmed', preflightCommitment: 'confirmed' });
     return tx;
   } catch (ex) {
     console.log(ex);
