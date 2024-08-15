@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (address) {
-      getWalletNFTs(address)
+      getWalletNFTs()
         .then((nfts: NFT[]) => {
           setNFTs(nfts);
           setLoading(false);
