@@ -105,7 +105,7 @@ export default function NFTDetailsPage() {
     <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
       {loading ? (
         <BigSpinner />
-      ) : metadata ? (
+      ) : (
         <NFTDetail
           mintAddress={mintAddress}
           description={description}
@@ -127,8 +127,6 @@ export default function NFTDetailsPage() {
           startTime={startTime}
           endTime={endTime}
         />
-      ) : (
-        <div>Cannot find metadata</div>
       )}
     </div>
   );
