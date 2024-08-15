@@ -6,6 +6,7 @@ export async function getWalletNFTs(): Promise<any> {
     const response = await axiosClient.get(`/nft/wallet`);
 
     const nfts = response.data;
+    console.log(response.data);
     return nfts;
   } catch (error) {
     console.error('Error fetching NFTs:', error);
