@@ -305,7 +305,7 @@ export const DetailsCard = (
           </div>
           {props.detailsProfile && (
             <Accordion title='Details'>
-              <div className='flex md:flex-row flex-col md:gap-16 gap-4'>
+              <div className='flex md:flex-row flex-col md:gap-16 gap-4 pb-4'>
                 <div>Creator Royalty Fee : {props.detailsProfile.creatorRoyaltyFee}%</div>
                 <div>Item Content : {props.detailsProfile.itemContent}</div>
               </div>
