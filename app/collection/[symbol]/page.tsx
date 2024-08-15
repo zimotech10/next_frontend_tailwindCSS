@@ -16,7 +16,7 @@ import { BigSpinner } from '@/components/Spinner';
 interface Nft {
   id: number;
   name: string;
-  image: string;
+  uri: string;
   collection: string;
   price: string;
   mintAddress: string;
@@ -245,7 +245,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
                 <ItemCard
                   key={index}
                   name={nft.name}
-                  image={nft.image}
+                  uri={nft.uri}
                   price={nft.price}
                   mintAddress={nft.mintAddress?.toString()}
                   gridType={gridType}

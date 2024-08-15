@@ -7,9 +7,8 @@ import { OfferModal } from './components/OfferModal';
 interface NFTDetails extends NFT {
   isOwner: boolean;
   image: string;
-  listingPrice: any;
   attributes?: {
-    trait_type: string;
+    traitType: string;
     value: string;
   }[];
   detailsProfile?: {
@@ -23,7 +22,6 @@ interface NFTDetails extends NFT {
 
 export const NFTDetail: React.FC<NFTDetails> = ({
   isOwner,
-  listingPrice,
   name,
   description,
   owner,
@@ -64,11 +62,11 @@ export const NFTDetail: React.FC<NFTDetails> = ({
         <DetailsCard
           name={name}
           description={description}
-          listingPrice={listingPrice}
+          listingPrice={price}
           owner={owner}
           image={image}
           isOwner={isOwner}
-          attributes={attributes}
+          // attributes={attributes}
           detailsProfile={detailsProfile}
           listStatus={listStatus}
           isOffered={isOffered}

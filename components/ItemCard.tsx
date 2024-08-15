@@ -11,7 +11,7 @@ import HeartIcon from '@/public/images/heart-filled.png';
 
 const ItemCard: React.FC<NFT> = ({
   name,
-  image,
+  uri,
   collection,
   price,
   mintAddress,
@@ -20,6 +20,13 @@ const ItemCard: React.FC<NFT> = ({
   const isMobile = useScreen();
   const [isHovered, setIsHovered] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (uri) {
+      getImageUrl(uri).then(setImageUrl).catch(console.error);
+    }
+  }, [uri]);
 
   useEffect(() => {
     if (isHovered) {
@@ -64,7 +71,7 @@ const ItemCard: React.FC<NFT> = ({
 
   return (
     <>
-      {image && (
+      {imageUrl && (
         <div
           className='h-full flex flex-col p-2 gap-1 md:gap-3 md:p-4 relative cursor-pointer'
           onMouseEnter={() => setIsHovered(true)}
@@ -92,7 +99,7 @@ const ItemCard: React.FC<NFT> = ({
             style={{ maxWidth: imageStyle.width }}
           >
             <img
-              src={image}
+              src={imageUrl}
               alt='image'
               style={imageStyle}
               onError={(e) => {
@@ -105,8 +112,7 @@ const ItemCard: React.FC<NFT> = ({
               href={{
                 pathname: `/nfts/${name}`,
                 query: {
-                  name: name,
-                  image: image,
+                  uri: uri,
                   mintAddress: mintAddress,
                   price: price,
                 },

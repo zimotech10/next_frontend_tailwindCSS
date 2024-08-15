@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (address) {
-      getWalletNFTs()
+      getWalletNFTs(address)
         .then((nfts: NFT[]) => {
           setNFTs(nfts);
           setLoading(false);
@@ -110,7 +110,7 @@ export default function ProfilePage() {
               <ItemCard
                 key={nft.id}
                 name={nft.name}
-                image={nft.image}
+                uri={nft.uri}
                 price={nft.price}
                 mintAddress={nft.mintAddress?.toString()}
               />

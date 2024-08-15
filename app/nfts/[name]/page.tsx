@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { getMetadata } from '@/utils/getMetadata';
 import { useState, useEffect } from 'react';
 import { NFTMetadata } from '@/models/NFT';
+import { getNFTOwner } from '@/utils/getNFTOwner';
 import { BigSpinner } from '@/components/Spinner'; // Assuming Spinner component is in the components folder
 import { NftApi } from '@/api/nftApi';
 
@@ -18,8 +19,7 @@ const ibmSans = IBM_Plex_Sans({
 
 export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
-  const name = searchParams.get('name');
-  const image = searchParams.get('image');
+  const uri = searchParams.get('uri');
   const mintAddress = searchParams.get('mintAddress');
   const price = searchParams.get('price');
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
@@ -32,9 +32,19 @@ export default function NFTDetailsPage() {
   const [endTime, setEndTime] = useState(0);
   const [offers, setOffers] = useState();
   const [creators, setCreators] = useState();
-  const [listingPrice, setListingPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [attributes, setAttributes] = useState([]);
+
+  useEffect(() => {
+    if (uri) {
+      getMetadata(uri)
+        .then((metadata: NFTMetadata) => {
+          setMetadata(metadata);
+        })
+        .catch((error) => {
+          console.error('Error fetching metadata:', error);
+          setLoading(false);
+        });
+    }
+  }, [uri]);
 
   useEffect(() => {
     const fetchNFTStatus = async () => {
@@ -48,9 +58,6 @@ export default function NFTDetailsPage() {
               owner,
               bids,
               creators,
-              price,
-              description,
-              attributes,
               startTime,
               endTime,
             }) => {
@@ -78,20 +85,9 @@ export default function NFTDetailsPage() {
               if (endTime) {
                 setEndTime(endTime);
               }
-              if (price) {
-                setListingPrice(price);
-              }
-              if (description) {
-                setDescription(description);
-              }
-              if (attributes) {
-                setAttributes(attributes);
-              }
-
               setLoading(false);
             }
           )
-
           .catch((error) => {
             console.error('Error fetching NFT owner:', error);
             setLoading(false);
@@ -105,20 +101,28 @@ export default function NFTDetailsPage() {
     <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
       {loading ? (
         <BigSpinner />
-      ) : (
+      ) : metadata ? (
         <NFTDetail
           mintAddress={mintAddress}
-          description={description}
-          name={String(name)}
+          // description={metadata.description}
+          description={
+            'Bridging the gap between 1/1 art and PFP, Deck of Dark Dreams is an ever-evolving collectible and tangible CNFT art project, set in a dystopian and chaotic universe exploring the darkest depths of the human condition.'
+          }
+          name={metadata.name}
           owner={owner?.toString()}
-          image={String(image)}
-          attributes={attributes}
+          image={metadata.image}
+          uri={uri}
+          // attributes={metadata.attributes}
+          attributes={[
+            { traitType: 'Head', value: 'Grey and silver' },
+            { traitType: 'Head', value: 'Grey and silver' },
+            { traitType: 'Head', value: 'Grey and silver' },
+          ]}
           detailsProfile={{
             creatorRoyaltyFee: '10',
             itemContent: 'JPEG Image (Size 6mb)',
           }}
           isOwner={isOwner}
-          listingPrice={listingPrice}
           listStatus={listStatus}
           isOffered={isOffered}
           offers={offers}
@@ -127,6 +131,8 @@ export default function NFTDetailsPage() {
           startTime={startTime}
           endTime={endTime}
         />
+      ) : (
+        <div>Cannot find metadata</div>
       )}
     </div>
   );
