@@ -207,7 +207,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
               <div className='text-neutral-500 text-xl'>No NFT Found In This Collection</div>
             ) : (
               nfts.map((nft, index) => (
-                <ItemCard key={index} name={nft.name} uri={nft.image} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
+                <ItemCard key={index} name={nft.name} image={nft.image} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
               ))
             )}
             {isFetching && offset > 0 && (

@@ -1,7 +1,6 @@
 import { AuthService } from '@/services/auth-service';
 import { CookieRepository } from '@/storages/cookie/cookie-repository';
 import axios from 'axios';
-import { redirect } from 'next/navigation';
 
 const createAxiosClient = async () => {
   let accessToken = CookieRepository.getAccessToken();
@@ -10,7 +9,6 @@ const createAxiosClient = async () => {
     await AuthService.refreshAccessToken()
       .then((res) => {
         accessToken = res;
-        window.location.href = '/';
       })
       .catch((err) => console.log(err));
   }

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import solanaIcon from '@/public/images/solana-logo.png';
 import { ItemSummary } from '@/components/ItemSummary';
-import { listing, offer, offerToAuction } from '@/web3/contract';
+import { offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
 import {
@@ -16,9 +16,7 @@ import { web3 } from '@coral-xyz/anchor';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import PopUp from '@/components/PopUp';
 
-type ListingType = 'listing-fixed' | 'listing-auction';
 import { NATIVE_MINT } from '@solana/spl-token';
-import { useRouter } from 'next/navigation';
 
 interface OfferModalProps {
   name: string;
@@ -50,8 +48,6 @@ export const OfferModal: React.FC<OfferModalProps> = ({
   const [modalVariant, setModalVariant] = useState<'error' | 'success'>(
     'success'
   );
-
-  const router = useRouter();
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOfferPrice(Number(event.target.value));
@@ -106,7 +102,7 @@ export const OfferModal: React.FC<OfferModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        alert('Offer successful!');
+        // alert('Offer successful!');
       } else {
         setModalVariant('error');
         alert('Offer failed.');
@@ -120,7 +116,6 @@ export const OfferModal: React.FC<OfferModalProps> = ({
     setLoading(false);
     setIsModalOpen(true);
     onClose();
-    router.push('/');
   };
 
   const handleOfferToAuction = async () => {
@@ -162,7 +157,7 @@ export const OfferModal: React.FC<OfferModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        alert('Offer successful!');
+        // alert('Offer successful!');
       } else {
         setModalVariant('error');
         alert('Offer failed.');
@@ -176,7 +171,6 @@ export const OfferModal: React.FC<OfferModalProps> = ({
     setLoading(false);
     setIsModalOpen(true);
     onClose();
-    router.push('/');
   };
   return (
     <>
@@ -235,7 +229,7 @@ export const OfferModal: React.FC<OfferModalProps> = ({
                       onChange={handlePriceChange}
                     />
                   </div>
-                  {listStatus == 1 && (
+                  {/* {listStatus == 1 && (
                     <>
                       <span className='font-semibold text-base'>
                         Expiration Date
@@ -261,7 +255,7 @@ export const OfferModal: React.FC<OfferModalProps> = ({
                         />
                       </div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

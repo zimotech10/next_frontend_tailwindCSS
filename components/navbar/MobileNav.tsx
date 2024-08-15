@@ -66,7 +66,6 @@ const MobileNav: React.FC<MobileNavProps> = (props) => {
           CookieRepository.setAccessToken(accessToken);
           CookieRepository.setRefreshToken(refreshToken);
           setLoggedIn(true);
-          router.push('/');
         })
         .catch((error) => {
           setLoggedIn(false);

@@ -11,7 +11,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes';
 import { CookieRepository } from '@/storages/cookie/cookie-repository';
 import { AuthService } from '@/services/auth-service';
-import { useRouter } from 'next/navigation';
 import quitImage from '@/public/images/power.png';
 import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
 import * as anchor from '@coral-xyz/anchor';
@@ -42,7 +41,6 @@ const DesktopNav = (
   const previousPublicKey = useRef(wallet.publicKey);
   const [depositAmount, setDepositAmount] = useState(1);
   const [amount, setAmount] = useState(0);
-  const router = useRouter();
 
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
@@ -86,7 +84,6 @@ const DesktopNav = (
       } else {
         alert('Deposit failed.');
       }
-      router.push('/');
     } catch (error) {
       console.error('Deposit error:', error);
     }
@@ -103,23 +100,17 @@ const DesktopNav = (
       setDropdown(false);
     }
   };
-  const loginCalled = useRef(false);
   const loginUser = async () => {
-    if (loginCalled.current) return; // Prevent multiple calls
-    loginCalled.current = true;
     try {
       const { data } = await AuthService.getAuthMessage();
       const messageToSign = data.message;
       if (!messageToSign) {
-        loginCalled.current = false;
         return;
       }
       if (!wallet.connected) {
-        loginCalled.current = false;
         return;
       }
       if (!wallet.signMessage) {
-        loginCalled.current = false;
         return;
       }
 
@@ -136,14 +127,11 @@ const DesktopNav = (
           CookieRepository.setAccessToken(accessToken);
           CookieRepository.setRefreshToken(refreshToken);
           setLoggedIn(true);
-          router.refresh();
         })
         .catch((error) => {
-          loginCalled.current = false;
           setLoggedIn(false);
         });
     } catch (error) {
-      loginCalled.current = false;
       setLoggedIn(false);
     }
   };
@@ -153,22 +141,17 @@ const DesktopNav = (
       !isLoggedIn &&
       !CookieRepository.getAccessToken() &&
       !CookieRepository.getRefreshToken() &&
-      wallet.publicKey &&
-      !loginCalled.current
+      wallet.publicKey
     ) {
       loginUser();
     }
-    return () => {
-      loginCalled.current = false; // Reset the flag when the effect is cleaned up
-    };
-  }, [isLoggedIn, wallet]);
+  }, [isLoggedIn, wallet.connected]);
 
   const disConnectWallet = async () => {
     CookieRepository.removeAccessToken();
     CookieRepository.removeRefreshToken();
     await wallet.disconnect();
     setLoggedIn(false);
-    loginCalled.current = false;
     previousPublicKey.current = null;
   };
 

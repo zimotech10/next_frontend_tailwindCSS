@@ -1,6 +1,6 @@
 import createAxiosClient from '@/api/axiosClient';
 
-export async function getWalletNFTs(walletAddress: string): Promise<any> {
+export async function getWalletNFTs(): Promise<any> {
   try {
     const axiosClient = await createAxiosClient();
     const response = await axiosClient.get(`/nft/wallet`);

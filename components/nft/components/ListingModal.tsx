@@ -23,6 +23,7 @@ interface ListingModalProps {
 }
 
 export const ListingModal: React.FC<ListingModalProps> = ({ name, image, mintAddress, onClose }) => {
+  const router = useRouter();
   const [listingType, setListingType] = useState<ListingType>('listing-fixed');
   const [fixedPrice, setFixedPrice] = useState<number | undefined>(undefined);
   const [minimumBid, setMinimumBid] = useState<number | undefined>(undefined);
@@ -36,8 +37,6 @@ export const ListingModal: React.FC<ListingModalProps> = ({ name, image, mintAdd
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [modalMessage, setModalMessage] = useState(''); // State for modal message
   const [modalVariant, setModalVariant] = useState<'error' | 'success'>('success');
-
-  const router = useRouter();
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFixedPrice(Number(event.target.value));
@@ -107,7 +106,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({ name, image, mintAdd
 
       if (tx) {
         setModalVariant('success');
-        alert('Listing successful!');
+        router.refresh();
       } else {
         setModalVariant('error');
         alert('Listing failed.');
@@ -180,7 +179,6 @@ export const ListingModal: React.FC<ListingModalProps> = ({ name, image, mintAdd
     setLoading(false);
     setIsModalOpen(true);
     onClose();
-    router.push('/profile');
   };
 
   return (

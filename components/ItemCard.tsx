@@ -9,17 +9,10 @@ import Link from 'next/link';
 import { getImageUrl } from '@/utils/getImageUrl';
 import HeartIcon from '@/public/images/heart-filled.png';
 
-const ItemCard: React.FC<NFT> = ({ name, uri, collection, price, mintAddress, gridType }) => {
+const ItemCard: React.FC<NFT> = ({ name, image, collection, price, mintAddress, gridType }) => {
   const isMobile = useScreen();
   const [isHovered, setIsHovered] = useState(false);
   const [showButton, setShowButton] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    if (uri) {
-      getImageUrl(uri).then(setImageUrl).catch(console.error);
-    }
-  }, [uri]);
 
   useEffect(() => {
     if (isHovered) {
@@ -43,7 +36,7 @@ const ItemCard: React.FC<NFT> = ({ name, uri, collection, price, mintAddress, gr
 
   return (
     <>
-      {imageUrl && (
+      {image && (
         <div
           className='h-full flex flex-col p-2 gap-1 md:gap-3 md:p-4 relative cursor-pointer'
           onMouseEnter={() => setIsHovered(true)}
@@ -62,7 +55,7 @@ const ItemCard: React.FC<NFT> = ({ name, uri, collection, price, mintAddress, gr
 
           <div className='overflow-hidden' style={{ maxWidth: imageStyle.width }}>
             <img
-              src={imageUrl}
+              src={image}
               alt='image'
               style={imageStyle}
               onError={(e) => {
@@ -75,7 +68,8 @@ const ItemCard: React.FC<NFT> = ({ name, uri, collection, price, mintAddress, gr
               href={{
                 pathname: `/nfts/${name}`,
                 query: {
-                  uri: uri,
+                  name: name,
+                  image: image,
                   mintAddress: mintAddress,
                   price: price,
                 },

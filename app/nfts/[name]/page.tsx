@@ -18,7 +18,8 @@ const ibmSans = IBM_Plex_Sans({
 
 export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
-  const uri = searchParams.get('uri');
+  const name = searchParams.get('name');
+  const image = searchParams.get('image');
   const mintAddress = searchParams.get('mintAddress');
   const price = searchParams.get('price');
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
@@ -36,59 +37,60 @@ export default function NFTDetailsPage() {
   const [attributes, setAttributes] = useState([]);
 
   useEffect(() => {
-    if (uri) {
-      getMetadata(uri)
-        .then((metadata: NFTMetadata) => {
-          setMetadata(metadata);
-        })
-        .catch((error) => {
-          console.error('Error fetching metadata:', error);
-          setLoading(false);
-        });
-    }
-  }, [uri]);
-
-  useEffect(() => {
     const fetchNFTStatus = async () => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(({ isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes, startTime, endTime }) => {
-            if (isOwner) {
-              setIsOwner(isOwner);
-            }
-            if (listStatus) {
-              setlistStatus(listStatus);
-            }
-            if (bids) {
-              setOffers(bids);
-            }
-            if (isOffered) {
-              setIsOffered(isOffered);
-            }
-            if (owner) {
-              setOwner(owner);
-            }
-            if (creators) {
-              setCreators(creators);
-            }
-            if (startTime) {
-              setStartTime(startTime);
-            }
-            if (endTime) {
-              setEndTime(endTime);
-            }
-            if (price) {
-              setListingPrice(price);
-            }
-            if (description) {
-              setDescription(description);
-            }
-            if (attributes) {
-              setAttributes(attributes);
-            }
+          .then(
+            ({
+              isOwner,
+              listStatus,
+              isOffered,
+              owner,
+              bids,
+              creators,
+              price,
+              description,
+              attributes,
+              startTime,
+              endTime,
+            }) => {
+              if (isOwner) {
+                setIsOwner(isOwner);
+              }
+              if (listStatus) {
+                setlistStatus(listStatus);
+              }
+              if (bids) {
+                setOffers(bids);
+              }
+              if (isOffered) {
+                setIsOffered(isOffered);
+              }
+              if (owner) {
+                setOwner(owner);
+              }
+              if (creators) {
+                setCreators(creators);
+              }
+              if (startTime) {
+                setStartTime(startTime);
+              }
+              if (endTime) {
+                setEndTime(endTime);
+              }
+              if (price) {
+                setListingPrice(price);
+              }
+              if (description) {
+                setDescription(description);
+              }
+              if (attributes) {
+                setAttributes(attributes);
+              }
 
-            setLoading(false);
-          })
+              setLoading(false);
+            }
+          )
 
           .catch((error) => {
             console.error('Error fetching NFT owner:', error);
@@ -103,18 +105,18 @@ export default function NFTDetailsPage() {
     <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
       {loading ? (
         <BigSpinner />
-      ) : metadata ? (
+      ) : (
         <NFTDetail
           mintAddress={mintAddress}
-          // description={metadata.description}
           description={description}
-          name={metadata.name}
+          name={String(name)}
           owner={owner?.toString()}
-          image={metadata.image}
-          uri={uri}
-          // attributes={metadata.attributes}
+          image={String(image)}
           attributes={attributes}
-          detailsProfile={{ creatorRoyaltyFee: '10', itemContent: 'JPEG Image (Size 6mb)' }}
+          detailsProfile={{
+            creatorRoyaltyFee: '10',
+            itemContent: 'JPEG Image (Size 6mb)',
+          }}
           isOwner={isOwner}
           listingPrice={listingPrice}
           listStatus={listStatus}
@@ -125,8 +127,6 @@ export default function NFTDetailsPage() {
           startTime={startTime}
           endTime={endTime}
         />
-      ) : (
-        <div>Cannot find metadata</div>
       )}
     </div>
   );

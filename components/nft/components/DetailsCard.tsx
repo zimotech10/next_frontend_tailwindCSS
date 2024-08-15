@@ -89,6 +89,9 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Unlisting successful!');
+        setTimeout(() => {
+          router.refresh();
+        }, 6000);
       } else {
         alert('Unlisting failed.');
       }
@@ -120,6 +123,7 @@ export const DetailsCard = (
 
       if (tx) {
         alert('InstantBuy successful!');
+        router.refresh();
       } else {
         alert('InstantBuy failed.');
       }
@@ -153,6 +157,7 @@ export const DetailsCard = (
 
       if (tx) {
         alert('AcceptBuy successful!');
+        router.refresh();
       } else {
         alert('AcceptBuy failed.');
       }
@@ -182,6 +187,7 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Canceling Offer successful!');
+        router.refresh();
       } else {
         alert('Canceling failed.');
       }
@@ -215,6 +221,7 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Cancelling Offer successful!');
+        router.refresh();
       } else {
         alert('Cancelling failed.');
       }
@@ -244,6 +251,7 @@ export const DetailsCard = (
 
       if (tx) {
         alert('Cancelling Auction successful!');
+        router.refresh();
       } else {
         alert('Cancelling Auction failed.');
       }
@@ -276,6 +284,7 @@ export const DetailsCard = (
 
       if (tx) {
         alert('WinPrize successful!');
+        router.refresh();
       } else {
         alert('WinPrize failed.');
       }
