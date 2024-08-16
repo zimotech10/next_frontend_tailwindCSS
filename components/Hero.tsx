@@ -29,7 +29,7 @@ const Hero = (
     setShowModal(false);
   };
 
-  const heroWidth = isMobile ? '300px' : '359px';
+  const heroHeight = isMobile ? '300px' : '359px';
 
   return (
     <>
@@ -67,7 +67,7 @@ const Hero = (
           </div>
         </div>
         <div className='relative flex items-center justify-end' style={{ height: '100%' }}>
-          <Image src={props.image} width={props.imgWidth} height={props.imgHeight} style={{ height: heroWidth }} alt='hero' />
+          <Image src={props.image} width={props.imgWidth} height={props.imgHeight} style={{ width: props.imgWidth, height: heroHeight }} alt='hero' />
         </div>
       </div>
       <ComingSoon isOpen={showModal} onClose={handleCloseModal} /> {/* Use the ComingSoonModal component */}

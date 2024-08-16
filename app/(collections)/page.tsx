@@ -87,8 +87,6 @@ const Collections = () => {
         window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 200
       ) {
-        // Near the bottom of the page
-        console.log(totalCountRef.current);
         if (!isFetching && offset + limit - 1 < totalCountRef.current) {
           // Prevent fetching if all items are loaded
           setOffset((prevOffset) => prevOffset + limit);

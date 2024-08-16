@@ -8,7 +8,7 @@ interface AccordionProps {
 }
 
 const Accordion: React.FC<AccordionProps> = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className='rounded-md mb-4' style={{ background: '#0B0A0A' }}>
