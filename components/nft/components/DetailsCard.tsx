@@ -413,6 +413,25 @@ export const DetailsCard = (
     router.back(); // Navigate to the previous page
   };
 
+  const timeOffset = (isoString: string) => {
+    const offerTime = new Date(isoString);
+    const offerUnixTime = Math.floor(offerTime.getTime() / 1000);
+    const currentUnixTime = Math.floor(Date.now() / 1000);
+
+    const differenceInSeconds = currentUnixTime - offerUnixTime;
+
+    const days = Math.floor(differenceInSeconds / (3600 * 24));
+    const hours = Math.floor((differenceInSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+    if (days != 0) {
+      return `${days} days ago`;
+    } else if (hours != 0) {
+      return `${hours} hours ago`;
+    } else if (minutes != 0) {
+      return `${minutes} mins ago`;
+    } else return `a minute ago`;
+  };
+
   const isMobile = useScreen();
   return (
     <div className='flex flex-col w-full h-full justify-center'>
@@ -714,11 +733,17 @@ export const DetailsCard = (
             {isMobile ? (
               ''
             ) : (
-              <div className='grid grid-cols-12 text-[#AFAFAF]'>
+              <div className='grid grid-cols-12 text-[#AFAFAF] justify-between'>
                 <div className='col-span-1 py-2 text-center'>S/N</div>
-                <div className='col-span-4 py-2 text-center'>From</div>
+                <div className='col-span-6 py-2 text-center'>From</div>
                 <div className='col-span-2 py-2 text-right'>Price</div>
-                <div className='col-span-4 py-2 text-center'>Timestamp</div>
+                <div
+                  className={`${
+                    props.listStatus == 1 ? 'col-span-2' : 'col-span-3'
+                  } py-2 text-center`}
+                >
+                  Timestamp
+                </div>
                 {props.listStatus == 1 && props.isOwner && (
                   <div className='col-span-1 py-2 text-center'>Action</div>
                 )}
@@ -757,7 +782,9 @@ export const DetailsCard = (
                           {row.offerPrice} Sol
                         </span>
                       </div>
-                      <p className='text-gray-500'>3 hours ago</p>
+                      <p className='text-gray-500'>
+                        {timeOffset(row.updatedAt)}
+                      </p>
                     </div>
                   </div>
                 ) : (
@@ -768,14 +795,18 @@ export const DetailsCard = (
                     <div className='col-span-12 md:col-span-1 py-2 text-center'>
                       {index + 1}
                     </div>
-                    <div className='col-span-12 md:col-span-4 py-2 text-center'>
+                    <div className='col-span-12 md:col-span-6 py-2 text-center'>
                       {row.walletAddress}
                     </div>
                     <div className='col-span-12 md:col-span-2 py-2 text-right'>
                       {row.offerPrice}
                     </div>
-                    <div className='col-span-12 md:col-span-4 py-2 text-center'>
-                      3 hours ago
+                    <div
+                      className={`${
+                        props.listStatus == 1 ? 'col-span-2' : 'col-span-3'
+                      } py-2 text-center`}
+                    >
+                      {timeOffset(row.updatedAt)}
                     </div>
                     {props.listStatus == 1 && props.isOwner && (
                       <div className='col-span-12 md:col-span-1 text-center'>

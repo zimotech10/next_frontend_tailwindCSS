@@ -90,9 +90,33 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           openOfferModal={openOfferModal}
         />
       </div>
-      {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
-      {isBuyModalOpen && <OfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBuyModal} />}
-      {isOfferModalOpen && <MakeOfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeOfferModal} />}
+      {isListModalOpen && (
+        <ListingModal
+          name={name}
+          image={image}
+          mintAddress={mintAddress}
+          onClose={closeListModal}
+        />
+      )}
+      {isBuyModalOpen && (
+        <OfferModal
+          name={name}
+          image={image}
+          listStatus={listStatus}
+          mintAddress={mintAddress}
+          onClose={closeBuyModal}
+        />
+      )}
+      {isOfferModalOpen && (
+        <MakeOfferModal
+          name={name}
+          image={image}
+          listStatus={listStatus}
+          listingPrice={price}
+          mintAddress={mintAddress}
+          onClose={closeOfferModal}
+        />
+      )}
     </div>
   );
 };
