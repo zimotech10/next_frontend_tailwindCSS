@@ -13,6 +13,8 @@ import ItemCard from '@/components/ItemCard';
 import { NFT } from '@/models/NFT';
 import { BigSpinner } from '@/components/Spinner';
 import Notification from '@/components/profileNotification';
+import Link from 'next/link';
+import Deposit from '@/components/Deposit';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['400', '500', '600', '700'],
@@ -33,8 +35,13 @@ export default function ProfilePage() {
   >('NFTs');
 
   useEffect(() => {
-    if (address && selectedTab === 'NFTs') {
-      getWalletNFTs('nfts')
+    if (address) {
+      let category = '';
+      if (selectedTab === 'NFTs') category = 'nfts';
+      else if (selectedTab === 'Offers') category = 'offered';
+      else if (selectedTab === 'On Sale') category = 'onSale';
+      setLoading(true);
+      getWalletNFTs(category)
         .then((nfts: NFT[]) => {
           setNFTs(nfts);
           setLoading(false);
@@ -104,29 +111,53 @@ export default function ProfilePage() {
           </div>
         );
       case 'Offers':
+        if (!nfts || nfts.length === 0) {
+          return (
+            <Notification
+              message1='No offers found'
+              message2='Not sure if this user owns any collection'
+              icon='pajamas:folder'
+            />
+          );
+        }
         return (
-          <Notification
-            message1='No offers found'
-            message2='Not sure if this user owns any collection'
-            icon='pajamas:folder'
-          />
+          <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
+            {nfts.map((nft: NFT) => (
+              <ItemCard
+                key={nft.id}
+                name={nft.name}
+                image={nft.image}
+                price={nft.price}
+                mintAddress={nft.mintAddress?.toString()}
+              />
+            ))}
+          </div>
         );
       case 'On Sale':
+        if (!nfts || nfts.length === 0) {
+          return (
+            <Notification
+              message1='No Sales found'
+              message2='No active sale available'
+              icon='pajamas:folder'
+            />
+          );
+        }
         return (
-          <Notification
-            message1='No Sales found'
-            message2='No active sale available'
-            icon='pajamas:folder'
-          />
+          <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
+            {nfts.map((nft: NFT) => (
+              <ItemCard
+                key={nft.id}
+                name={nft.name}
+                image={nft.image}
+                price={nft.price}
+                mintAddress={nft.mintAddress?.toString()}
+              />
+            ))}
+          </div>
         );
       case 'Deposit':
-        return (
-          <Notification
-            message1=''
-            message2='No data found'
-            icon='pajamas:folder'
-          />
-        );
+        return <Deposit />;
       default:
         return null;
     }

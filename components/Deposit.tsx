@@ -9,7 +9,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 import createAxiosClient from '@/api/axiosClient';
 
-export default function DepositPage() {
+export default function Deposit() {
   const wallet = useWallet();
   const [depositAmount, setDepositAmount] = useState(1);
   const handleDepositAmountChange = (e: any) => {
