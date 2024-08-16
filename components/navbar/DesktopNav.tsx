@@ -238,15 +238,6 @@ const DesktopNav = (
                       Manage Wallets
                     </Link>
                   </div>
-                  <div className='pl-[45px] rounded-3xl py-2  font-semibold  md:w-[244px]'>
-                    <Link
-                      href='/deposit'
-                      onClick={() => setDropdown(!dropdown)}
-                      className='w-full text-center'
-                    >
-                      Deposit
-                    </Link>
-                  </div>
                   <button
                     className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]'
                     onClick={() => disConnectWallet()}
