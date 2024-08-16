@@ -43,6 +43,7 @@ export const DetailsCard = (
     endTime?: number;
     openListModal: () => void; // Add openModal prop
     openOfferModal: () => void; // Add openModal prop
+    openBuyModal: () => void; // Add openModal prop
   }>
 ) => {
   const wallet = useAnchorWallet();
@@ -544,7 +545,7 @@ export const DetailsCard = (
                     style={{
                       background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
-                    onClick={handleInstantBuy}
+                    onClick={props.openBuyModal}
                     disabled={loading} // Disable the button while loading
                   >
                     {loading ? (
