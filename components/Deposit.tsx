@@ -8,10 +8,12 @@ import { deposit } from '@/web3/contract';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 import createAxiosClient from '@/api/axiosClient';
+import Notification from './Notification';
 
 export default function Deposit() {
   const wallet = useWallet();
   const [depositAmount, setDepositAmount] = useState(1);
+  const [notification, setNotification] = useState<{ variant: 'default' | 'success' | 'warning' | 'danger'; heading: string; content: string } | null>(null);
   const handleDepositAmountChange = (e: any) => {
     setDepositAmount(Number(e.target.value));
   };
@@ -37,33 +39,29 @@ export default function Deposit() {
       if (!wallet?.publicKey) {
         return;
       }
-      const provider = new anchor.AnchorProvider(
-        connection,
-        wallet as AnchorWallet,
-        {
-          preflightCommitment: commitmentLevel,
-        }
-      );
+      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
+        preflightCommitment: commitmentLevel,
+      });
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new anchor.web3.PublicKey(
-        process.env.NEXT_PUBLIC_AUTHORITY as string
-      );
+      const authority = new anchor.web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
       const treasuryMint = NATIVE_MINT;
 
-      const tx = await deposit(
-        program,
-        wallet as AnchorWallet,
-        authority,
-        treasuryMint,
-        new anchor.BN(depositAmount * LAMPORTS_PER_SOL)
-      );
+      const tx = await deposit(program, wallet as AnchorWallet, authority, treasuryMint, new anchor.BN(depositAmount * LAMPORTS_PER_SOL));
 
       if (tx) {
-        alert('Deposit successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Deposit Successful!',
+          content: 'Your deposit has been completed successfully.',
+        });
       } else {
-        alert('Deposit failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Deposit Failed!',
+          content: 'There was an issue with depositing',
+        });
       }
     } catch (error) {
       console.error('Deposit error:', error);
@@ -72,9 +70,7 @@ export default function Deposit() {
   return (
     <div className='flex mx-[20px] md:p-20 md:ml-[41px] md:mt-[41px] md:mb-[40px] md:mr-[20px] justify-center'>
       <div className='flex flex-col gap-4'>
-        <p className='flex justify-center items-center'>
-          Deposited Amount: {amount}
-        </p>
+        <p className='flex justify-center items-center'>Deposited Amount: {amount}</p>
         <div className='flex flex-row w-full gap-4'>
           <p className='me-2'>Deposit Amount</p>
           <input
@@ -89,8 +85,7 @@ export default function Deposit() {
             className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
             style={{
               width: '156px',
-              background:
-                'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
             }}
             onClick={() => handleDeposit()}
           >
@@ -100,14 +95,23 @@ export default function Deposit() {
             className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
             style={{
               width: '156px',
-              background:
-                'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
             }}
           >
             Cancel
           </button>
         </div>
       </div>
+      {notification && (
+        <div className='fixed top-4 right-4 z-50'>
+          <Notification
+            variant={notification.variant}
+            heading={notification.heading}
+            content={notification.content}
+            onClose={() => setNotification(null)} // Remove notification after it disappears
+          />
+        </div>
+      )}
     </div>
   );
 }

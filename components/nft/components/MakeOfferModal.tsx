@@ -17,6 +17,7 @@ import { web3 } from '@coral-xyz/anchor';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
+import Notification from '@/components/Notification';
 
 import { NATIVE_MINT } from '@solana/spl-token';
 
@@ -50,6 +51,12 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
     'success'
   );
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const [notification, setNotification] = useState<{
+    variant: 'default' | 'success' | 'warning' | 'danger';
+    heading: string;
+    content: string;
+  } | null>(null);
 
   useEffect(() => {
     // Disable background scrolling when modal is open
@@ -95,12 +102,21 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
 
   const handleOffer = async () => {
     if (!wallet || !wallet.publicKey) {
-      alert('Please connect your wallet.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Connect Your Wallet',
+        content: 'Please connect your wallet to proceed with the action.',
+      });
       return;
     }
 
     if (!offerPrice) {
-      alert('Please enter a price.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Price Required',
+        content: 'Please enter a price to continue.',
+      });
+
       return;
     }
 
@@ -134,15 +150,29 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        // alert('Offer successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Offer Successful!',
+          content: 'Your offer has been successfully submitted.',
+        });
       } else {
         setModalVariant('error');
-        alert('Offer failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Offer Failed!',
+          content:
+            'There was an issue with your offer. Please try again later or contact support if the problem persists.',
+        });
       }
     } catch (error) {
       console.error('Offer error:', error);
       setModalVariant('error');
-      alert('An error occurred during offer.');
+      setNotification({
+        variant: 'danger',
+        heading: 'Error During Offer',
+        content:
+          'An error occurred while processing your offer. Please try again later or contact support if the issue persists.',
+      });
     }
 
     setLoading(false);
@@ -152,12 +182,20 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
 
   const handleOfferToAuction = async () => {
     if (!wallet || !wallet.publicKey) {
-      alert('Please connect your wallet.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Connect Your Wallet',
+        content: 'Please connect your wallet to proceed with this action.',
+      });
       return;
     }
 
     if (!offerPrice) {
-      alert('Please enter a price.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Price Required',
+        content: 'Please enter a price to proceed.',
+      });
       return;
     }
 
@@ -189,15 +227,26 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
 
       if (tx) {
         setModalVariant('success');
-        // alert('Offer successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Offer Successful!',
+          content: 'Your offer has been successfully submitted.',
+        });
       } else {
         setModalVariant('error');
-        alert('Offer failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Offer Failed!',
+          content: 'Your offer could not be processed.',
+        });
       }
     } catch (error) {
-      console.error('Offer error:', error);
       setModalVariant('error');
-      alert('An error occurred during offer.');
+      setNotification({
+        variant: 'danger',
+        heading: 'Offer Error',
+        content: 'An error occurred while processing your offer.',
+      });
     }
 
     setLoading(false);
@@ -270,7 +319,8 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
               <div className='flex flex-col gap-2 pt-4'>
                 <div className='flex justify-between'>
                   <span className='text-[#afafaf]'>
-                    Maximum bid: {listingPrice} SOL
+                    {listStatus == 1 ? `Maximum bid` : `Minimum bid`} :{' '}
+                    {listingPrice} SOL
                   </span>
                   <a
                     className='text-[#afafaf] underline cursor-pointer'
@@ -295,58 +345,61 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                       onChange={handlePriceChange}
                     />
                   </div>
-                  <div className='flex gap-2'>
-                    <button
-                      className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'
-                      onClick={() => handlePriceChangeByPercent('max')}
-                    >
-                      Maximum
-                    </button>
-                    <button
-                      className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'
-                      onClick={() => handlePriceChangeByPercent('-5%')}
-                    >
-                      -5%
-                    </button>
-                    <button
-                      className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'
-                      onClick={() => handlePriceChangeByPercent('-10%')}
-                    >
-                      -10%
-                    </button>
-                  </div>
+                  {listStatus == 1 && (
+                    <div className='flex gap-2'>
+                      <button
+                        className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'
+                        onClick={() => handlePriceChangeByPercent('max')}
+                      >
+                        Maximum
+                      </button>
+                      <button
+                        className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'
+                        onClick={() => handlePriceChangeByPercent('-5%')}
+                      >
+                        -5%
+                      </button>
+                      <button
+                        className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'
+                        onClick={() => handlePriceChangeByPercent('-10%')}
+                      >
+                        -10%
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-
-              <div className='flex flex-col gap-2 pt-4'>
-                <div className='flex justify-between'>
-                  <span className='text-[#afafaf]'>Buy Now Price</span>
-                  <div className='flex justify-center items-center gap-1'>
-                    <Image
-                      src={solanaIcon}
-                      alt='solanaIcon'
-                      style={{ width: '16px' }}
-                    ></Image>
+              {listStatus == 1 && (
+                <div className='flex flex-col gap-2 pt-4'>
+                  <div className='flex justify-between'>
+                    <span className='text-[#afafaf]'>Buy Now Price</span>
+                    <div className='flex justify-center items-center gap-1'>
+                      <Image
+                        src={solanaIcon}
+                        alt='solanaIcon'
+                        style={{ width: '16px' }}
+                      ></Image>
+                      <div className='flex justify-center items-center'>
+                        <span className='text-white'>{Number(offerPrice)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='flex justify-between'>
+                    <span className='text-[#afafaf]'>Minimum offer (50%)</span>
                     <div className='flex justify-center items-center'>
-                      <span className='text-white'>{Number(offerPrice)}</span>
+                      <Image
+                        src={walletIcon}
+                        alt='walletIcon'
+                      ></Image>
+                      <span className='text-white'>
+                        {Number(listingPrice) * 0.5}
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div className='flex justify-between'>
-                  <span className='text-[#afafaf]'>Minimum offer (50%)</span>
-                  <div className='flex justify-center items-center'>
-                    <Image
-                      src={walletIcon}
-                      alt='walletIcon'
-                    ></Image>
-                    <span className='text-white'>
-                      {Number(listingPrice) * 0.5}
-                    </span>
-                  </div>
-                </div>
-              </div>
+              )}
 
-              <div className='flex items-center'>
+              {/* <div className='flex items-center'>
                 <input
                   type='checkbox'
                   id='terms'
@@ -357,10 +410,12 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                 >
                   I approve LampapuyMarket&apos;s Terms &amp; Condition
                 </label>
-              </div>
+              </div> */}
 
               <p className='w-full px-4 py-3 text-center text-[#FF856A] bg-[#260707] rounded-[14px] bg-opacity-40'>
-                Price Must Be Lower Than Listing Price
+                {listStatus == 1
+                  ? `Price Must Be Lower Than Listing Price`
+                  : `Price Must Be higher Than Current Price`}
               </p>
 
               <button
@@ -377,6 +432,16 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
           </div>
         </motion.div>
       </div>
+      {notification && (
+        <div className='fixed top-4 right-4 z-50'>
+          <Notification
+            variant={notification.variant}
+            heading={notification.heading}
+            content={notification.content}
+            onClose={() => setNotification(null)} // Remove notification after it disappears
+          />
+        </div>
+      )}
     </>
   );
 };

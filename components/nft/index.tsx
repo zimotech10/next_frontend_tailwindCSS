@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { DetailsCard } from './components/DetailsCard';
 import { ListingModal } from './components/ListingModal'; // Import the ListingModal
 import { NFT } from '@/models/NFT';
-import { OfferModal } from './components/OfferModal';
 import { MakeOfferModal } from './components/MakeOfferModal';
 
 interface NFTDetails extends NFT {
@@ -39,7 +38,6 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   endTime,
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
-  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
 
   const openListModal = () => {
@@ -48,14 +46,6 @@ export const NFTDetail: React.FC<NFTDetails> = ({
 
   const closeListModal = () => {
     setIsListModalOpen(false);
-  };
-
-  const openBuyModal = () => {
-    setIsBuyModalOpen(true);
-  };
-
-  const closeBuyModal = () => {
-    setIsBuyModalOpen(false);
   };
 
   const openOfferModal = () => {
@@ -86,7 +76,6 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           startTime={startTime}
           endTime={endTime}
           openListModal={openListModal} // Pass openModal to DetailsCard
-          openBuyModal={openBuyModal} // Pass openModal to DetailsCard
           openOfferModal={openOfferModal}
         />
       </div>
@@ -96,15 +85,6 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           image={image}
           mintAddress={mintAddress}
           onClose={closeListModal}
-        />
-      )}
-      {isBuyModalOpen && (
-        <OfferModal
-          name={name}
-          image={image}
-          listStatus={listStatus}
-          mintAddress={mintAddress}
-          onClose={closeBuyModal}
         />
       )}
       {isOfferModalOpen && (
