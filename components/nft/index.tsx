@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { DetailsCard } from './components/DetailsCard';
 import { ListingModal } from './components/ListingModal'; // Import the ListingModal
 import { NFT } from '@/models/NFT';
-import { OfferModal } from './components/OfferModal';
 import { MakeOfferModal } from './components/MakeOfferModal';
-import { PlaceBidModal } from './components/PlaceBidModal';
 
 interface NFTDetails extends NFT {
   isOwner: boolean;
@@ -40,9 +38,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   endTime,
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
-  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
-  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
 
   const openListModal = () => {
     setIsListModalOpen(true);
@@ -52,28 +48,12 @@ export const NFTDetail: React.FC<NFTDetails> = ({
     setIsListModalOpen(false);
   };
 
-  const openBuyModal = () => {
-    setIsBuyModalOpen(true);
-  };
-
-  const closeBuyModal = () => {
-    setIsBuyModalOpen(false);
-  };
-
   const openOfferModal = () => {
     setIsOfferModalOpen(true);
   };
 
   const closeOfferModal = () => {
     setIsOfferModalOpen(false);
-  };
-
-  const openBidModal = () => {
-    setIsBidModalOpen(true);
-  };
-
-  const closeBidModal = () => {
-    setIsBidModalOpen(false);
   };
 
   return (
@@ -86,7 +66,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           owner={owner}
           image={image}
           isOwner={isOwner}
-          // attributes={attributes}
+          attributes={attributes}
           detailsProfile={detailsProfile}
           listStatus={listStatus}
           isOffered={isOffered}
@@ -96,15 +76,27 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           startTime={startTime}
           endTime={endTime}
           openListModal={openListModal} // Pass openModal to DetailsCard
-          openBuyModal={openBuyModal} // Pass openModal to DetailsCard
           openOfferModal={openOfferModal}
-          openBidModal={openBidModal}
         />
       </div>
-      {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
-      {isBuyModalOpen && <OfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBuyModal} />}
-      {isOfferModalOpen && <MakeOfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeOfferModal} />}
-      {isBidModalOpen && <PlaceBidModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBidModal} />}
+      {isListModalOpen && (
+        <ListingModal
+          name={name}
+          image={image}
+          mintAddress={mintAddress}
+          onClose={closeListModal}
+        />
+      )}
+      {isOfferModalOpen && (
+        <MakeOfferModal
+          name={name}
+          image={image}
+          listStatus={listStatus}
+          listingPrice={price}
+          mintAddress={mintAddress}
+          onClose={closeOfferModal}
+        />
+      )}
     </div>
   );
 };
