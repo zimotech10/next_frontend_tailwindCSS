@@ -4,6 +4,7 @@ import { ListingModal } from './components/ListingModal'; // Import the ListingM
 import { NFT } from '@/models/NFT';
 import { OfferModal } from './components/OfferModal';
 import { MakeOfferModal } from './components/MakeOfferModal';
+import { PlaceBidModal } from './components/PlaceBidModal';
 
 interface NFTDetails extends NFT {
   isOwner: boolean;
@@ -41,6 +42,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
 
   const openListModal = () => {
     setIsListModalOpen(true);
@@ -66,6 +68,14 @@ export const NFTDetail: React.FC<NFTDetails> = ({
     setIsOfferModalOpen(false);
   };
 
+  const openBidModal = () => {
+    setIsBidModalOpen(true);
+  };
+
+  const closeBidModal = () => {
+    setIsBidModalOpen(false);
+  };
+
   return (
     <div className='relative'>
       <div className='flex flex-col md:flex-row md:gap-9 gap-3 items-center md:items-start'>
@@ -88,11 +98,13 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           openListModal={openListModal} // Pass openModal to DetailsCard
           openBuyModal={openBuyModal} // Pass openModal to DetailsCard
           openOfferModal={openOfferModal}
+          openBidModal={openBidModal}
         />
       </div>
       {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
       {isBuyModalOpen && <OfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBuyModal} />}
       {isOfferModalOpen && <MakeOfferModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeOfferModal} />}
+      {isBidModalOpen && <PlaceBidModal name={name} image={image} listStatus={listStatus} mintAddress={mintAddress} onClose={closeBidModal} />}
     </div>
   );
 };
