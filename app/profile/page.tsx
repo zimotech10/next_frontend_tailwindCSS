@@ -215,7 +215,7 @@ export default function ProfilePage() {
         </ul>
       </div>
       {renderContent()}
-      {!wallet ? (
+      {/* {!wallet ? (
         <div className='flex text-neutral-500 text-xl justify-center'>
           <p>Connect wallet to see your profile page</p>
         </div>
@@ -240,7 +240,7 @@ export default function ProfilePage() {
             ))
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

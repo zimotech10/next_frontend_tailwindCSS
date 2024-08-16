@@ -207,62 +207,6 @@ const DesktopNav = (
 
       {wallet.connected ? (
         <div className='flex gap-8'>
-          <p className='flex justify-center items-center'>
-            Deposited Amount: {amount}
-          </p>
-          <button
-            className='select-none'
-            onClick={() => setDepositDropdown(!depositDropdown)}
-          >
-            Deposit
-          </button>
-          <AnimatePresence>
-            {depositDropdown && (
-              <motion.div
-                className='absolute right-96'
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Dropdown>
-                  <div className='flex flex-row w-full'>
-                    <p className='me-2'>Deposit Amount</p>
-                    <input
-                      className='bg-black text-white outline-none'
-                      type='number'
-                      value={depositAmount}
-                      onChange={(e) => handleDepositAmountChange(e)}
-                    />
-                  </div>
-                  <div className='flex flex-row w-full'>
-                    <button
-                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
-                      style={{
-                        width: '156px',
-                        background:
-                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-                      }}
-                      onClick={() => handleDeposit()}
-                    >
-                      Deposit
-                    </button>
-                    <button
-                      className='flex text-black rounded-3xl py-2 justify-center font-semibold items-center'
-                      style={{
-                        width: '156px',
-                        background:
-                          'linear-gradient(149deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-                      }}
-                      onClick={() => setDepositDropdown(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </Dropdown>
-              </motion.div>
-            )}
-          </AnimatePresence>
           <button
             ref={buttonRef}
             onClick={() => setDropdown(!dropdown)}
@@ -292,6 +236,15 @@ const DesktopNav = (
                       className='w-full text-center'
                     >
                       Manage Wallets
+                    </Link>
+                  </div>
+                  <div className='pl-[45px] rounded-3xl py-2  font-semibold  md:w-[244px]'>
+                    <Link
+                      href='/deposit'
+                      onClick={() => setDropdown(!dropdown)}
+                      className='w-full text-center'
+                    >
+                      Deposit
                     </Link>
                   </div>
                   <button
