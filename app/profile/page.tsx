@@ -34,7 +34,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (address && selectedTab === 'NFTs') {
-      getWalletNFTs(address)
+      getWalletNFTs('nfts')
         .then((nfts: NFT[]) => {
           setNFTs(nfts);
           setLoading(false);

@@ -99,7 +99,7 @@ const ItemCard: React.FC<NFT> = ({
             style={{ maxWidth: imageStyle.width }}
           >
             <img
-              src={imageUrl}
+              src={image}
               alt='image'
               style={imageStyle}
               onError={(e) => {

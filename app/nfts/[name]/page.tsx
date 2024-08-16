@@ -102,14 +102,14 @@ export default function NFTDetailsPage() {
     <div className={`md:p-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
       {loading ? (
         <BigSpinner />
-      ) : metadata ? (
+      ) : (
         <NFTDetail
           mintAddress={mintAddress}
           // description={metadata.description}
           description={
             'Bridging the gap between 1/1 art and PFP, Deck of Dark Dreams is an ever-evolving collectible and tangible CNFT art project, set in a dystopian and chaotic universe exploring the darkest depths of the human condition.'
           }
-          name={metadata.name}
+          name={String(name)}
           owner={owner?.toString()}
           image={String(image)}
           // uri={uri}
@@ -132,8 +132,6 @@ export default function NFTDetailsPage() {
           startTime={startTime}
           endTime={endTime}
         />
-      ) : (
-        <div>Cannot find metadata</div>
       )}
     </div>
   );
