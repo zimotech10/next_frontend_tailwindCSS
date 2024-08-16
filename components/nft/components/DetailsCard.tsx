@@ -45,6 +45,7 @@ export const DetailsCard = (
     endTime?: number;
     openListModal: () => void; // Add openModal prop
     openBuyModal: () => void; // Add openModal prop
+    openOfferModal: () => void; // Add openModal prop
   }>
 ) => {
   const wallet = useAnchorWallet();
@@ -93,11 +94,11 @@ export const DetailsCard = (
         alert('Unlisting successful!');
         setTimeout(() => {
           router.refresh();
+          router.back();
         }, 6000);
       } else {
         alert('Unlisting failed.');
       }
-      router.back();
     } catch (error) {
       console.error('Unlisting error:', error);
     }
@@ -126,10 +127,10 @@ export const DetailsCard = (
       if (tx) {
         alert('InstantBuy successful!');
         router.refresh();
+        router.back();
       } else {
         alert('InstantBuy failed.');
       }
-      router.back();
     } catch (error) {
       console.error('InstantBuy error:', error);
     } finally {
@@ -160,10 +161,10 @@ export const DetailsCard = (
       if (tx) {
         alert('AcceptBuy successful!');
         router.refresh();
+        router.back();
       } else {
         alert('AcceptBuy failed.');
       }
-      router.back();
     } catch (error) {
       console.error('AcceptBuy error:', error);
     }
@@ -190,10 +191,10 @@ export const DetailsCard = (
       if (tx) {
         alert('Canceling Offer successful!');
         router.refresh();
+        router.back();
       } else {
         alert('Canceling failed.');
       }
-      router.back();
     } catch (error) {
       console.error('Canceling error:', error);
     }
@@ -224,10 +225,10 @@ export const DetailsCard = (
       if (tx) {
         alert('Cancelling Offer successful!');
         router.refresh();
+        router.back();
       } else {
         alert('Cancelling failed.');
       }
-      router.back();
     } catch (error) {
       console.error('Cancelling error:', error);
     }
@@ -254,10 +255,10 @@ export const DetailsCard = (
       if (tx) {
         alert('Cancelling Auction successful!');
         router.refresh();
+        router.back();
       } else {
         alert('Cancelling Auction failed.');
       }
-      router.back();
     } catch (error) {
       console.error('Cancelling Auction error:', error);
     }
@@ -287,10 +288,10 @@ export const DetailsCard = (
       if (tx) {
         alert('WinPrize successful!');
         router.refresh();
+        router.back();
       } else {
         alert('WinPrize failed.');
       }
-      router.back();
     } catch (error) {
       console.error('WinPrize error:', error);
     }
@@ -476,7 +477,7 @@ export const DetailsCard = (
                       border: '2px solid #FFB703',
                       color: '#F5F5F5',
                     }}
-                    onClick={props.openBuyModal}
+                    onClick={props.openOfferModal}
                   >
                     Make an offer
                   </button>
