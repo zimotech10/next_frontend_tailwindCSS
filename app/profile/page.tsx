@@ -28,7 +28,9 @@ export default function ProfilePage() {
   const [deposit, setDeposit] = useState([]);
   const [nfts, setNFTs] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTab, setSelectedTab] = useState<'NFTs' | 'Offers' | 'On Sale' | 'Deposit'>('NFTs');
+  const [selectedTab, setSelectedTab] = useState<
+    'NFTs' | 'Offers' | 'On Sale' | 'Deposit'
+  >('NFTs');
 
   useEffect(() => {
     if (address && selectedTab === 'NFTs') {
@@ -64,7 +66,13 @@ export default function ProfilePage() {
 
   const renderContent = () => {
     if (!wallet) {
-      return <Notification message1='Connect wallet to see your profile page' message2='' icon='pajamas:folder' />;
+      return (
+        <Notification
+          message1='Connect wallet to see your profile page'
+          message2=''
+          icon='pajamas:folder'
+        />
+      );
     }
 
     if (wallet.connected && loading) {
@@ -74,38 +82,89 @@ export default function ProfilePage() {
     switch (selectedTab) {
       case 'NFTs':
         if (!nfts || nfts.length === 0) {
-          return <Notification message1='Nothing found' message2='No NFT Owned by this user' icon='pajamas:folder' />;
+          return (
+            <Notification
+              message1='Nothing found'
+              message2='No NFT Owned by this user'
+              icon='pajamas:folder'
+            />
+          );
         }
         return (
-          <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0 justify-center'>
+          <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
             {nfts.map((nft: NFT) => (
-              <ItemCard key={nft.id} name={nft.name} uri={nft.uri} price={nft.price} mintAddress={nft.mintAddress?.toString()} />
+              <ItemCard
+                key={nft.id}
+                name={nft.name}
+                image={nft.image}
+                price={nft.price}
+                mintAddress={nft.mintAddress?.toString()}
+              />
             ))}
           </div>
         );
       case 'Offers':
-        return <Notification message1='No offers found' message2='Not sure if this user owns any collection' icon='pajamas:folder' />;
+        return (
+          <Notification
+            message1='No offers found'
+            message2='Not sure if this user owns any collection'
+            icon='pajamas:folder'
+          />
+        );
       case 'On Sale':
-        return <Notification message1='No Sales found' message2='No active sale available' icon='pajamas:folder' />;
+        return (
+          <Notification
+            message1='No Sales found'
+            message2='No active sale available'
+            icon='pajamas:folder'
+          />
+        );
       case 'Deposit':
-        return <Notification message1='' message2='No data found' icon='pajamas:folder' />;
+        return (
+          <Notification
+            message1=''
+            message2='No data found'
+            icon='pajamas:folder'
+          />
+        );
       default:
         return null;
     }
   };
 
   return (
-    <div className={`md:py-20 md:pl-28 md:pr-20 p-4 ${ibmSans.className} flex flex-col gap-12`}>
+    <div
+      className={`md:py-20 md:pl-28 md:pr-20 p-4 ${ibmSans.className} flex flex-col gap-12`}
+    >
       <div className='flex flex-row justify-center md:justify-end md:p-8 p-4 bg-[#4343434d] rounded-xl'>
         {wallet && address && (
           <div className='p-3 rounded-full bg-black flex flex-row items-center gap-2'>
-            <Image src={solanaIcon} width={24} height={24} alt='solana' />
+            <Image
+              src={solanaIcon}
+              width={24}
+              height={24}
+              alt='solana'
+            />
             <div>{formattedAddress}</div>
-            <button onClick={() => copyToClipboard(address)} className='flex items-center'>
-              <Icon icon={copied ? 'pajamas:task-done' : 'solar:copy-outline'} width={24} />
+            <button
+              onClick={() => copyToClipboard(address)}
+              className='flex items-center'
+            >
+              <Icon
+                icon={copied ? 'pajamas:task-done' : 'solar:copy-outline'}
+                width={24}
+              />
             </button>
-            <button onClick={() => openSolscan(address)} className='flex items-center'>
-              <Image src={redirectIcon} width={24} height={24} alt='solana' />
+            <button
+              onClick={() => openSolscan(address)}
+              className='flex items-center'
+            >
+              <Image
+                src={redirectIcon}
+                width={24}
+                height={24}
+                alt='solana'
+              />
             </button>
           </div>
         )}
@@ -115,7 +174,9 @@ export default function ProfilePage() {
         <ul className='flex gap-8'>
           <li
             className={`${
-              selectedTab === 'NFTs' ? ' bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out' : ''
+              selectedTab === 'NFTs'
+                ? ' bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out'
+                : ''
             } rounded-full px-6 py-2 cursor-pointer`}
             onClick={() => setSelectedTab('NFTs')}
           >
@@ -123,7 +184,9 @@ export default function ProfilePage() {
           </li>
           <li
             className={`${
-              selectedTab === 'Offers' ? ' bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out' : ''
+              selectedTab === 'Offers'
+                ? ' bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out'
+                : ''
             } rounded-full px-6 py-2 cursor-pointer`}
             onClick={() => setSelectedTab('Offers')}
           >
@@ -131,7 +194,9 @@ export default function ProfilePage() {
           </li>
           <li
             className={`${
-              selectedTab === 'On Sale' ? 'bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out' : ''
+              selectedTab === 'On Sale'
+                ? 'bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out'
+                : ''
             } rounded-full px-6 py-2 cursor-pointer`}
             onClick={() => setSelectedTab('On Sale')}
           >
@@ -139,7 +204,9 @@ export default function ProfilePage() {
           </li>
           <li
             className={`${
-              selectedTab === 'Deposit' ? 'bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out' : ''
+              selectedTab === 'Deposit'
+                ? 'bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out'
+                : ''
             } rounded-full px-6 py-2 cursor-pointer`}
             onClick={() => setSelectedTab('Deposit')}
           >

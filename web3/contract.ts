@@ -309,8 +309,6 @@ export const instantBuy = async (
       })
     : [];
 
-  console.log(discountMint?.toString());
-
   if (discountMint && discountTokenAccount && discountMetadata) {
     remainingAccounts.push({
       pubkey: discountMint,
@@ -401,7 +399,6 @@ export const acceptBuy = async (
 
   const escrowWallet = findEscrowWallet(buyer, auctionHouse);
   const listingAccount = findListingAccount(nftMint);
-  console.log(listingAccount);
   const nftToAccountInfo = await program.provider.connection.getAccountInfo(
     nftToAccount
   );
@@ -430,8 +427,6 @@ export const acceptBuy = async (
         };
       })
     : [];
-
-  console.log(discountMint?.toString());
 
   if (discountMint && discountTokenAccount && discountMetadata) {
     remainingAccounts.push({
@@ -832,27 +827,6 @@ export const winPrize = async (
       isWritable: false,
     });
   }
-  console.log({
-    buyer: buyer.publicKey,
-    seller: seller,
-    escrowPaymentAccount: escrowWallet,
-    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
-    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
-    authority: authority,
-    treasuryMint: treasuryMint,
-    auctionHouse: auctionHouse,
-    auctionHouseTreasury: auctionHouseTreasury,
-    nftMint: nftMint,
-    nftAccount: nftFromAccount,
-    auctionAccount: auctionAccount,
-    offerAccount: offerAccount,
-    metadata: nftMetadata,
-    systemProgram: anchor.web3.SystemProgram.programId,
-    tokenProgram: TOKEN_PROGRAM_ID,
-    instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
-    ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-    rent: SYSVAR_RENT_PUBKEY,
-  });
   try {
     const tx = await program.methods
       .winPrize()

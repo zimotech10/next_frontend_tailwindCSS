@@ -19,7 +19,8 @@ const ibmSans = IBM_Plex_Sans({
 
 export default function NFTDetailsPage() {
   const searchParams = useSearchParams();
-  const uri = searchParams.get('uri');
+  const name = searchParams.get('name');
+  const image = searchParams.get('image');
   const mintAddress = searchParams.get('mintAddress');
   const price = searchParams.get('price');
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
@@ -33,18 +34,18 @@ export default function NFTDetailsPage() {
   const [offers, setOffers] = useState();
   const [creators, setCreators] = useState();
 
-  useEffect(() => {
-    if (uri) {
-      getMetadata(uri)
-        .then((metadata: NFTMetadata) => {
-          setMetadata(metadata);
-        })
-        .catch((error) => {
-          console.error('Error fetching metadata:', error);
-          setLoading(false);
-        });
-    }
-  }, [uri]);
+  // useEffect(() => {
+  //   if (uri) {
+  //     getMetadata(uri)
+  //       .then((metadata: NFTMetadata) => {
+  //         setMetadata(metadata);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching metadata:', error);
+  //         setLoading(false);
+  //       });
+  //   }
+  // }, [uri]);
 
   useEffect(() => {
     const fetchNFTStatus = async () => {
@@ -110,8 +111,8 @@ export default function NFTDetailsPage() {
           }
           name={metadata.name}
           owner={owner?.toString()}
-          image={metadata.image}
-          uri={uri}
+          image={String(image)}
+          // uri={uri}
           // attributes={metadata.attributes}
           attributes={[
             { traitType: 'Head', value: 'Grey and silver' },
