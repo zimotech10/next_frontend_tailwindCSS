@@ -549,10 +549,10 @@ export const DetailsCard = (
                 {props.listStatus == 1 && props.isOwner && <div className='col-span-1 py-2 text-center'>Action</div>}
               </div>
             )}
-            <div className='py-6'>
+            <div className='py-6 '>
               {props.offers.map((row: any, index: number) =>
                 isMobile ? (
-                  <div className='bg-black text-white p-4 rounded-lg max-w-sm gap-4 md:gap-0 border border-[#333] mb-6 py-6'>
+                  <div key={row.id} className='bg-black text-white p-4 rounded-lg max-w-sm gap-4 md:gap-0 border border-[#333] mb-6 py-6'>
                     <div className='flex justify-between items-center'>
                       <div className='flex items-center'>
                         <span className='font-semibold'>Offer Received</span>
