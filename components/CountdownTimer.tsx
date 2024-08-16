@@ -84,7 +84,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) =
         timeLeft > 0 ? (
           <>
             <h1 className='text-xl mb-2'>Auction ends in</h1>
-            <div className='flex space-x-8'>
+            <div className='flex md:space-x-8 space-x-6'>
               <div className='text-center'>
                 <div className='text-4xl font-bold text-yellow-500'>{days}</div>
                 <div

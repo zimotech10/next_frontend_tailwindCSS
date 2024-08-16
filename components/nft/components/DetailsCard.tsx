@@ -569,7 +569,11 @@ export const DetailsCard = (
             </div>
           )}
 
-          {props.description && <Accordion title='Description'>{props.description}</Accordion>}
+          {props.description && (
+            <Accordion title='Description'>
+              <div className='pb-4'>{props.description}</div>
+            </Accordion>
+          )}
           <div className='flex flex-row justify-between w-full'>
             <div className='flex flex-col gap-2'>
               <div className='font-normal text-sm text-[#AFAFAF]'>Creator:</div>

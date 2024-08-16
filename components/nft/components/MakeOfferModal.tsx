@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import solanaIcon from '@/public/images/solana-logo.png';
 import walletIcon from '@/public/images/wallet_logo.png';
+import alertIcon from '@/public/images/gridicons_notice-outline.png';
 import { ItemSummary } from '@/components/ItemSummary';
 import { offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
@@ -13,6 +14,7 @@ import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
 import Notification from '@/components/Notification';
+import useScreen from '@/hooks/useScreen';
 
 import { NATIVE_MINT } from '@solana/spl-token';
 
@@ -37,6 +39,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [notification, setNotification] = useState<{ variant: 'default' | 'success' | 'warning' | 'danger'; heading: string; content: string } | null>(null);
+  const isMobile = useScreen();
 
   useEffect(() => {
     // Disable background scrolling when modal is open
@@ -210,10 +213,12 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
     setIsModalOpen(true);
     onClose();
   };
+
+  const topHeight = isMobile ? '30px' : '70px';
   return (
     <>
       <PopUp isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} message={modalMessage} variant={modalVariant} />
-      <div className='fixed inset-0 flex justify-center items-center z-50 p-16'>
+      <div className='fixed inset-0 flex justify-center items-center z-50 md:p-16 p-8'>
         <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm' onClick={onClose}></div>
         <motion.div
           className='relative bg-[#0B0A0A] p-4 md:p-16 rounded-lg shadow-lg max-w-[800px] w-full flex flex-col gap-6'
@@ -221,7 +226,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.3 }}
-          style={{ top: '70px', maxHeight: '90vh', overflowY: 'hidden' }}
+          style={{ top: topHeight, maxHeight: '90vh', overflowY: 'hidden' }}
           ref={modalRef}
         >
           <button className='absolute top-4 right-4 text-white' onClick={onClose}>
@@ -259,7 +264,10 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
               <div className='flex flex-col gap-2 pt-4'>
                 <div className='flex justify-between'>
                   <span className='text-[#afafaf]'>Maximum bid: 30 SOL</span>
-                  <span className='text-[#afafaf] underline cursor-pointer'>What is SOL?</span>
+                  <div className='flex gap-1'>
+                    <Image src={alertIcon} alt='alertIcon'></Image>
+                    <span className='text-[#afafaf]  cursor-pointer'>What is SOL?</span>
+                  </div>
                 </div>
                 <div className='flex items-center justify-between gap-2 border border-[#353840] rounded-lg p-2'>
                   <div className='flex items-center gap-2'>
@@ -267,9 +275,9 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
                     <input type='number' className='bg-[#0B0A0A] text-white rounded-lg' placeholder='Enter Amount' onChange={handlePriceChange} />
                   </div>
                   <div className='flex gap-2'>
-                    <button className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'>Maximum</button>
-                    <button className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'>-5%</button>
-                    <button className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'>-10%</button>
+                    <button className='bg-[#1a1a1a] text-white py-1 md:px-3 px-1 md:text-[18px] text-[12px] rounded-lg'>Maximum</button>
+                    <button className='bg-[#1a1a1a] text-white py-1 md:px-3 px-1 md:text-[18px] text-[12px] rounded-lg'>-5%</button>
+                    {!isMobile && <button className='bg-[#1a1a1a] text-white py-1 md:px-3 px-1 md:text-[18px] text-[12px] rounded-lg'>-10%</button>}
                   </div>
                 </div>
               </div>
