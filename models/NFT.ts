@@ -1,7 +1,8 @@
 export interface NFT {
   id?: number;
   name: string;
-  uri: any;
+  uri?: any;
+  image: string;
   collection?: string | null;
   price?: string | null;
   description?: string;
