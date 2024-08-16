@@ -56,28 +56,16 @@ const DesktopNav = (
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(
-        connection,
-        wallet as AnchorWallet,
-        {
-          preflightCommitment: commitmentLevel,
-        }
-      );
+      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
+        preflightCommitment: commitmentLevel,
+      });
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new anchor.web3.PublicKey(
-        process.env.NEXT_PUBLIC_AUTHORITY as string
-      );
+      const authority = new anchor.web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
       const treasuryMint = NATIVE_MINT;
 
-      const tx = await deposit(
-        program,
-        wallet as AnchorWallet,
-        authority,
-        treasuryMint,
-        new anchor.BN(depositAmount * LAMPORTS_PER_SOL)
-      );
+      const tx = await deposit(program, wallet as AnchorWallet, authority, treasuryMint, new anchor.BN(depositAmount * LAMPORTS_PER_SOL));
 
       if (tx) {
         alert('Deposit successful!');
@@ -91,12 +79,7 @@ const DesktopNav = (
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node) &&
-      buttonRef.current &&
-      !buttonRef.current.contains(event.target as Node)
-    ) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
       setDropdown(false);
     }
   };
@@ -137,12 +120,7 @@ const DesktopNav = (
   };
 
   useEffect(() => {
-    if (
-      !isLoggedIn &&
-      !CookieRepository.getAccessToken() &&
-      !CookieRepository.getRefreshToken() &&
-      wallet.publicKey
-    ) {
+    if (!isLoggedIn && !CookieRepository.getAccessToken() && !CookieRepository.getRefreshToken() && wallet.publicKey) {
       loginUser();
     }
   }, [isLoggedIn, wallet.connected]);
@@ -182,46 +160,21 @@ const DesktopNav = (
     <div
       className={`w-full h-[71px] sticky py-5 px-16 top-0 z-40 text-base justify-between flex flex-row items-center pl-20 bg-[#181818] ${ibmSans.className}`}
     >
-      {connectModal && (
-        <ConnectModal
-          handleConnectModal={handleConnectModal}
-          isOpen={connectModal}
-        />
-      )}
-      <div
-        className='relative'
-        style={{ left: '23px' }}
-      >
-        <Icon
-          icon='mingcute:search-line'
-          className='absolute left-[20px] top-1/2 transform -translate-y-1/2'
-          width={20}
-          height={20}
-        />
-        <input
-          type='text'
-          className='py-2 h-11 pl-10 pr-3 rounded-md'
-          style={{ backgroundColor: '#262626', width: '491px' }}
-        />
+      {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
+      <div className='relative' style={{ left: '23px' }}>
+        <Icon icon='mingcute:search-line' className='absolute left-[20px] top-1/2 transform -translate-y-1/2' width={20} height={20} />
+        <input type='text' className='py-2 h-11 pl-10 pr-3 rounded-md' style={{ backgroundColor: '#262626', width: '491px' }} />
       </div>
 
       {wallet.connected ? (
         <div className='flex gap-8'>
-          <button
-            ref={buttonRef}
-            onClick={() => setDropdown(!dropdown)}
-          >
-            <Image
-              src={userSvg}
-              alt='user'
-              width={48}
-              height={48}
-            />
+          <button ref={buttonRef} onClick={() => setDropdown(!dropdown)}>
+            <Image src={userSvg} alt='user' width={48} height={48} />
           </button>
           <AnimatePresence>
             {dropdown && (
               <motion.div
-                className='absolute right-80 pt-[60px]'
+                className='absolute right-64 pt-[60px]'
                 ref={dropdownRef}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -230,25 +183,12 @@ const DesktopNav = (
               >
                 <Dropdown>
                   <div className='pl-[45px] rounded-3xl py-2  font-semibold  md:w-[244px]'>
-                    <Link
-                      href='/profile'
-                      onClick={() => setDropdown(!dropdown)}
-                      className='w-full text-center'
-                    >
+                    <Link href='/profile' onClick={() => setDropdown(!dropdown)} className='w-full text-center'>
                       Manage Wallets
                     </Link>
                   </div>
-                  <button
-                    className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]'
-                    onClick={() => disConnectWallet()}
-                  >
-                    <Image
-                      src={quitImage}
-                      alt='Quit'
-                      width={24}
-                      height={24}
-                      style={{ marginRight: '8px' }}
-                    />
+                  <button className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]' onClick={() => disConnectWallet()}>
+                    <Image src={quitImage} alt='Quit' width={24} height={24} style={{ marginRight: '8px' }} />
                     Disconnect Wallet
                   </button>
                 </Dropdown>
@@ -262,8 +202,7 @@ const DesktopNav = (
           style={{
             width: '136px',
             height: '34px',
-            background:
-              'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+            background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
             fontFamily: 'IBM Plex Sans',
             fontWeight: 600,
             fontSize: '14px',
