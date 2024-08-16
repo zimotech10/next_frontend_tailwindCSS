@@ -3,6 +3,7 @@ import { DetailsCard } from './components/DetailsCard';
 import { ListingModal } from './components/ListingModal'; // Import the ListingModal
 import { NFT } from '@/models/NFT';
 import { MakeOfferModal } from './components/MakeOfferModal';
+import { BuyModal } from './components/BuyModal';
 
 interface NFTDetails extends NFT {
   isOwner: boolean;
@@ -39,6 +40,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
 }) => {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
 
   const openListModal = () => {
     setIsListModalOpen(true);
@@ -54,6 +56,14 @@ export const NFTDetail: React.FC<NFTDetails> = ({
 
   const closeOfferModal = () => {
     setIsOfferModalOpen(false);
+  };
+
+  const openBuyModal = () => {
+    setIsBuyModalOpen(true);
+  };
+
+  const closeBuyModal = () => {
+    setIsBuyModalOpen(false);
   };
 
   return (
@@ -77,26 +87,14 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           endTime={endTime}
           openListModal={openListModal} // Pass openModal to DetailsCard
           openOfferModal={openOfferModal}
+          openBuyModal={openBuyModal}
         />
       </div>
-      {isListModalOpen && (
-        <ListingModal
-          name={name}
-          image={image}
-          mintAddress={mintAddress}
-          onClose={closeListModal}
-        />
-      )}
+      {isListModalOpen && <ListingModal name={name} image={image} mintAddress={mintAddress} onClose={closeListModal} />}
       {isOfferModalOpen && (
-        <MakeOfferModal
-          name={name}
-          image={image}
-          listStatus={listStatus}
-          listingPrice={price}
-          mintAddress={mintAddress}
-          onClose={closeOfferModal}
-        />
+        <MakeOfferModal name={name} image={image} listStatus={listStatus} listingPrice={price} mintAddress={mintAddress} onClose={closeOfferModal} />
       )}
+      {isBuyModalOpen && <BuyModal name={name} image={image} listStatus={listStatus} listingPrice={price} mintAddress={mintAddress} onClose={closeBuyModal} />}
     </div>
   );
 };
