@@ -37,10 +37,7 @@ export const DetailsCard = (
     listingPrice?: string | null;
     owner?: string;
     isOwner: boolean;
-    attributes?: {
-      trait_type: string;
-      value: string;
-    }[];
+    attributes?: any[];
     detailsProfile?: {
       creatorRoyaltyFee: string;
       itemContent: string;

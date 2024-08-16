@@ -40,6 +40,7 @@ export default function ProfilePage() {
       if (selectedTab === 'NFTs') category = 'nfts';
       else if (selectedTab === 'Offers') category = 'offered';
       else if (selectedTab === 'On Sale') category = 'onSale';
+      else return;
       setLoading(true);
       getWalletNFTs(category)
         .then((nfts: NFT[]) => {
@@ -48,6 +49,7 @@ export default function ProfilePage() {
         })
         .catch((error) => {
           console.error('Error fetching NFTs:', error);
+          setNFTs([]);
           setLoading(false);
         });
     }
