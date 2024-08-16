@@ -17,6 +17,7 @@ import ConnectModal from '@/components/modals/Connect';
 import HeartIcon from '@/public/images/heart-filled.png';
 import useScreen from '@/hooks/useScreen';
 import CountdownTimer from '@/components/CountdownTimer';
+import Notification from '@/components/Notification';
 import SolanaImg from '@/public/images/solana-logo.png';
 
 export const DetailsCard = (
@@ -55,6 +56,7 @@ export const DetailsCard = (
 
   const [connectModal, setConnectModal] = useState(false);
   const [isWinner, setIsWinner] = useState(false);
+  const [notification, setNotification] = useState<{ variant: 'default' | 'success' | 'warning' | 'danger'; heading: string; content: string } | null>(null);
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
   };
@@ -92,13 +94,21 @@ export const DetailsCard = (
       const tx = await unlisting(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
 
       if (tx) {
-        alert('Unlisting successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Unlisting Successful!',
+          content: 'Your NFT has been successfully unlisted.',
+        });
         setTimeout(() => {
           router.refresh();
           router.back();
         }, 6000);
       } else {
-        alert('Unlisting failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Unlisting Failed!',
+          content: 'There was an issue unlisting your NFT.',
+        });
       }
     } catch (error) {
       console.error('Unlisting error:', error);
@@ -128,11 +138,19 @@ export const DetailsCard = (
       const tx = await instantBuy(program, wallet as AnchorWallet, seller, authority, treasuryMint, nftMint, creators);
 
       if (tx) {
-        alert('InstantBuy successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Instant Buy Successful!',
+          content: 'Your purchase was completed successfully.',
+        });
         router.refresh();
         router.back();
       } else {
-        alert('InstantBuy failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Instant Buy Failed',
+          content: 'Instant Buy transaction could not be completed.',
+        });
       }
     } catch (error) {
       console.error('InstantBuy error:', error);
@@ -162,11 +180,19 @@ export const DetailsCard = (
       const tx = await acceptBuy(program, buyer, wallet as AnchorWallet, authority, treasuryMint, nftMint, creators);
 
       if (tx) {
-        alert('AcceptBuy successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'AcceptBuy Successful!',
+          content: 'Your purchase was completed successfully',
+        });
         router.refresh();
         router.back();
       } else {
-        alert('AcceptBuy failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'AcceptBuy Failed!',
+          content: 'There was an issue completing your purchase.',
+        });
       }
     } catch (error) {
       console.error('AcceptBuy error:', error);
@@ -192,11 +218,19 @@ export const DetailsCard = (
       const tx = await cancelBuy(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
 
       if (tx) {
-        alert('Canceling Offer successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Canceling Offer Successful!',
+          content: 'Your offer has been successfully canceled.',
+        });
         router.refresh();
         router.back();
       } else {
-        alert('Canceling failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Canceling Failed!',
+          content: 'Your offer could not be canceled. ',
+        });
       }
     } catch (error) {
       console.error('Canceling error:', error);
@@ -210,7 +244,12 @@ export const DetailsCard = (
         return;
       }
       if (isWinner) {
-        alert("You are top bidder. You can't cancel offer.");
+        setNotification({
+          variant: 'danger',
+          heading: 'Failed!',
+          content: 'You are the top bidder. You can’t cancel your offer.',
+        });
+
         return;
       }
       const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
@@ -226,11 +265,20 @@ export const DetailsCard = (
       const tx = await cancelOfferFromAuction(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
 
       if (tx) {
-        alert('Cancelling Offer successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Cancelling Offer Successful!',
+          content: 'Your offer has been successfully canceled.',
+        });
+
         router.refresh();
         router.back();
       } else {
-        alert('Cancelling failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Cancelling Offer Failed!',
+          content: 'Your offer could not be canceled.',
+        });
       }
     } catch (error) {
       console.error('Cancelling error:', error);
@@ -256,11 +304,19 @@ export const DetailsCard = (
       const tx = await cancelAuction(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
 
       if (tx) {
-        alert('Cancelling Auction successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Cancelling Auction Successful!',
+          content: 'Your auction has been successfully canceled.',
+        });
         router.refresh();
         router.back();
       } else {
-        alert('Cancelling Auction failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Cancelling Auction Failed!',
+          content: 'Your auction could not be canceled.',
+        });
       }
     } catch (error) {
       console.error('Cancelling Auction error:', error);
@@ -289,11 +345,19 @@ export const DetailsCard = (
       const tx = await winPrize(program, wallet as AnchorWallet, seller, authority, treasuryMint, nftMint, creators);
 
       if (tx) {
-        alert('WinPrize successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'WinPrize Successful!',
+          content: 'Congratulations! Your prize has been won successfully.',
+        });
         router.refresh();
         router.back();
       } else {
-        alert('WinPrize failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'WinPrize Failed!',
+          content: 'There was an issue with claiming your prize.',
+        });
       }
     } catch (error) {
       console.error('WinPrize error:', error);
@@ -598,6 +662,16 @@ export const DetailsCard = (
               )}
             </div>
           </div>
+        </div>
+      )}
+      {notification && (
+        <div className='fixed top-4 right-4 z-50'>
+          <Notification
+            variant={notification.variant}
+            heading={notification.heading}
+            content={notification.content}
+            onClose={() => setNotification(null)} // Remove notification after it disappears
+          />
         </div>
       )}
     </div>

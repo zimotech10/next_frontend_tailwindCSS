@@ -12,6 +12,7 @@ import { web3 } from '@coral-xyz/anchor';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
+import Notification from '@/components/Notification';
 
 import { NATIVE_MINT } from '@solana/spl-token';
 
@@ -34,6 +35,8 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
   const [modalMessage, setModalMessage] = useState(''); // State for modal message
   const [modalVariant, setModalVariant] = useState<'error' | 'success'>('success');
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const [notification, setNotification] = useState<{ variant: 'default' | 'success' | 'warning' | 'danger'; heading: string; content: string } | null>(null);
 
   useEffect(() => {
     // Disable background scrolling when modal is open
@@ -77,12 +80,21 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
 
   const handleOffer = async () => {
     if (!wallet || !wallet.publicKey) {
-      alert('Please connect your wallet.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Connect Your Wallet',
+        content: 'Please connect your wallet to proceed with the action.',
+      });
       return;
     }
 
     if (!offerPrice) {
-      alert('Please enter a price.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Price Required',
+        content: 'Please enter a price to continue.',
+      });
+
       return;
     }
 
@@ -106,15 +118,27 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
 
       if (tx) {
         setModalVariant('success');
-        // alert('Offer successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Offer Successful!',
+          content: 'Your offer has been successfully submitted.',
+        });
       } else {
         setModalVariant('error');
-        alert('Offer failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Offer Failed!',
+          content: 'There was an issue with your offer. Please try again later or contact support if the problem persists.',
+        });
       }
     } catch (error) {
       console.error('Offer error:', error);
       setModalVariant('error');
-      alert('An error occurred during offer.');
+      setNotification({
+        variant: 'danger',
+        heading: 'Error During Offer',
+        content: 'An error occurred while processing your offer. Please try again later or contact support if the issue persists.',
+      });
     }
 
     setLoading(false);
@@ -124,12 +148,20 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
 
   const handleOfferToAuction = async () => {
     if (!wallet || !wallet.publicKey) {
-      alert('Please connect your wallet.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Connect Your Wallet',
+        content: 'Please connect your wallet to proceed with this action.',
+      });
       return;
     }
 
     if (!offerPrice) {
-      alert('Please enter a price.');
+      setNotification({
+        variant: 'warning',
+        heading: 'Price Required',
+        content: 'Please enter a price to proceed.',
+      });
       return;
     }
 
@@ -152,15 +184,26 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
 
       if (tx) {
         setModalVariant('success');
-        // alert('Offer successful!');
+        setNotification({
+          variant: 'success',
+          heading: 'Offer Successful!',
+          content: 'Your offer has been successfully submitted.',
+        });
       } else {
         setModalVariant('error');
-        alert('Offer failed.');
+        setNotification({
+          variant: 'danger',
+          heading: 'Offer Failed!',
+          content: 'Your offer could not be processed.',
+        });
       }
     } catch (error) {
-      console.error('Offer error:', error);
       setModalVariant('error');
-      alert('An error occurred during offer.');
+      setNotification({
+        variant: 'danger',
+        heading: 'Offer Error',
+        content: 'An error occurred while processing your offer.',
+      });
     }
 
     setLoading(false);
@@ -355,6 +398,16 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
           </div>
         </motion.div>
       </div>
+      {notification && (
+        <div className='fixed top-4 right-4 z-50'>
+          <Notification
+            variant={notification.variant}
+            heading={notification.heading}
+            content={notification.content}
+            onClose={() => setNotification(null)} // Remove notification after it disappears
+          />
+        </div>
+      )}
     </>
   );
 };

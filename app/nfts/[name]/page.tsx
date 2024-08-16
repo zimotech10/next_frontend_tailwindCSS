@@ -51,44 +51,33 @@ export default function NFTDetailsPage() {
     const fetchNFTStatus = async () => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(
-            ({
-              isOwner,
-              listStatus,
-              isOffered,
-              owner,
-              bids,
-              creators,
-              startTime,
-              endTime,
-            }) => {
-              if (isOwner) {
-                setIsOwner(isOwner);
-              }
-              if (listStatus) {
-                setlistStatus(listStatus);
-              }
-              if (bids) {
-                setOffers(bids);
-              }
-              if (isOffered) {
-                setIsOffered(isOffered);
-              }
-              if (owner) {
-                setOwner(owner);
-              }
-              if (creators) {
-                setCreators(creators);
-              }
-              if (startTime) {
-                setStartTime(startTime);
-              }
-              if (endTime) {
-                setEndTime(endTime);
-              }
-              setLoading(false);
+          .then(({ isOwner, listStatus, isOffered, owner, bids, creators, startTime, endTime }) => {
+            if (isOwner) {
+              setIsOwner(isOwner);
             }
-          )
+            if (listStatus) {
+              setlistStatus(listStatus);
+            }
+            if (bids) {
+              setOffers(bids);
+            }
+            if (isOffered) {
+              setIsOffered(isOffered);
+            }
+            if (owner) {
+              setOwner(owner);
+            }
+            if (creators) {
+              setCreators(creators);
+            }
+            if (startTime) {
+              setStartTime(startTime);
+            }
+            if (endTime) {
+              setEndTime(endTime);
+            }
+            setLoading(false);
+          })
           .catch((error) => {
             console.error('Error fetching NFT owner:', error);
             setLoading(false);
