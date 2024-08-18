@@ -281,7 +281,23 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
             className='absolute top-4 right-4 text-white'
             onClick={onClose}
           >
-            X
+            <div
+              style={{
+                backgroundColor: '#D3D3D3', // Light gray background
+                borderRadius: '50%', // Circular shape
+                display: 'inline-flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '24px', // Adjust size as needed
+                height: '24px',
+                border: '2px solid black', // Black border around the circle
+              }}
+            >
+              <Icon
+                icon='mdi-close'
+                style={{ color: 'black', fontSize: '16px' }}
+              />
+            </div>
           </button>
           <h2 className='text-3xl font-bold text-white'>Make an offer</h2>
           <p className='text-sm text-[#afafaf]'>
@@ -307,7 +323,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                 <span className='text-white font-bold'>x1</span>
               </div>
 
-              <div
+              {/* <div
                 style={{
                   width: '84%',
                   height: '0.8px',
@@ -316,7 +332,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                   position: 'absolute',
                   top: '320px', // Distance from the top of the container
                 }}
-              ></div>
+              ></div> */}
 
               <div className='flex flex-col gap-2 pt-4'>
                 <div className='flex justify-between'>
@@ -345,13 +361,13 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                     />
                     <input
                       type='number'
-                      className='bg-[#0B0A0A] text-white leading-9 outline-none rounded-lg'
+                      className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
                       placeholder='Enter Amount'
                       value={offerPrice}
                       onChange={handlePriceChange}
                     />
                   </div>
-                  {listStatus == 1 && (
+                  {listStatus == 1 && !isMobile && (
                     <div className='flex gap-2'>
                       <button
                         className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg'

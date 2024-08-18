@@ -18,7 +18,7 @@ const Checkbox = ({ label, type, traitType, onCheckboxChange }: { label: string;
         <div className={`checkbox ${isChecked ? 'checked' : ''}`}>{isChecked && <span className='checkmark'>&#10003;</span>}</div>
       </div>
       <label className='ml-2 cursor-pointer text-xs font-medium' onClick={toggleCheckbox}>
-        {isChecked ? `${label} (Checked)` : label}
+        {label}
       </label>
     </div>
   );

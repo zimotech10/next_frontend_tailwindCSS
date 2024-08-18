@@ -67,7 +67,7 @@ const Footer = () => {
   };
 
   return (
-    <div className='flex flex-col p-4 footer:pl-7  footer:pb-[83px] relative bg-black footer:mx-[103px]'>
+    <div className='flex flex-col p-4 footer:pl-7  footer:pb-[83px]  relative bg-black footer:mx-[103px]'>
       {showModal && (
         <div className='w-full h-full fixed top-0 left-0 flex items-center justify-center font-inter z-40 modal'>
           <div className='w-9/12 footer:w-4/12 p-7 justify-center gap-2 footer:gap-4 items-center flex flex-col modal-card'>
