@@ -30,13 +30,7 @@ const Collections = () => {
   const fetchCollections = async () => {
     try {
       setIsFetching(true);
-      const data = await CollectionApi.getCollectionByParams(
-        searchParam,
-        orderBy,
-        orderDir,
-        offset,
-        limit
-      );
+      const data = await CollectionApi.getCollectionByParams(searchParam, orderBy, orderDir, offset, limit);
       const collectionData = data.rows;
       totalCountRef.current = data.totalCount;
       setTotalCount(data.totalCount);
@@ -83,10 +77,7 @@ const Collections = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 200
-      ) {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
         if (!isFetching && offset + limit - 1 < totalCountRef.current) {
           // Prevent fetching if all items are loaded
           setOffset((prevOffset) => prevOffset + limit);
@@ -121,62 +112,37 @@ const Collections = () => {
         imgWidth={imgWidth}
         imgHeight={359}
       />
-      <TabBar
-        pathname='collections'
-        onFilledIconClick={handleFilledIconClick}
-        onDashboardIconClick={handleDashboardIconClick}
-      />
-      <SearchBar
-        setSearchParam={setSearchParam}
-        setOrderBy={setOrderBy}
-        setOrderDir={setOrderDir}
-        placeholder='Search NFT by Title'
-      />
-      <div className='flex flex-wrap w-auto py-5 justify-center relative'>
+      <TabBar pathname='collections' onFilledIconClick={handleFilledIconClick} onDashboardIconClick={handleDashboardIconClick} />
+      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
+      <div className='flex py-5 justify-center gap-2 md:gap-4'>
         {isFetching && offset === 0 ? (
           <div className='h-full absolute items-center justify-center w-full z-10'>
             <BigSpinner />
           </div>
         ) : (
-          <div className='flex w-full justify-center'>
-            <div className='flex flex-wrap justify-center px-auto '>
-              <div
-                className={`flex gap-4 ${
-                  gridType === 1 ? 'md:gap-12' : 'md:gap-4'
-                } flex-wrap py-3 md:py-0 `}
-              >
-                {collections && collections.length == 0 && !isFetching ? (
-                  <div className='text-neutral-500 text-xl'>
-                    No Collection found
-                  </div>
-                ) : (
-                  collections.map((collection, index) => (
-                    <Link
-                      href={{ pathname: `collection/${collection.symbol}` }}
-                      key={index}
-                    >
-                      <CollectionCard
-                        id={collection.id}
-                        name={collection.name}
-                        description={collection.description}
-                        image={`${collection.logoImage}`}
-                        coverImage={`${collection.baseImage}`}
-                        isVerified={collection.isVerified}
-                        gridType={gridType}
-                      />
-                    </Link>
-                  ))
-                )}
-                {isFetching && offset > 0 && (
-                  <div
-                    ref={loaderRef}
-                    className='flex justify-center items-center'
-                  >
-                    <BigSpinner />
-                  </div>
-                )}
+          <div className={`flex gap-4 ${gridType === 1 ? 'md:gap-12' : 'md:gap-4'} flex-wrap py-3 md:py-0 md:pl-[50px] pl-[16px]`}>
+            {collections && collections.length == 0 && !isFetching ? (
+              <div className='text-neutral-500 text-xl'>No Collection found</div>
+            ) : (
+              collections.map((collection, index) => (
+                <Link href={{ pathname: `collection/${collection.symbol}` }} key={index}>
+                  <CollectionCard
+                    id={collection.id}
+                    name={collection.name}
+                    description={collection.description}
+                    image={`${collection.logoImage}`}
+                    coverImage={`${collection.baseImage}`}
+                    isVerified={collection.isVerified}
+                    gridType={gridType}
+                  />
+                </Link>
+              ))
+            )}
+            {isFetching && offset > 0 && (
+              <div ref={loaderRef} className='flex justify-center items-center w-full'>
+                <BigSpinner />
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>

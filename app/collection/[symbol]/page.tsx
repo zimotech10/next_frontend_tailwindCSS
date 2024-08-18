@@ -44,6 +44,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
   const [filterAttributes, setFilterAttributes] = useState<Attribute[]>([]);
   const [status, setStatus] = useState<string[]>([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [imgWidth, setImgWidth] = useState(400);
   const [isFetching, setIsFetching] = useState(true);
 
   const totalCountRef = useRef(0);
@@ -62,17 +63,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
     try {
       setIsFetching(true);
       const price = { min: minPrice, max: maxPrice };
-      const data = await NftApi.getNftsByCollection(
-        params.symbol,
-        searchParam,
-        orderBy,
-        orderDir,
-        offset,
-        limit,
-        price,
-        filterAttributes,
-        status
-      );
+      const data = await NftApi.getNftsByCollection(params.symbol, searchParam, orderBy, orderDir, offset, limit, price, filterAttributes, status);
       const nftData = data.nfts;
       totalCountRef.current = data.totalCount;
       setTotalCount(nftData.totalCount);
@@ -108,24 +99,11 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
 
   useEffect(() => {
     fetchNfts();
-  }, [
-    searchParam,
-    orderBy,
-    orderDir,
-    offset,
-    limit,
-    minPrice,
-    maxPrice,
-    status,
-    filterAttributes,
-  ]);
+  }, [searchParam, orderBy, orderDir, offset, limit, minPrice, maxPrice, status, filterAttributes]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 200
-      ) {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200) {
         // Near the bottom of the page
         if (!isFetching && offset + limit - 1 < totalCountRef.current) {
           // Prevent fetching if all items are loaded
@@ -138,6 +116,18 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isFetching]);
+
+  useEffect(() => {
+    const updateImgWidth = () => {
+      if (window.innerWidth < 768) setImgWidth(448);
+      else setImgWidth(window.innerWidth * 0.4);
+    };
+
+    window.addEventListener('resize', updateImgWidth);
+    updateImgWidth();
+
+    return () => window.removeEventListener('resize', updateImgWidth);
+  }, []);
 
   const handleFilledIconClick = () => {
     setGridType(1);
@@ -169,19 +159,10 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         buttonText='Create an NFT'
         image={exploreImage.src}
         imgHeight={1000}
-        imgWidth={1000}
+        imgWidth={imgWidth}
       />
-      <TabBar
-        pathname='collections'
-        onFilledIconClick={handleFilledIconClick}
-        onDashboardIconClick={handleDashboardIconClick}
-      />
-      <SearchBar
-        setSearchParam={setSearchParam}
-        setOrderBy={setOrderBy}
-        setOrderDir={setOrderDir}
-        placeholder='Search NFT by Title'
-      />
+      <TabBar pathname='collections' onFilledIconClick={handleFilledIconClick} onDashboardIconClick={handleDashboardIconClick} />
+      <SearchBar setSearchParam={setSearchParam} setOrderBy={setOrderBy} setOrderDir={setOrderDir} placeholder='Search NFT by Title' />
       <div className='flex flex-col md:gap-8 md:flex-row'>
         <div className='h-0 md:h-fit invisible md:visible'>
           <Filter
@@ -198,8 +179,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
             onClick={() => setFilter(!filter)}
             className='md:w-40 w-36 flex justify-center py-2 font-semibold text-black'
             style={{
-              background:
-                'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+              background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               borderRadius: '40px',
             }}
             aria-label='Add filter'
@@ -237,26 +217,14 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
         ) : (
           <div className='flex h-full gap-4 md:gap-6 flex-wrap py-3 md:py-0 md:pl-[50px] pl-[20px]'>
             {nfts.length === 0 && !isFetching ? (
-              <div className='text-neutral-500 text-xl'>
-                No NFT Found In This Collection
-              </div>
+              <div className='text-neutral-500 text-xl'>No NFT Found In This Collection</div>
             ) : (
               nfts.map((nft, index) => (
-                <ItemCard
-                  key={index}
-                  name={nft.name}
-                  image={nft.image}
-                  price={nft.price}
-                  mintAddress={nft.mintAddress?.toString()}
-                  gridType={gridType}
-                />
+                <ItemCard key={index} name={nft.name} image={nft.image} price={nft.price} mintAddress={nft.mintAddress?.toString()} gridType={gridType} />
               ))
             )}
             {isFetching && offset > 0 && (
-              <div
-                ref={loaderRef}
-                className='flex justify-center items-center w-full'
-              >
+              <div ref={loaderRef} className='flex justify-center items-center w-full'>
                 <BigSpinner />
               </div>
             )}

@@ -232,7 +232,20 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, li
           ref={modalRef}
         >
           <button className='absolute top-4 right-4 text-white' onClick={onClose}>
-            X
+            <div
+              style={{
+                backgroundColor: '#D3D3D3', // Light gray background
+                borderRadius: '50%', // Circular shape
+                display: 'inline-flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '24px', // Adjust size as needed
+                height: '24px',
+                border: '2px solid black', // Black border around the circle
+              }}
+            >
+              <Icon icon='mdi-close' style={{ color: 'black', fontSize: '16px' }} />
+            </div>
           </button>
           <h2 className='text-3xl font-bold text-white'>Buy NFT</h2>
           <p className='text-sm text-[#afafaf]'>You are Buying {name} #3578</p>

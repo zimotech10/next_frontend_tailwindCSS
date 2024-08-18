@@ -232,7 +232,20 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
           ref={modalRef}
         >
           <button className='absolute top-4 right-4 text-white' onClick={onClose}>
-            X
+            <div
+              style={{
+                backgroundColor: '#D3D3D3', // Light gray background
+                borderRadius: '50%', // Circular shape
+                display: 'inline-flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '24px', // Adjust size as needed
+                height: '24px',
+                border: '2px solid black', // Black border around the circle
+              }}
+            >
+              <Icon icon='mdi-close' style={{ color: 'black', fontSize: '16px' }} />
+            </div>
           </button>
           <h2 className='text-3xl font-bold text-white'>Make an offer</h2>
           <p className='text-sm text-[#afafaf]'>You are making an offer for the GTU-NFT #3578</p>
@@ -278,7 +291,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
                     <Image src={solanaIcon} width={24} height={24} alt='sol' />
                     <input
                       type='number'
-                      className='bg-[#0B0A0A] text-white leading-9 outline-none rounded-lg'
+                      className='bg-[#0B0A0A] text-white leading-9 outline-none'
                       placeholder='Enter Amount'
                       value={offerPrice}
                       onChange={handlePriceChange}
