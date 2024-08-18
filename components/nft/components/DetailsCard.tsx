@@ -481,10 +481,9 @@ export const DetailsCard = (
                     props.startTime * 1000 < new Date().getTime() &&
                     new Date().getTime() < props.endTime * 1000 && (
                       <button
-                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl text-black'
                         style={{
-                          border: '2px solid #FFB703',
-                          color: '#F5F5F5',
+                          background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                         }}
                         onClick={props.openOfferModal}
                       >
@@ -530,10 +529,9 @@ export const DetailsCard = (
                 props.startTime * 1000 < new Date().getTime() &&
                 new Date().getTime() < props.endTime * 1000 && (
                   <button
-                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl'
+                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl text-black'
                     style={{
-                      border: '2px solid #FFB703',
-                      color: '#F5F5F5',
+                      background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={props.openOfferModal}
                   >

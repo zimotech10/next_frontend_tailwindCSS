@@ -69,7 +69,9 @@ const ItemCard: React.FC<NFT> = ({ name, image, collection, price, mintAddress, 
                 e.currentTarget.src = defaultImage.src; // Replace with the default image if the original fails
               }}
             />
-            <div className='absolute top-0 right-0 m-2 bg-red-500 text-white text-xs px-2 py-1 rounded'>Auction</div>
+            <div className='absolute md:top-1 top-0 right-0 m-2 bg-red-500 text-white md:text-xs text-[10px] md:px-2 md:py-1 px-1 py-[2px] rounded'>
+              Auction
+            </div>
           </div>
           {showButton && (
             <Link
