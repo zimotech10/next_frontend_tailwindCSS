@@ -1,7 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 const options = [
-  { value: '12312', label: 'SOL', image: '/images/solana-logo.png' },
+  {
+    value: 'Sol11111111111111111111111112',
+    label: 'SOL',
+    image: '/images/solana-logo.png',
+  },
   { value: 'USDT', label: 'USDT', image: '/images/usdt-logo.png' },
   { value: 'USDC', label: 'USDC', image: '/images/usdc-logo.png' },
   { value: 'WIF', label: 'WIF', image: '/images/wif-logo.png' },
@@ -15,9 +19,6 @@ const CoinSelect = ({
   selectedCoin: any;
   setSelectedCoin: any;
 }) => {
-  useEffect(() => {
-    setSelectedCoin(options[0]);
-  }, []);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

@@ -28,6 +28,17 @@ interface ListingModalProps {
   mintAddress?: string | null;
   onClose: () => void;
 }
+const options = [
+  {
+    value: 'Sol11111111111111111111111112',
+    label: 'SOL',
+    image: '/images/solana-logo.png',
+  },
+  { value: 'USDT', label: 'USDT', image: '/images/usdt-logo.png' },
+  { value: 'USDC', label: 'USDC', image: '/images/usdc-logo.png' },
+  { value: 'WIF', label: 'WIF', image: '/images/wif-logo.png' },
+  { value: 'JUP', label: 'JUP', image: '/images/jup-logo.png' },
+];
 
 export const ListingModal: React.FC<ListingModalProps> = ({
   name,
@@ -52,7 +63,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
     'success'
   );
 
-  const [selectedCoin, setSelectedCoin] = useState();
+  const [selectedCoin, setSelectedCoin] = useState(options[0]);
 
   const [notification, setNotification] = useState<{
     variant: 'default' | 'success' | 'warning' | 'danger';
@@ -353,7 +364,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                   <div className='flex flex-col gap-[10px] w-full'>
                     <span className='font-semibold text-base'>Price</span>
                     <div className='text-[#afafaf] font-normal text-sm'>
-                      Enter the price for 1 item (in SOL).
+                      Enter the price for 1 item (in {selectedCoin?.label}).
                     </div>
                     <div className='flex flex-row gap-3 items-center'>
                       <CoinSelect
