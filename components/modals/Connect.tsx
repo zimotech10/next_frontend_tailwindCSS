@@ -51,7 +51,7 @@ const ConnectModal: React.FC<SignUpProps> = ({ handleConnectModal, isOpen }) => 
             transition={{ duration: 0.5 }}
             className='flex flex-col md:p-6 gap-6 md:gap-5'
           >
-            <div className='flex flex-col md:px-6 gap-8 md:gap-4'>
+            <div className='flex flex-col  md:px-6 gap-8 md:gap-4'>
               <div className='flex flex-col'>
                 <span className='font-semibold text-lg pb-3 md:text-2xl'>Are you new here?</span>
                 <span className={`font-normal text-sm md:text-lg ${ibmSans.className}`} style={{ color: '#AFAFAF' }}>

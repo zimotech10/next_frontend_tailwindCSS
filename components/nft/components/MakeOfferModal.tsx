@@ -265,7 +265,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
                 <span className='text-white font-bold'>x1</span>
               </div>
 
-              <div
+              {/* <div
                 style={{
                   width: '84%',
                   height: '0.8px',
@@ -274,7 +274,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
                   position: 'absolute',
                   top: '320px', // Distance from the top of the container
                 }}
-              ></div>
+              ></div> */}
 
               <div className='flex flex-col gap-2 pt-4'>
                 <div className='flex justify-between'>
@@ -291,13 +291,13 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({ name, image, min
                     <Image src={solanaIcon} width={24} height={24} alt='sol' />
                     <input
                       type='number'
-                      className='bg-[#0B0A0A] text-white leading-9 outline-none'
+                      className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
                       placeholder='Enter Amount'
                       value={offerPrice}
                       onChange={handlePriceChange}
                     />
                   </div>
-                  {listStatus == 1 && (
+                  {listStatus == 1 && !isMobile && (
                     <div className='flex gap-2'>
                       <button className='bg-[#1a1a1a] text-white py-1 px-3 rounded-lg' onClick={() => handlePriceChangeByPercent('max')}>
                         Maximum

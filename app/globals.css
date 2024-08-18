@@ -111,7 +111,24 @@ button.wallet-adapter-button-trigger:hover::before {
   background: none; /* Remove the gradient border on hover */
 }
 
-/* styles/global.css */
+/* Responsive padding adjustments */
+@media (max-width: 1024px) {
+  button.wallet-adapter-button-trigger {
+    padding: 18px 100px; /* Adjust values for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  button.wallet-adapter-button-trigger {
+    padding: 12px 70px; /* Adjust values for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  button.wallet-adapter-button-trigger {
+    padding: 8px 60px; /* Further adjustments for very small screens */
+  }
+}
 
 /* Basic styles for the input element */
 .custom-datetime-local {
@@ -156,7 +173,7 @@ button.wallet-adapter-button-trigger:hover::before {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
-/*Remove spinner*/
+/* Remove spinner */
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
