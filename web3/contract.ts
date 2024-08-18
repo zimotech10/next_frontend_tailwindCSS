@@ -30,6 +30,57 @@ import {
 } from './utils';
 import { AnchorWallet } from '@solana/wallet-adapter-react';
 
+export async function createAuctionHouse(
+  program: anchor.Program,
+  payer: AnchorWallet,
+  authority: PublicKey,
+  treasuryMint: PublicKey,
+  treasuryWithdrawOwner: PublicKey,
+  discountCollection: PublicKey,
+  sellerFeeBasispoints: number,
+  discountBasisPoints: number
+) {
+  try {
+    const auctionHouse = findAuctionHouse(authority, treasuryMint);
+    const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
+
+    let treasuryWithdraw = treasuryWithdrawOwner;
+    if (treasuryMint != NATIVE_MINT) {
+      treasuryWithdraw = await getAssociatedTokenAddress(
+        treasuryMint,
+        treasuryWithdrawOwner
+      );
+    }
+    console.log('auctionHouse', auctionHouse.toString());
+    console.log('payer', payer.publicKey.toString());
+    const tx = await program.methods
+      .createAuctionHouse(
+        sellerFeeBasispoints,
+        discountCollection,
+        discountBasisPoints
+      )
+      .accounts({
+        payer: payer.publicKey,
+        authority: authority,
+        treasuryMint: treasuryMint,
+        treasuryWithdrawalDestination: treasuryWithdraw,
+        treasuryWithdrawalDestinationOwner: treasuryWithdrawOwner,
+        auctionHouse: auctionHouse,
+        auctionHouseTreasury: auctionHouseTreasury,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: SYSVAR_RENT_PUBKEY,
+        ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      })
+      .rpc({ commitment: 'confirmed', maxRetries: 10 });
+    return tx;
+  } catch (error) {
+    console.log('create auction house error', error);
+  }
+
+  return null;
+}
+
 export const listing = async (
   program: anchor.Program,
   wallet: AnchorWallet,

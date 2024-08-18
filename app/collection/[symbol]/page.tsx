@@ -22,6 +22,7 @@ interface Nft {
   mintAddress: string;
   owner: string;
   status?: string;
+  symbol?: string;
 }
 
 interface Attribute {
@@ -264,6 +265,7 @@ const NftsByCollection = ({ params }: { params: { symbol: string } }) => {
                   mintAddress={nft.mintAddress?.toString()}
                   gridType={gridType}
                   status={nft.status}
+                  symbol={nft.symbol}
                 />
               ))
             )}

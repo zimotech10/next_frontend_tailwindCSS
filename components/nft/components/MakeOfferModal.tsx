@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import solanaIcon from '@/public/images/solana-logo.png';
 import walletIcon from '@/public/images/wallet_logo.png';
 import alertIcon from '@/public/images/gridicons_notice-outline.png';
-import { ItemSummary } from '@/components/ItemSummary';
 import { offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
@@ -20,8 +18,8 @@ import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
 import Notification from '@/components/Notification';
 import useScreen from '@/hooks/useScreen';
-
-import { NATIVE_MINT } from '@solana/spl-token';
+import CoinSelect from '@/components/CoinSelect';
+import coinList from '@/utils/coinInfoList';
 
 interface MakeOfferModalProps {
   name: string;
@@ -29,6 +27,7 @@ interface MakeOfferModalProps {
   mintAddress?: string | null;
   listStatus?: number;
   listingPrice?: string | null;
+  symbol?: string;
   onClose: () => void;
 }
 
@@ -38,11 +37,13 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
   mintAddress,
   listStatus,
   listingPrice,
+  symbol,
   onClose,
 }) => {
   const [offerPrice, setOfferPrice] = useState<number | undefined>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const wallet = useAnchorWallet();
+  const [coin, setCoin] = useState<any>(coinList[0]);
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [modalMessage, setModalMessage] = useState(''); // State for modal message
@@ -58,6 +59,15 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
   } | null>(null);
   const isMobile = useScreen();
 
+  useEffect(() => {
+    try {
+      if (symbol) {
+        setCoin(coinList.find((coin) => coin.symbol === symbol));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [symbol]);
   useEffect(() => {
     // Disable background scrolling when modal is open
     if (isModalOpen) {
@@ -135,7 +145,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(coin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await offer(
@@ -213,7 +223,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(coin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await offerToAuction(
@@ -354,10 +364,11 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                 <div className='flex items-center justify-between gap-2 border border-[#353840] rounded-lg p-2'>
                   <div className='flex items-center gap-2'>
                     <Image
-                      src={solanaIcon}
-                      width={24}
-                      height={24}
-                      alt='sol'
+                      src={coin.image}
+                      width={16}
+                      height={16}
+                      alt='solanaIcon'
+                      style={{ width: '16px' }}
                     />
                     <input
                       type='number'
@@ -397,7 +408,9 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                     <span className='text-[#afafaf]'>Buy Now Price</span>
                     <div className='flex justify-center items-center gap-1'>
                       <Image
-                        src={solanaIcon}
+                        src={coin.image}
+                        width={16}
+                        height={16}
                         alt='solanaIcon'
                         style={{ width: '16px' }}
                       ></Image>

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import Image from 'next/image';
-import solanaIcon from '../public/images/solana-logo.png';
 import defaultImage from '../public/images/default.png'; // Import your default image
 import useScreen from '@/hooks/useScreen';
 import { NFT } from '@/models/NFT';
 import Link from 'next/link';
-import { getImageUrl } from '@/utils/getImageUrl';
-import HeartIcon from '@/public/images/heart-filled.png';
+import coinList from '@/utils/coinInfoList';
 
 const ItemCard: React.FC<NFT> = ({
   name,
@@ -17,6 +15,7 @@ const ItemCard: React.FC<NFT> = ({
   mintAddress,
   gridType,
   status,
+  symbol,
 }) => {
   const isMobile = useScreen();
   const [isHovered, setIsHovered] = useState(false);
@@ -115,6 +114,7 @@ const ItemCard: React.FC<NFT> = ({
                   image: image,
                   mintAddress: mintAddress,
                   price: price,
+                  symbol: symbol,
                 },
               }}
               className={` ${
@@ -144,11 +144,17 @@ const ItemCard: React.FC<NFT> = ({
               <div className='text-xs text-neutral-400'>Price</div>
               <div className='text-xs flex flex-row gap-2 md:gap-2 md:text-sm md:pt-1 pt-1'>
                 <Image
-                  src={solanaIcon}
+                  src={String(
+                    coinList.find((coin) => coin.symbol === symbol)?.image
+                  )}
+                  width={16.78}
+                  height={16.78}
                   alt='solana'
                   style={{ width: '16.78px', height: '16.78px' }}
                 />
-                <span>{price} SOL</span>
+                <span>
+                  {price} {symbol}
+                </span>
               </div>
             </div>
           )}

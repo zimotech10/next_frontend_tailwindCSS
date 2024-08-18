@@ -21,6 +21,7 @@ type ListingType = 'listing-fixed' | 'listing-auction';
 import { NATIVE_MINT } from '@solana/spl-token';
 import { useRouter } from 'next/navigation';
 import CoinSelect from '@/components/CoinSelect';
+import coinList from '@/utils/coinInfoList';
 
 interface ListingModalProps {
   name: string;
@@ -28,17 +29,6 @@ interface ListingModalProps {
   mintAddress?: string | null;
   onClose: () => void;
 }
-const options = [
-  {
-    value: 'Sol11111111111111111111111112',
-    label: 'SOL',
-    image: '/images/solana-logo.png',
-  },
-  { value: 'USDT', label: 'USDT', image: '/images/usdt-logo.png' },
-  { value: 'USDC', label: 'USDC', image: '/images/usdc-logo.png' },
-  { value: 'WIF', label: 'WIF', image: '/images/wif-logo.png' },
-  { value: 'JUP', label: 'JUP', image: '/images/jup-logo.png' },
-];
 
 export const ListingModal: React.FC<ListingModalProps> = ({
   name,
@@ -63,7 +53,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
     'success'
   );
 
-  const [selectedCoin, setSelectedCoin] = useState(options[0]);
+  const [selectedCoin, setSelectedCoin] = useState(coinList[0]);
 
   const [notification, setNotification] = useState<{
     variant: 'default' | 'success' | 'warning' | 'danger';
@@ -146,7 +136,8 @@ export const ListingModal: React.FC<ListingModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+
+      const treasuryMint = new web3.PublicKey(selectedCoin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await listing(
@@ -246,7 +237,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(selectedCoin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await createAuction(
@@ -364,7 +355,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                   <div className='flex flex-col gap-[10px] w-full'>
                     <span className='font-semibold text-base'>Price</span>
                     <div className='text-[#afafaf] font-normal text-sm'>
-                      Enter the price for 1 item (in {selectedCoin?.label}).
+                      Enter the price for 1 item (in {selectedCoin?.symbol}).
                     </div>
                     <div className='flex flex-row gap-3 items-center'>
                       <CoinSelect
@@ -387,11 +378,9 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                       Set the minimum bid you want to consider.
                     </div>
                     <div className='flex flex-row gap-3 items-center'>
-                      <Image
-                        src={solanaIcon}
-                        width={24}
-                        height={24}
-                        alt='sol'
+                      <CoinSelect
+                        selectedCoin={selectedCoin}
+                        setSelectedCoin={setSelectedCoin}
                       />
                       <input
                         type='number'

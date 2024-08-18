@@ -25,9 +25,6 @@ export default function ProfilePage() {
   const wallet = useWallet();
   const address = wallet.publicKey?.toString();
   const [copied, setCopied] = useState(false);
-  const [collections, setCollections] = useState([]);
-  const [onSale, setOnSale] = useState([]);
-  const [deposit, setDeposit] = useState([]);
   const [nfts, setNFTs] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState<
@@ -108,6 +105,7 @@ export default function ProfilePage() {
                 image={nft.image}
                 price={nft.price}
                 mintAddress={nft.mintAddress?.toString()}
+                symbol={nft.symbol}
               />
             ))}
           </div>

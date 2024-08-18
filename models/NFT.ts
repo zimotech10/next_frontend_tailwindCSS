@@ -14,6 +14,7 @@ export interface NFT {
   creators?: any;
   gridType?: Number;
   status?: string;
+  symbol?: string;
 }
 
 export interface NFTMetadata {
