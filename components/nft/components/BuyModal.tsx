@@ -5,41 +5,54 @@ import solanaIcon from '@/public/images/solana-logo.png';
 import walletIcon from '@/public/images/wallet_logo.png';
 import alertIcon from '@/public/images/gridicons_notice-outline.png';
 import { ItemSummary } from '@/components/ItemSummary';
-import { offer, offerToAuction } from '@/web3/contract';
+import { instantBuy, offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
 import { connection, PROGRAM_ID, PROGRAM_INTERFACE, commitmentLevel } from '@/web3/utils';
 import { web3 } from '@coral-xyz/anchor';
-import { useAnchorWallet } from '@solana/wallet-adapter-react';
+import { AnchorWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
 import Notification from '@/components/Notification';
 import useScreen from '@/hooks/useScreen';
 
 import { NATIVE_MINT } from '@solana/spl-token';
+import { useRouter } from 'next/navigation';
+import { PublicKey } from '@solana/web3.js';
 
 interface BuyModalProps {
   name: string;
   image: string;
   mintAddress?: string | null;
-  listStatus?: number;
+  owner?: string;
+  creators?: any;
   listingPrice?: string | null;
   onClose: () => void;
 }
 
-export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, listStatus, listingPrice, onClose }) => {
+export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, creators, owner, listingPrice, onClose }) => {
   const [offerPrice, setOfferPrice] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const [expirationDate, setExpirationDate] = useState<string | undefined>(undefined);
   const wallet = useAnchorWallet();
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [modalMessage, setModalMessage] = useState(''); // State for modal message
+  const [connectModal, setConnectModal] = useState(false);
   const [modalVariant, setModalVariant] = useState<'error' | 'success'>('success');
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const [notification, setNotification] = useState<{ variant: 'default' | 'success' | 'warning' | 'danger'; heading: string; content: string } | null>(null);
+  const [notification, setNotification] = useState<{
+    variant: 'default' | 'success' | 'warning' | 'danger';
+    heading: string;
+    content: string;
+  } | null>(null);
   const isMobile = useScreen();
+
+  const router = useRouter();
+
+  const handleConnectModal = () => {
+    setConnectModal(!connectModal);
+  };
 
   useEffect(() => {
     // Disable background scrolling when modal is open
@@ -69,151 +82,46 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, li
     }
   }, [modalRef]);
 
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOfferPrice(Number(event.target.value));
-  };
-
-  const handlePriceChangeByPercent = (percent: string) => {
-    if (percent == 'max') {
-      setOfferPrice(Number(listingPrice));
-    } else if (percent == '-5%') {
-      setOfferPrice(Number(listingPrice) * 0.95);
-    } else if (percent == '-10%') {
-      setOfferPrice(Number(listingPrice) * 0.9);
-    }
-  };
-
-  const handleOffer = async () => {
-    if (!wallet || !wallet.publicKey) {
-      setNotification({
-        variant: 'warning',
-        heading: 'Connect Your Wallet',
-        content: 'Please connect your wallet to proceed with the action.',
-      });
-      return;
-    }
-
-    if (!offerPrice) {
-      setNotification({
-        variant: 'warning',
-        heading: 'Price Required',
-        content: 'Please enter a price to continue.',
-      });
-
-      return;
-    }
-
-    setLoading(true);
-
+  const handleInstantBuy = async () => {
     try {
-      const provider = new anchor.AnchorProvider(connection, wallet, {
+      setLoading(true);
+      if (!wallet?.publicKey) {
+        handleConnectModal();
+        return;
+      }
+      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
         preflightCommitment: commitmentLevel,
       });
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const price = new BN(offerPrice * web3.LAMPORTS_PER_SOL);
-      const expiry = null;
-
       const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
       const treasuryMint = NATIVE_MINT;
       const nftMint = new web3.PublicKey(mintAddress as string);
-
-      const tx = await offer(program, wallet, authority, treasuryMint, nftMint, price, expiry);
+      const seller = new web3.PublicKey(owner as string);
+      const creatorList = creators.map((creator: string) => new PublicKey(creator));
+      const tx = await instantBuy(program, wallet as AnchorWallet, seller, authority, treasuryMint, nftMint, creatorList);
 
       if (tx) {
-        setModalVariant('success');
         setNotification({
           variant: 'success',
-          heading: 'Offer Successful!',
-          content: 'Your offer has been successfully submitted.',
+          heading: 'Instant Buy Successful!',
+          content: 'Your purchase was completed successfully.',
         });
+        router.refresh();
+        router.back();
       } else {
-        setModalVariant('error');
         setNotification({
           variant: 'danger',
-          heading: 'Offer Failed!',
-          content: 'There was an issue with your offer. Please try again later or contact support if the problem persists.',
+          heading: 'Instant Buy Failed',
+          content: 'Instant Buy transaction could not be completed.',
         });
       }
     } catch (error) {
-      console.error('Offer error:', error);
-      setModalVariant('error');
-      setNotification({
-        variant: 'danger',
-        heading: 'Error During Offer',
-        content: 'An error occurred while processing your offer. Please try again later or contact support if the issue persists.',
-      });
+      console.error('InstantBuy error:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
-    setIsModalOpen(true);
-    onClose();
-  };
-
-  const handleOfferToAuction = async () => {
-    if (!wallet || !wallet.publicKey) {
-      setNotification({
-        variant: 'warning',
-        heading: 'Connect Your Wallet',
-        content: 'Please connect your wallet to proceed with this action.',
-      });
-      return;
-    }
-
-    if (!offerPrice) {
-      setNotification({
-        variant: 'warning',
-        heading: 'Price Required',
-        content: 'Please enter a price to proceed.',
-      });
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const provider = new anchor.AnchorProvider(connection, wallet, {
-        preflightCommitment: commitmentLevel,
-      });
-
-      const program = new anchor.Program(PROGRAM_INTERFACE, provider);
-
-      const price = new BN(offerPrice * web3.LAMPORTS_PER_SOL);
-
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
-      const nftMint = new web3.PublicKey(mintAddress as string);
-
-      const tx = await offerToAuction(program, wallet, authority, treasuryMint, nftMint, price);
-
-      if (tx) {
-        setModalVariant('success');
-        setNotification({
-          variant: 'success',
-          heading: 'Offer Successful!',
-          content: 'Your offer has been successfully submitted.',
-        });
-      } else {
-        setModalVariant('error');
-        setNotification({
-          variant: 'danger',
-          heading: 'Offer Failed!',
-          content: 'Your offer could not be processed.',
-        });
-      }
-    } catch (error) {
-      setModalVariant('error');
-      setNotification({
-        variant: 'danger',
-        heading: 'Offer Error',
-        content: 'An error occurred while processing your offer.',
-      });
-    }
-
-    setLoading(false);
-    setIsModalOpen(true);
-    onClose();
   };
 
   const topHeight = isMobile ? '30px' : '70px';
@@ -271,16 +179,7 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, li
                   <div className='flex justify-center items-center gap-1'>
                     <Image src={solanaIcon} alt='solanaIcon' style={{ width: '16px' }}></Image>
                     <div className='flex justify-center items-center'>
-                      <span className='text-white'>{Number(offerPrice)}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className='flex justify-between'>
-                  <span className='text-[#afafaf]'>Royalty Fee:</span>
-                  <div className='flex justify-center items-center gap-1'>
-                    <Image src={solanaIcon} alt='solanaIcon' style={{ width: '16px' }}></Image>
-                    <div className='flex justify-center items-center'>
-                      <span className='text-white'>{Number(offerPrice)}</span>
+                      <span className='text-white'>{Number(listingPrice)}</span>
                     </div>
                   </div>
                 </div>
@@ -289,7 +188,7 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, li
                   <div className='flex justify-center items-center gap-1'>
                     <Image src={solanaIcon} alt='solanaIcon' style={{ width: '16px' }}></Image>
                     <div className='flex justify-center items-center'>
-                      <span className='text-white'>{Number(offerPrice)}</span>
+                      <span className='text-white'>{Number(listingPrice) * 0.02}(2%)</span>
                     </div>
                   </div>
                 </div>
@@ -313,9 +212,9 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, li
                   border: '2px solid #5E5E5E',
                   color: '#F5F5F5',
                 }}
-                onClick={listStatus == 1 ? handleOffer : handleOfferToAuction}
+                onClick={handleInstantBuy}
               >
-                Buy Now for 1.56 SOL
+                Buy Now for {listingPrice} SOL
               </button>
             </div>
           </div>

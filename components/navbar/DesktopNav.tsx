@@ -12,14 +12,6 @@ import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes';
 import { CookieRepository } from '@/storages/cookie/cookie-repository';
 import { AuthService } from '@/services/auth-service';
 import quitImage from '@/public/images/power.png';
-import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
-import * as anchor from '@coral-xyz/anchor';
-import { BN } from '@coral-xyz/anchor';
-import { NATIVE_MINT } from '@solana/spl-token';
-import { deposit } from '@/web3/contract';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
-import axios from 'axios';
-import createAxiosClient from '@/api/axiosClient';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['500', '600', '700'],
@@ -33,53 +25,23 @@ const DesktopNav = (
 ) => {
   const [connectModal, setConnectModal] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  const [depositDropdown, setDepositDropdown] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const wallet = useWallet();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const previousPublicKey = useRef(wallet.publicKey);
-  const [depositAmount, setDepositAmount] = useState(1);
-  const [amount, setAmount] = useState(0);
 
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
   };
 
-  const handleDepositAmountChange = (e: any) => {
-    setDepositAmount(Number(e.target.value));
-  };
-
-  const handleDeposit = async () => {
-    try {
-      if (!wallet?.publicKey) {
-        handleConnectModal();
-        return;
-      }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
-
-      const program = new anchor.Program(PROGRAM_INTERFACE, provider);
-
-      const authority = new anchor.web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
-
-      const tx = await deposit(program, wallet as AnchorWallet, authority, treasuryMint, new anchor.BN(depositAmount * LAMPORTS_PER_SOL));
-
-      if (tx) {
-        alert('Deposit successful!');
-      } else {
-        alert('Deposit failed.');
-      }
-    } catch (error) {
-      console.error('Deposit error:', error);
-    }
-    setDepositDropdown(!depositDropdown);
-  };
-
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target as Node)
+    ) {
       setDropdown(false);
     }
   };
@@ -120,7 +82,12 @@ const DesktopNav = (
   };
 
   useEffect(() => {
-    if (!isLoggedIn && !CookieRepository.getAccessToken() && !CookieRepository.getRefreshToken() && wallet.publicKey) {
+    if (
+      !isLoggedIn &&
+      !CookieRepository.getAccessToken() &&
+      !CookieRepository.getRefreshToken() &&
+      wallet.publicKey
+    ) {
       loginUser();
     }
   }, [isLoggedIn, wallet.connected]);
@@ -141,35 +108,62 @@ const DesktopNav = (
     };
   }, []);
 
-  useEffect(() => {
-    const fetchAmount = async () => {
-      try {
-        if (wallet.connected) {
-          const axiosClient = await createAxiosClient();
-          const response = await axiosClient.get('/deposit');
-          setAmount(response.data.amount);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchAmount();
-  }, [wallet.connected]);
-
   return (
     <div
       className={`w-full h-[71px] sticky py-5 px-16 top-0 z-40 text-base justify-between flex flex-row items-center pl-20 bg-[#181818] ${ibmSans.className}`}
     >
-      {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
-      <div className='relative' style={{ left: '23px' }}>
-        <Icon icon='mingcute:search-line' className='absolute left-[20px] top-1/2 transform -translate-y-1/2' width={20} height={20} />
-        <input type='text' className='py-2 h-11 pl-10 pr-3 rounded-md' style={{ backgroundColor: '#262626', width: '491px' }} />
+      {connectModal && (
+        <ConnectModal
+          handleConnectModal={handleConnectModal}
+          isOpen={connectModal}
+        />
+      )}
+      <div
+        className='relative'
+        style={{ left: '23px' }}
+      >
+        <Icon
+          icon='mingcute:search-line'
+          className='absolute left-[20px] top-1/2 transform -translate-y-1/2'
+          width={20}
+          height={20}
+        />
+        <input
+          type='text'
+          className='py-2 h-11 pl-10 pr-3 rounded-md'
+          style={{ backgroundColor: '#262626', width: '491px' }}
+        />
       </div>
 
-      {wallet.connected ? (
+      {!wallet.connected ? (
+        <button
+          className=' text-black rounded-3xl py-2 justify-center font-semibold items-center'
+          style={{
+            width: '136px',
+            height: '34px',
+            background:
+              'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+            fontFamily: 'IBM Plex Sans',
+            fontWeight: 600,
+            fontSize: '14px',
+            lineHeight: '18.2px',
+          }}
+          onClick={() => handleConnectModal()}
+        >
+          Connect Wallet
+        </button>
+      ) : (
         <div className='flex gap-8'>
-          <button ref={buttonRef} onClick={() => setDropdown(!dropdown)}>
-            <Image src={userSvg} alt='user' width={48} height={48} />
+          <button
+            ref={buttonRef}
+            onClick={() => setDropdown(!dropdown)}
+          >
+            <Image
+              src={userSvg}
+              alt='user'
+              width={48}
+              height={48}
+            />
           </button>
           <AnimatePresence>
             {dropdown && (
@@ -183,12 +177,25 @@ const DesktopNav = (
               >
                 <Dropdown>
                   <div className='pl-[45px] rounded-3xl py-2  font-semibold  md:w-[244px]'>
-                    <Link href='/profile' onClick={() => setDropdown(!dropdown)} className='w-full text-center'>
+                    <Link
+                      href='/profile'
+                      onClick={() => setDropdown(!dropdown)}
+                      className='w-full text-center'
+                    >
                       Manage Wallets
                     </Link>
                   </div>
-                  <button className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]' onClick={() => disConnectWallet()}>
-                    <Image src={quitImage} alt='Quit' width={24} height={24} style={{ marginRight: '8px' }} />
+                  <button
+                    className='flex rounded-3xl py-2 justify-center font-semibold items-center md:w-[244px]'
+                    onClick={() => disConnectWallet()}
+                  >
+                    <Image
+                      src={quitImage}
+                      alt='Quit'
+                      width={24}
+                      height={24}
+                      style={{ marginRight: '8px' }}
+                    />
                     Disconnect Wallet
                   </button>
                 </Dropdown>
@@ -196,22 +203,6 @@ const DesktopNav = (
             )}
           </AnimatePresence>
         </div>
-      ) : (
-        <button
-          className=' text-black rounded-3xl py-2 justify-center font-semibold items-center'
-          style={{
-            width: '136px',
-            height: '34px',
-            background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
-            fontFamily: 'IBM Plex Sans',
-            fontWeight: 600,
-            fontSize: '14px',
-            lineHeight: '18.2px',
-          }}
-          onClick={() => handleConnectModal()}
-        >
-          Connect Wallet
-        </button>
       )}
     </div>
   );
