@@ -47,7 +47,6 @@ export const BuyModal: React.FC<BuyModalProps> = ({
   symbol,
   onClose,
 }) => {
-  const [offerPrice, setOfferPrice] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const wallet = useAnchorWallet();
 
@@ -256,7 +255,9 @@ export const BuyModal: React.FC<BuyModalProps> = ({
                   <span className='text-[#afafaf]'>Marketplace Fee;</span>
                   <div className='flex justify-center items-center gap-1'>
                     <Image
-                      src={solanaIcon}
+                      src={coin.image}
+                      width={16}
+                      height={16}
                       alt='solanaIcon'
                       style={{ width: '16px' }}
                     ></Image>

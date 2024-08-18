@@ -129,6 +129,7 @@ export default function ProfilePage() {
                 image={nft.image}
                 price={nft.price}
                 mintAddress={nft.mintAddress?.toString()}
+                symbol={nft.symbol}
               />
             ))}
           </div>
@@ -152,6 +153,7 @@ export default function ProfilePage() {
                 image={nft.image}
                 price={nft.price}
                 mintAddress={nft.mintAddress?.toString()}
+                symbol={nft.symbol}
               />
             ))}
           </div>

@@ -108,6 +108,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           listStatus={listStatus}
           listingPrice={price}
           mintAddress={mintAddress}
+          symbol={symbol}
           onClose={closeOfferModal}
         />
       )}
@@ -118,6 +119,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           owner={owner}
           listingPrice={price}
           creators={creators}
+          symbol={symbol}
           mintAddress={mintAddress}
           onClose={closeBuyModal}
         />

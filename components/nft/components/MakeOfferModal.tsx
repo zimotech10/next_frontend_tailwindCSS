@@ -62,6 +62,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
   useEffect(() => {
     try {
       if (symbol) {
+        console.log(symbol);
         setCoin(coinList.find((coin) => coin.symbol === symbol));
       }
     } catch (error) {
