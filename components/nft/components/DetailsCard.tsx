@@ -481,7 +481,8 @@ export const DetailsCard = (
                     props.startTime * 1000 < new Date().getTime() &&
                     new Date().getTime() < props.endTime * 1000 && (
                       <button
-                        className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl text-black'
+                        className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
+                        ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
                         style={{
                           background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                         }}
@@ -529,7 +530,8 @@ export const DetailsCard = (
                 props.startTime * 1000 < new Date().getTime() &&
                 new Date().getTime() < props.endTime * 1000 && (
                   <button
-                    className='w-full px-4 py-3 md:px-10 flex flex-row gap-2 items-center justify-center rounded-3xl text-black'
+                    className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
+                    ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
                     style={{
                       background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
