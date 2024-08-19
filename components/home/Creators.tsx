@@ -13,22 +13,24 @@ const electronicaInLine = localFont({ src: '../../fonts/ElectronicaInline.otf' }
 const Creators = () => {
   return (
     <div className='md:pl-28 md:pt-14'>
-      <div className='flex flex-row'>
-        <Image src={Vector} alt='vector'></Image>
-        <div
-          className={`text-[24px] md:text-[32px]  ${electronica.className}`}
-          style={{
-            lineHeight: '55.6px',
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          }}
-        >
-          HOW WE HELP CREATORS
+      <div className='flex md:flex-row flex-col items-center md:mt-0 mt-10'>
+        <div className='flex'>
+          <Image src={Vector} alt='vector'></Image>
+          <div
+            className={`text-[24px] md:text-[32px]  ${electronica.className}`}
+            style={{
+              lineHeight: '55.6px',
+              letterSpacing: '-0.01em',
+              fontWeight: '400',
+            }}
+          >
+            HOW WE HELP CREATORS
+          </div>
+          <Image src={Vector} alt='vector'></Image>
         </div>
-        <Image src={Vector} alt='vector'></Image>
       </div>
-      <div className='flex flex-col pl-20 gap-20'>
-        <div className='flex flex-row justify-center pr-[170px] pt-8 gap-[300px]'>
+      <div className='flex flex-col md:pl-20 pl-10 gap-20'>
+        <div className='flex md:flex-row flex-col justify-center pr-[170px] pt-8 md:gap-[300px] gap-[32px]'>
           <div className='flex flex-col'>
             <Image src={AdvertisingImg} alt='Advertising'></Image>
             <div className={`pt-6 text-3xl ${electronica.className}`}>ADVERTISING</div>
@@ -38,16 +40,16 @@ const Creators = () => {
           </div>
           <div className='flex flex-col'>
             <Image src={CustomWebsiteImg} alt='Custom Website'></Image>
-            <div className={`pt-6 text-3xl ${electronica.className}`}>CUSTOM WEBSITE</div>
+            <div className={`pt-6 text-3xl w-[350px] ${electronica.className}`}>CUSTOM WEBSITE</div>
             <div className='pt-6 text-[#AFAFAF] text-lg w-[400px]'>
               With your email we create a Remote Digital Wallet to store your NFTs, and give you access on all devices
             </div>
           </div>
         </div>
-        <div className='flex flex-row justify-center pr-[170px] gap-[300px]'>
+        <div className='flex md:flex-row flex-col justify-center pr-[170px] md:gap-[300px] gap-[32px]'>
           <div className='flex flex-col'>
             <Image src={ProSupport} alt='Pro Support'></Image>
-            <div className={`pt-6 text-3xl ${electronica.className}`}>PRO SUPPORT</div>
+            <div className={`pt-6 text-3xl w-[350px] ${electronica.className}`}>PRO SUPPORT</div>
             <div className='pt-6 text-[#AFAFAF] text-lg w-[400px]'>
               With your email we create a Remote Digital Wallet to store your NFTs, and give you access on all devices
             </div>

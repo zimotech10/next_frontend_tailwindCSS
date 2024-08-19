@@ -34,19 +34,21 @@ const launchesItems = [
 const UpComing = () => {
   return (
     <div className='md:pl-28'>
-      <div className='flex flex-row'>
-        <Image src={Vector} alt='vector'></Image>
-        <div
-          className={`text-[24px] md:text-[32px]  ${electronica.className}`}
-          style={{
-            lineHeight: '55.6px',
-            letterSpacing: '-0.01em',
-            fontWeight: '400',
-          }}
-        >
-          UPCOMING LAUNCHES
+      <div className='flex md:flex-row flex-col items-center md:mt-0 mt-10'>
+        <div className='flex'>
+          <Image src={Vector} alt='vector'></Image>
+          <div
+            className={`text-[24px] md:text-[32px]  ${electronica.className}`}
+            style={{
+              lineHeight: '55.6px',
+              letterSpacing: '-0.01em',
+              fontWeight: '400',
+            }}
+          >
+            UPCOMING LAUNCHES
+          </div>
+          <Image src={Vector} alt='vector'></Image>
         </div>
-        <Image src={Vector} alt='vector'></Image>
       </div>
       <div className='flex md:flex-row flex-col items-center justify-center gap-16'>
         {launchesItems.map((item, index) => (

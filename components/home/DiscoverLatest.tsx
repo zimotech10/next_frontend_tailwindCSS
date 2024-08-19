@@ -36,8 +36,8 @@ const DiscoverLatest = () => {
   };
   return (
     <div className='md:pl-28 md:pt-14'>
-      <div className='flex justify-between pr-20'>
-        <div className='flex gap-8'>
+      <div className='flex md:flex-row flex-col  md:justify-between justify-center md:items-start items-center md:pr-20 pr-0 md:mt-0 mt-10'>
+        <div className='flex md:flex-row flex-col items-center gap-8'>
           <div className='flex '>
             <Image src={Vector} alt='vector'></Image>
             <div
@@ -78,7 +78,7 @@ const DiscoverLatest = () => {
           </div>
         </div>
         <button
-          className='px-4 md:px-10 items-center rounded-3xl text-[16px]'
+          className='py-2 px-4 md:px-10 items-center rounded-3xl text-[16px]'
           style={{
             border: '2px solid #FFB703',
             color: '#F5F5F5',

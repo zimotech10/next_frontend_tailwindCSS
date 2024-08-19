@@ -93,7 +93,7 @@ const TopCollection = () => {
   };
   return (
     <div className='md:pl-28 md:pt-14'>
-      <div className='flex gap-8'>
+      <div className='flex md:flex-row flex-col gap-8 items-center md:mt-0 mt-10'>
         <div className='flex'>
           <Image src={Vector} alt='vector'></Image>
           <div
