@@ -34,6 +34,16 @@ body {
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
+  #lampapuy {
+    background: url('../public/images/lampapuy-solana.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  #getStarted {
+    background: url('../public/images/get-started.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 }
 
 .checkbox-container {
