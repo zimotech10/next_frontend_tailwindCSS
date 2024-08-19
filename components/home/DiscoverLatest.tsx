@@ -121,7 +121,7 @@ const DiscoverLatest = () => {
         </div>
         <Link
           href={'/explorer'}
-          className='flex px-4 md:px-10 items-center rounded-3xl text-[16px]'
+          className='flex px-4 py-2 md:px-10 items-center rounded-3xl text-[16px]'
           style={{
             border: '2px solid #FFB703',
             color: '#F5F5F5',
