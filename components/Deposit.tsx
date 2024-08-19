@@ -23,6 +23,7 @@ export default function Deposit() {
   const handleDepositAmountChange = (e: any) => {
     setDepositAmount(Number(e.target.value));
   };
+  const [depositCoins, setDepositCoins] = useState<any>();
   const [amount, setAmount] = useState(0);
   const [selectedCoin, setSelectedCoin] = useState<any>(coinList[0]);
 
@@ -32,7 +33,7 @@ export default function Deposit() {
         if (wallet.connected) {
           const axiosClient = await createAxiosClient();
           const response = await axiosClient.get('/deposit');
-          setAmount(response.data.amount);
+          setDepositCoins(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -40,6 +41,20 @@ export default function Deposit() {
     };
     fetchAmount();
   }, [wallet.connected]);
+
+  useEffect(() => {
+    try {
+      if (depositCoins) {
+        const coin = depositCoins.find(
+          (coin: any) => coin.symbol == selectedCoin.symbol
+        );
+        if (coin && coin.amount) setAmount(coin.amount);
+        else setAmount(0);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [selectedCoin, depositCoins]);
 
   const handleDeposit = async () => {
     try {

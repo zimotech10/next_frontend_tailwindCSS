@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import walletIcon from '@/public/images/wallet_logo.png';
 import alertIcon from '@/public/images/gridicons_notice-outline.png';
-import { listing, offer, offerToAuction } from '@/web3/contract';
+import { offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
 import {
@@ -18,7 +18,6 @@ import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
 import Notification from '@/components/Notification';
 import useScreen from '@/hooks/useScreen';
-import CoinSelect from '@/components/CoinSelect';
 import coinList from '@/utils/coinInfoList';
 
 interface MakeOfferModalProps {

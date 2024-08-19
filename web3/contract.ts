@@ -1,7 +1,6 @@
 import * as anchor from '@coral-xyz/anchor';
 import {
   SYSVAR_RENT_PUBKEY,
-  Keypair,
   PublicKey,
   SYSVAR_INSTRUCTIONS_PUBKEY,
 } from '@solana/web3.js';
@@ -10,10 +9,8 @@ import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   NATIVE_MINT,
   getAssociatedTokenAddress,
-  getOrCreateAssociatedTokenAccount,
   createAssociatedTokenAccountInstruction,
 } from '@solana/spl-token';
-// import  {BictoryMarketplace}  from "../stores/idl";
 import {
   AUTHORIZATION_RULES_PROGRAM_ID,
   findAuctionAccount,
@@ -51,8 +48,6 @@ export async function createAuctionHouse(
         treasuryWithdrawOwner
       );
     }
-    console.log('auctionHouse', auctionHouse.toString());
-    console.log('payer', payer.publicKey.toString());
     const tx = await program.methods
       .createAuctionHouse(
         sellerFeeBasispoints,
@@ -331,6 +326,11 @@ export const instantBuy = async (
     : await getAssociatedTokenAddress(treasuryMint, seller);
 
   const escrowWallet = findEscrowWallet(buyer.publicKey, auctionHouse);
+  // const escrowWallet = await getAssociatedTokenAddress(
+  //   treasuryMint,
+  //   buyer.publicKey
+  // );
+
   const listingAccount = findListingAccount(nftMint);
   const nftToAccountInfo = await program.provider.connection.getAccountInfo(
     nftToAccount
@@ -377,6 +377,15 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
+  console.log({
+    buyer: buyer.publicKey,
+    seller: seller,
+    escrowPaymentAccount: escrowWallet,
+    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
+    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+    authority: authority,
+    treasuryMint: treasuryMint,
+  });
   try {
     const tx = await program.methods
       .instantBuy()

@@ -661,7 +661,7 @@ export const DetailsCard = (
                           icon='ph:lightning'
                           style={{ color: 'black' }}
                         />
-                        Buy now for {props.listingPrice} SOL
+                        Buy now for {props.listingPrice} {props.symbol}
                       </>
                     )}
                   </button>
@@ -761,7 +761,7 @@ export const DetailsCard = (
             ) : (
               <div className='grid grid-cols-12 text-[#AFAFAF] justify-between'>
                 <div className='col-span-1 py-2 text-center'>S/N</div>
-                <div className='col-span-6 py-2 text-center'>From</div>
+                <div className='col-span-5 py-2 text-center'>From</div>
                 <div className='col-span-2 py-2 text-right'>Price</div>
                 <div
                   className={`${
@@ -771,7 +771,7 @@ export const DetailsCard = (
                   Timestamp
                 </div>
                 {props.listStatus == 1 && props.isOwner && (
-                  <div className='col-span-1 py-2 text-center'>Action</div>
+                  <div className='col-span-2 py-2 text-center'>Action</div>
                 )}
               </div>
             )}
@@ -787,25 +787,31 @@ export const DetailsCard = (
                         <span className='font-semibold'>Offer Received</span>
                       </div>
                       {props.listStatus == 1 && props.isOwner && (
-                        <button className='bg-transparent border border-green-400 text-green-400 rounded-lg px-4 py-1'>
+                        <button
+                          className='bg-transparent border border-green-400 text-green-400 rounded-lg px-4 py-1'
+                          onClick={() => handleAcceptOffer(row.id)}
+                        >
                           Accept
                         </button>
                       )}
                     </div>
                     <div className='mt-4'>
                       <p>From</p>
-                      <p className='text-white'>@heyimjoe</p>
+                      <p className='text-white'>
+                        {formatAddress(row.walletAddress)}
+                      </p>
                     </div>
                     <div className='flex justify-between items-center mt-4'>
                       <div className='flex items-center gap-1'>
                         <Image
-                          src={SolanaImg}
+                          src={coin.image}
                           alt='solana'
                           width={18}
+                          height={18}
                         ></Image>
                         <span className='text-white text-lg'>
                           {' '}
-                          {row.offerPrice} Sol
+                          {row.offerPrice} {props.symbol}
                         </span>
                       </div>
                       <p className='text-gray-500'>
@@ -821,7 +827,7 @@ export const DetailsCard = (
                     <div className='col-span-12 md:col-span-1 py-2 text-center'>
                       {index + 1}
                     </div>
-                    <div className='col-span-12 md:col-span-6 py-2 text-center'>
+                    <div className='col-span-12 md:col-span-5 py-2 text-center'>
                       {row.walletAddress}
                     </div>
                     <div className='col-span-12 md:col-span-2 py-2 text-right'>
@@ -835,7 +841,7 @@ export const DetailsCard = (
                       {timeOffset(row.updatedAt)}
                     </div>
                     {props.listStatus == 1 && props.isOwner && (
-                      <div className='col-span-12 md:col-span-1 text-center'>
+                      <div className='col-span-12 md:col-span-2 text-center'>
                         <button
                           className='py-2 px-6 rounded-3xl text-white border-[1px] border-[#AFAFAF] md:w-auto w-full'
                           onClick={() => handleAcceptOffer(row.id)}

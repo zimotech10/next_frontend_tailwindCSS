@@ -130,7 +130,7 @@ export const BuyModal: React.FC<BuyModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(String(coin.address));
       const nftMint = new web3.PublicKey(mintAddress as string);
       const seller = new web3.PublicKey(owner as string);
       const creatorList = creators.map(
@@ -153,7 +153,6 @@ export const BuyModal: React.FC<BuyModalProps> = ({
           content: 'Your purchase was completed successfully.',
         });
         router.refresh();
-        router.back();
       } else {
         setNotification({
           variant: 'danger',

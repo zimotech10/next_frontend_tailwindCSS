@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import solanaIcon from '@/public/images/solana-logo.png';
 import { ItemSummary } from '@/components/ItemSummary';
 import { createAuction, listing } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
@@ -18,7 +16,6 @@ import Notification from '@/components/Notification';
 import PopUp from '@/components/PopUp';
 
 type ListingType = 'listing-fixed' | 'listing-auction';
-import { NATIVE_MINT } from '@solana/spl-token';
 import { useRouter } from 'next/navigation';
 import CoinSelect from '@/components/CoinSelect';
 import coinList from '@/utils/coinInfoList';
@@ -467,7 +464,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                     Price:
                   </span>
                   <span className='text-base font-semibold'>
-                    {fixedPrice} SOL
+                    {fixedPrice} {selectedCoin.symbol}
                   </span>
                 </div>
                 <button
@@ -501,7 +498,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                     Minimum Bid:
                   </span>
                   <span className='text-base font-semibold'>
-                    {minimumBid} SOL
+                    {minimumBid} {selectedCoin.symbol}
                   </span>
                 </div>
                 <div className='flex flex-row justify-between w-full'>
