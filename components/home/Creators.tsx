@@ -28,7 +28,7 @@ const Creators = () => {
         <Image src={Vector} alt='vector'></Image>
       </div>
       <div className='flex flex-col pl-20 gap-20'>
-        <div className='flex flex-row justify-between pr-[170px]'>
+        <div className='flex flex-row justify-center pr-[170px] pt-8 gap-[300px]'>
           <div className='flex flex-col'>
             <Image src={AdvertisingImg} alt='Advertising'></Image>
             <div className={`pt-6 text-3xl ${electronica.className}`}>ADVERTISING</div>
@@ -44,7 +44,7 @@ const Creators = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-row justify-between pr-[170px]'>
+        <div className='flex flex-row justify-center pr-[170px] gap-[300px]'>
           <div className='flex flex-col'>
             <Image src={ProSupport} alt='Pro Support'></Image>
             <div className={`pt-6 text-3xl ${electronica.className}`}>PRO SUPPORT</div>
@@ -53,7 +53,7 @@ const Creators = () => {
             </div>
           </div>
           <button
-            className='flex flex-col items-center justify-center my-4md:mb-12 md:mt-8'
+            className='flex flex-col items-center justify-center'
             style={{
               background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
               borderRadius: '18px',

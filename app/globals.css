@@ -46,6 +46,19 @@ body {
   }
 }
 
+@media screen and (max-width: 768px) {
+  #lampapuy {
+    background: url('../public/images/lampapuy-solana.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  #getStarted {
+    background: url('../public/images/get-started-mobile.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}
+
 .checkbox-container {
   display: inline-block;
   cursor: pointer;

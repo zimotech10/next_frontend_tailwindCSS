@@ -4,8 +4,8 @@ const electronica = localFont({ src: '../../fonts/Electronica.otf' });
 
 const GetStarted = () => {
   return (
-    <div id='getStarted' className='md:mx-28 md:mt-14 rounded-[24px] h-[314px] pt-[68px] pl-10'>
-      <div className={`${electronica.className} text-black text-4xl w-[454px] `}>
+    <div id='getStarted' className='mx-4 md:ml-28 md:mr-12 md:mt-14 rounded-[24px] md:h-[314px] h-[556px] pt-[68px] md:pl-10 pl-6'>
+      <div className={`${electronica.className} text-black md:text-4xl text-2xl w-[454px] `}>
         GET STARTED.
         <br /> PICK A DOMAIN NAME
       </div>
