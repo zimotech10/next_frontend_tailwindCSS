@@ -1,10 +1,11 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import DiscoverCard from './DiscoverItem';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import Vector from '@/public/images/Vector-green.png';
 import Image from 'next/image';
 import localFont from 'next/font/local';
+import Link from 'next/link';
 
 const electronica = localFont({ src: '../../fonts/Electronica.otf' });
 const featuredItems = [
@@ -34,6 +35,19 @@ const DiscoverLatest = () => {
     setSort(method);
     setSortModal(false);
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+      setSortModal(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   return (
     <div className='md:pl-28 md:pt-14'>
       <div className='flex md:flex-row flex-col  md:justify-between justify-center md:items-start items-center md:pr-20 pr-0 md:mt-0 mt-10'>
@@ -61,31 +75,60 @@ const DiscoverLatest = () => {
             <Icon icon='mingcute:down-line' width={20} />
             {sortModal && (
               <div className='absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start' style={{ width: '170px', backgroundColor: '#0B0A0A' }}>
-                <div onClick={() => selectSort('Most Recent', 'date', 'desc')} style={{ width: '100%', cursor: 'pointer', pointerEvents: 'auto' }}>
+                <div
+                  onClick={() => selectSort('Most Recent', 'date', 'desc')}
+                  style={{
+                    width: '100%',
+                    cursor: 'pointer',
+                    pointerEvents: 'auto',
+                  }}
+                >
                   <span>Most Recent</span>
                 </div>
-                <div onClick={() => selectSort('Oldest', 'date', 'asc')} style={{ width: '100%', cursor: 'pointer', pointerEvents: 'auto' }}>
+                <div
+                  onClick={() => selectSort('Oldest', 'date', 'asc')}
+                  style={{
+                    width: '100%',
+                    cursor: 'pointer',
+                    pointerEvents: 'auto',
+                  }}
+                >
                   <span>Oldest</span>
                 </div>
-                <div onClick={() => selectSort('Price: Low to High', 'price', 'asc')} style={{ width: '100%', cursor: 'pointer', pointerEvents: 'auto' }}>
+                <div
+                  onClick={() => selectSort('Price: Low to High', 'price', 'asc')}
+                  style={{
+                    width: '100%',
+                    cursor: 'pointer',
+                    pointerEvents: 'auto',
+                  }}
+                >
                   <span>Price: Low to High</span>
                 </div>
-                <div onClick={() => selectSort('Price: High to Low', 'price', 'desc')} style={{ width: '100%', cursor: 'pointer', pointerEvents: 'auto' }}>
+                <div
+                  onClick={() => selectSort('Price: High to Low', 'price', 'desc')}
+                  style={{
+                    width: '100%',
+                    cursor: 'pointer',
+                    pointerEvents: 'auto',
+                  }}
+                >
                   <span>Price: High to Low</span>
                 </div>
               </div>
             )}
           </div>
         </div>
-        <button
-          className='py-2 px-4 md:px-10 items-center rounded-3xl text-[16px]'
+        <Link
+          href={'/explorer'}
+          className='flex px-4 md:px-10 items-center rounded-3xl text-[16px]'
           style={{
             border: '2px solid #FFB703',
             color: '#F5F5F5',
           }}
         >
           Explore Collection
-        </button>
+        </Link>
       </div>
       <div className='flex flex-wrap md:flex-row flex-col items-center justify-center gap-16 pt-8'>
         {featuredItems.map((item, index) => (

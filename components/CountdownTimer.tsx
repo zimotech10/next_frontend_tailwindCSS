@@ -5,7 +5,10 @@ type CountdownTimerProps = {
   endTime: number | undefined; // Target time as a Unix timestamp (in seconds)
 };
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) => {
+const CountdownTimer: React.FC<CountdownTimerProps> = ({
+  startTime,
+  endTime,
+}) => {
   const [timeLeft, setTimeLeft] = useState<number>(calculateTimeLeft());
 
   useEffect(() => {
@@ -77,7 +80,8 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) =
         border: '1px solid transparent',
         backgroundClip: 'padding-box, border-box',
         backgroundOrigin: 'border-box',
-        backgroundImage: 'linear-gradient(#000, #000), linear-gradient(to right, #000000 0%, #EEAF0D 80%, #000000 10%, #000000 0%, #EEAF0D 80%, #000000 100%)',
+        backgroundImage:
+          'linear-gradient(#000, #000), linear-gradient(to right, #000000 0%, #EEAF0D 80%, #000000 10%, #000000 0%, #EEAF0D 80%, #000000 100%)',
       }}
     >
       {isStartedAuction() ? (
@@ -97,11 +101,16 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) =
                   days
                 </div>
               </div>
-              <div className='text-4xl font-bold' style={{ color: '#2e2101' }}>
+              <div
+                className='text-4xl font-bold'
+                style={{ color: '#2e2101' }}
+              >
                 :
               </div>
               <div className='text-center'>
-                <div className='text-4xl font-bold text-yellow-500'>{hours}</div>
+                <div className='text-4xl font-bold text-yellow-500'>
+                  {hours}
+                </div>
                 <div
                   className='text-sm mt-1'
                   style={{
@@ -112,11 +121,16 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) =
                   hrs
                 </div>
               </div>
-              <div className='text-4xl font-bold' style={{ color: '#2e2101' }}>
+              <div
+                className='text-4xl font-bold'
+                style={{ color: '#2e2101' }}
+              >
                 :
               </div>
               <div className='text-center'>
-                <div className='text-4xl font-bold text-yellow-500'>{minutes}</div>
+                <div className='text-4xl font-bold text-yellow-500'>
+                  {minutes}
+                </div>
                 <div
                   className='text-sm mt-1'
                   style={{
@@ -127,7 +141,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) =
                   mins
                 </div>
               </div>
-              <div className='text-4xl font-bold' style={{ color: '#2e2101' }}>
+              <div
+                className='text-4xl font-bold'
+                style={{ color: '#2e2101' }}
+              >
                 :
               </div>
               <div className='text-center'>
@@ -148,7 +165,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ startTime, endTime }) =
           <h1 className='text-2xl'>Finished Auction!</h1>
         )
       ) : (
-        <h1 className='text-2xl'>Starting from {unixTimeToDateAndTime(Number(startTime))}!</h1>
+        <h1 className='text-2xl'>
+          Starting from {unixTimeToDateAndTime(Number(startTime))}!
+        </h1>
       )}
     </div>
   );

@@ -1,7 +1,12 @@
+'use client';
 import FeaturedCard from './FeaturedItem';
 import Vector from '@/public/images/Vector-brown.png';
 import Image from 'next/image';
 import localFont from 'next/font/local';
+import { useEffect, useState } from 'react';
+import { CollectionApi } from '@/api/collectionApi';
+import CollectionCard from '../CollectionCard';
+import Link from 'next/link';
 
 const electronica = localFont({ src: '../../fonts/Electronica.otf' });
 const featuredItems = [
@@ -48,8 +53,18 @@ const featuredItems = [
 ];
 
 const Featured = () => {
+  // const [featuredItems, setFeaturedItems] = useState<any>();
+
+  // useEffect(() => {
+  //   const fetchFeaturedItems = async () => {
+  //     const items = await CollectionApi.getFeaturedCollection();
+  //     if (items) setFeaturedItems(items);
+  //   };
+  //   fetchFeaturedItems();
+  // }, []);
+
   return (
-    <div className='md:pl-28 md:pt-14'>
+    <div className='md:pl-24 md:pt-14'>
       <div className='flex md:flex-row flex-col items-center md:mt-0 mt-10'>
         <div className='flex'>
           <Image src={Vector} alt='vector'></Image>
@@ -66,19 +81,22 @@ const Featured = () => {
           <Image src={Vector} alt='vector'></Image>
         </div>
       </div>
-      <div className='flex md:flex-row flex-col items-center justify-center gap-16 pr-12'>
-        {featuredItems.map((item, index) => (
-          <FeaturedCard
-            key={index}
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            image={`${item.image}`}
-            coverImage={`${item.baseImage}`}
-            isVerified={item.isVerified}
-            gridType={0}
-          />
-        ))}
+      <div className='flex w-full md:flex-row flex-col items-center justify-center gap-10'>
+        {featuredItems &&
+          featuredItems.map((item: any, index: any) => (
+            <Link href={{ pathname: `collection/${item.symbol}` }} key={index}>
+              <CollectionCard
+                id={item.id}
+                name={item.name}
+                description={item.description}
+                symbol={item.symbol}
+                // logoImage={String(item.logoImage)}
+                // coverImage={String(item.baseImage)}
+                isVerified={item.isVerified}
+                gridType={0}
+              />
+            </Link>
+          ))}
       </div>
     </div>
   );

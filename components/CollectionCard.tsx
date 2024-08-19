@@ -15,7 +15,7 @@ const ipmSans = IBM_Plex_Sans({
 
 const CollectionCard: React.FC<Collection> = ({
   name,
-  image,
+  logoImage,
   coverImage,
   description,
   floor,
@@ -106,7 +106,7 @@ const CollectionCard: React.FC<Collection> = ({
         </div>
       )}
       <img
-        src={image}
+        src={logoImage}
         width={profileImgSize}
         height={profileImgSize}
         alt='profile'

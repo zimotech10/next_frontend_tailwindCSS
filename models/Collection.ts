@@ -1,8 +1,9 @@
 export interface Collection {
   id: number;
   name: string;
-  image: string;
-  coverImage: string;
+  logoImage?: string;
+  coverImage?: string;
+  symbol?: string;
   description: string;
   floor?: string;
   average?: string;
