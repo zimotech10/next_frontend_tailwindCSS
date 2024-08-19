@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import walletIcon from '@/public/images/wallet_logo.png';
 import alertIcon from '@/public/images/gridicons_notice-outline.png';
-import { offer, offerToAuction } from '@/web3/contract';
+import { listing, offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
 import {
@@ -62,7 +62,6 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
   useEffect(() => {
     try {
       if (symbol) {
-        console.log(symbol);
         setCoin(coinList.find((coin) => coin.symbol === symbol));
       }
     } catch (error) {
@@ -334,17 +333,6 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                 <span className='text-white font-bold'>x1</span>
               </div>
 
-              {/* <div
-                style={{
-                  width: '84%',
-                  height: '0.8px',
-                  backgroundColor: '#F5F5F5',
-                  opacity: 0.1,
-                  position: 'absolute',
-                  top: '320px', // Distance from the top of the container
-                }}
-              ></div> */}
-
               <div className='flex flex-col gap-2 pt-4'>
                 <div className='flex justify-between'>
                   <span className='text-[#afafaf]'>
@@ -371,13 +359,26 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                       alt='solanaIcon'
                       style={{ width: '16px' }}
                     />
-                    <input
-                      type='number'
-                      className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
-                      placeholder='Enter Amount'
-                      value={offerPrice}
-                      onChange={handlePriceChange}
-                    />
+                    {listStatus == 1 ? (
+                      <input
+                        type='number'
+                        className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
+                        placeholder='Enter Amount'
+                        value={offerPrice}
+                        onChange={handlePriceChange}
+                        max={Number(listingPrice)}
+                        min={0}
+                      />
+                    ) : (
+                      <input
+                        type='number'
+                        className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
+                        placeholder='Enter Amount'
+                        value={offerPrice}
+                        onChange={handlePriceChange}
+                        min={Number(listingPrice)}
+                      />
+                    )}
                   </div>
                   {listStatus == 1 && !isMobile && (
                     <div className='flex gap-2'>

@@ -9,6 +9,8 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 import createAxiosClient from '@/api/axiosClient';
 import Notification from './Notification';
+import CoinSelect from './CoinSelect';
+import coinList from '@/utils/coinInfoList';
 
 export default function Deposit() {
   const wallet = useWallet();
@@ -22,6 +24,7 @@ export default function Deposit() {
     setDepositAmount(Number(e.target.value));
   };
   const [amount, setAmount] = useState(0);
+  const [selectedCoin, setSelectedCoin] = useState<any>(coinList[0]);
 
   useEffect(() => {
     const fetchAmount = async () => {
@@ -56,7 +59,9 @@ export default function Deposit() {
       const authority = new anchor.web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new anchor.web3.PublicKey(
+        String(selectedCoin.address)
+      );
 
       const tx = await deposit(
         program,
@@ -90,13 +95,19 @@ export default function Deposit() {
         <p className='flex justify-center items-center'>
           Deposited Amount: {amount}
         </p>
-        <div className='flex flex-row w-full gap-4'>
-          <p className='me-2'>Deposit Amount</p>
+        <div className='flex flex-col w-full gap-4'>
+          <p className='me-2'>Select Coin</p>
+          <CoinSelect
+            selectedCoin={selectedCoin}
+            setSelectedCoin={setSelectedCoin}
+          />
+          <p className='me-2'>Input Amount</p>
           <input
             className='bg-black text-white text-[20px] leading-6 outline-none border rounded-md border-white p-3'
             type='number'
             value={depositAmount}
             onChange={(e) => handleDepositAmountChange(e)}
+            min={0}
           />
         </div>
         <div className='flex flex-row w-full justify-end gap-2'>

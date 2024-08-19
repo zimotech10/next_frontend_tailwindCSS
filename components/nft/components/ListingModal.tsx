@@ -364,10 +364,11 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                       />
                       <input
                         type='number'
-                        className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-full'
+                        className='p-2 border-[0.5px] outline-none bg-[#0B0A0A] text-white rounded-lg w-full'
                         placeholder='Enter Amount'
                         value={fixedPrice ?? ''}
                         onChange={handlePriceChange}
+                        min={0}
                       />
                     </div>
                   </div>
@@ -384,10 +385,11 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                       />
                       <input
                         type='number'
-                        className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-full'
+                        className='p-2 border-[0.5px] outline-none bg-[#0B0A0A] text-white rounded-lg w-full'
                         placeholder='Enter Amount'
                         value={minimumBid ?? ''}
                         onChange={handleBidChange}
+                        min={0}
                       />
                     </div>
                     <span className='font-semibold text-base'>

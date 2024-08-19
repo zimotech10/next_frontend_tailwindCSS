@@ -34,7 +34,14 @@ interface FilterProps {
   onAttributeChange: (attributes: Attribute[]) => void;
 }
 
-const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange, onMaxPriceChange, onAttributeChange }: FilterProps) => {
+const Filter = ({
+  attributes,
+  filterAttributes,
+  onStatusChange,
+  onMinPriceChange,
+  onMaxPriceChange,
+  onAttributeChange,
+}: FilterProps) => {
   const [accordionState, setAccordionState] = useState<AccordionState>({
     statusOpen: false,
     blockchainOpen: false,
@@ -51,7 +58,9 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
     });
   };
 
-  const [attributeState, setAttributeState] = useState<Record<string, boolean>>({});
+  const [attributeState, setAttributeState] = useState<Record<string, boolean>>(
+    {}
+  );
 
   const toggleAttributeAccordion = (traitType: string) => {
     setAttributeState((prevState) => ({
@@ -77,17 +86,25 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
       if (attribute.trait_type === traitType.trait_type) {
         if (attribute.values.includes(traitType.value)) {
           // Remove the value if it already exists
-          return { ...attribute, values: attribute.values.filter((v) => v !== traitType.value) };
+          return {
+            ...attribute,
+            values: attribute.values.filter((v) => v !== traitType.value),
+          };
         } else {
           // Add the value if it doesn't exist
-          return { ...attribute, values: [...attribute.values, traitType.value] };
+          return {
+            ...attribute,
+            values: [...attribute.values, traitType.value],
+          };
         }
       }
       return attribute;
     });
 
     // Check if the traitType.trait_type is not in filterAttributes
-    const traitTypeExists = updatedAttributes.some((attribute) => attribute.trait_type === traitType.trait_type);
+    const traitTypeExists = updatedAttributes.some(
+      (attribute) => attribute.trait_type === traitType.trait_type
+    );
 
     if (!traitTypeExists) {
       // Add the new traitType if it doesn't exist
@@ -97,7 +114,9 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
       });
     }
 
-    const filteredAttributes = updatedAttributes.filter((attribute) => attribute.values && attribute.values.length > 0);
+    const filteredAttributes = updatedAttributes.filter(
+      (attribute) => attribute.values && attribute.values.length > 0
+    );
 
     onAttributeChange(filteredAttributes);
   };
@@ -111,25 +130,68 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
 
       {/* Static Sections */}
       <div className='flex flex-col gap-4'>
-        <div className='flex flex-row items-center justify-between cursor-pointer' onClick={() => toggleAccordion('statusOpen')}>
+        <div
+          className='flex flex-row items-center justify-between cursor-pointer'
+          onClick={() => toggleAccordion('statusOpen')}
+        >
           <span className='font-bold text-sm'>Status</span>
-          <Icon icon={accordionState.statusOpen ? 'majesticons:minus' : 'majesticons:plus'} width={20} style={{ color: '#4b4b4b' }} />
+          <Icon
+            icon={
+              accordionState.statusOpen
+                ? 'majesticons:minus'
+                : 'majesticons:plus'
+            }
+            width={20}
+            style={{ color: '#4b4b4b' }}
+          />
         </div>
-        <div className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${accordionState.statusOpen ? 'h-auto' : 'h-0'}`}>
-          <Checkbox label='Fixed Price' type='status' traitType='' onCheckboxChange={onStatusChange} />
-          <Checkbox label='Auction' type='status' traitType='' onCheckboxChange={onStatusChange} />
+        <div
+          className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${
+            accordionState.statusOpen ? 'h-auto' : 'h-0'
+          }`}
+        >
+          <Checkbox
+            label='Fixed Price'
+            type='status'
+            traitType=''
+            onCheckboxChange={onStatusChange}
+          />
+          <Checkbox
+            label='Auction'
+            type='status'
+            traitType=''
+            onCheckboxChange={onStatusChange}
+          />
           {/* <Checkbox label='Fixed Price' onChange={() => handleStatusChange(1)} />
           <Checkbox label='Auction' onChange={() => handleStatusChange(2)} /> */}
         </div>
       </div>
 
       <div className='flex flex-col gap-4'>
-        <div className='flex flex-row items-center justify-between cursor-pointer' onClick={() => toggleAccordion('priceOpen')}>
+        <div
+          className='flex flex-row items-center justify-between cursor-pointer'
+          onClick={() => toggleAccordion('priceOpen')}
+        >
           <span className='font-bold text-sm'>Price</span>
-          <Icon icon={accordionState.priceOpen ? 'majesticons:minus' : 'majesticons:plus'} width={20} style={{ color: '#4b4b4b' }} />
+          <Icon
+            icon={
+              accordionState.priceOpen
+                ? 'majesticons:minus'
+                : 'majesticons:plus'
+            }
+            width={20}
+            style={{ color: '#4b4b4b' }}
+          />
         </div>
-        <div className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${accordionState.priceOpen ? 'h-auto' : 'h-0'}`}>
-          <div className='px-4 py-2 rounded-md w-full' style={{ backgroundColor: '#0B0A0A' }}>
+        <div
+          className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${
+            accordionState.priceOpen ? 'h-auto' : 'h-0'
+          }`}
+        >
+          <div
+            className='px-4 py-2 rounded-md w-full'
+            style={{ backgroundColor: '#0B0A0A' }}
+          >
             Solana(SOL)
           </div>
           <div className='flex flex-row justify-center gap-3 items-center'>
@@ -139,6 +201,7 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
               className='px-4 py-2 rounded-md w-fit'
               style={{ backgroundColor: '#0B0A0A', width: '88px' }}
               onChange={(e) => handleMinPriceChange(parseInt(e.target.value))}
+              min={0}
             />
             <span>to</span>
             <input
@@ -147,6 +210,7 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
               className='px-4 py-2 rounded-md w-fit'
               style={{ backgroundColor: '#0B0A0A', width: '88px' }}
               onChange={(e) => handleMaxPriceChange(parseInt(e.target.value))}
+              min={0}
             />
           </div>
         </div>
@@ -154,21 +218,64 @@ const Filter = ({ attributes, filterAttributes, onStatusChange, onMinPriceChange
 
       {/* Attributes Section */}
       <div className='flex flex-col gap-4'>
-        <div className='flex flex-row items-center justify-between cursor-pointer' onClick={() => toggleAccordion('attributesOpen')}>
+        <div
+          className='flex flex-row items-center justify-between cursor-pointer'
+          onClick={() => toggleAccordion('attributesOpen')}
+        >
           <span className='font-bold text-sm'>Attributes</span>
-          <Icon icon={accordionState.attributesOpen ? 'majesticons:minus' : 'majesticons:plus'} width={20} style={{ color: '#4b4b4b' }} />
+          <Icon
+            icon={
+              accordionState.attributesOpen
+                ? 'majesticons:minus'
+                : 'majesticons:plus'
+            }
+            width={20}
+            style={{ color: '#4b4b4b' }}
+          />
         </div>
-        <div className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${accordionState.attributesOpen ? 'h-auto' : 'h-0'}`}>
+        <div
+          className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${
+            accordionState.attributesOpen ? 'h-auto' : 'h-0'
+          }`}
+        >
           {attributes
             ? attributes.map((attribute) => (
-                <div key={attribute.trait_type} className='flex flex-col gap-4 pl-2'>
-                  <div className='flex flex-row items-center justify-between cursor-pointer' onClick={() => toggleAttributeAccordion(attribute.trait_type)}>
-                    <span className='font-bold text-sm'>{attribute.trait_type}</span>
-                    <Icon icon={attributeState[attribute.trait_type] ? 'majesticons:minus' : 'majesticons:plus'} width={20} style={{ color: '#4b4b4b' }} />
+                <div
+                  key={attribute.trait_type}
+                  className='flex flex-col gap-4 pl-2'
+                >
+                  <div
+                    className='flex flex-row items-center justify-between cursor-pointer'
+                    onClick={() =>
+                      toggleAttributeAccordion(attribute.trait_type)
+                    }
+                  >
+                    <span className='font-bold text-sm'>
+                      {attribute.trait_type}
+                    </span>
+                    <Icon
+                      icon={
+                        attributeState[attribute.trait_type]
+                          ? 'majesticons:minus'
+                          : 'majesticons:plus'
+                      }
+                      width={20}
+                      style={{ color: '#4b4b4b' }}
+                    />
                   </div>
-                  <div className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${attributeState[attribute.trait_type] ? 'h-auto' : 'h-0'}`}>
+                  <div
+                    className={`flex flex-col gap-3 overflow-hidden transition-all duration-500 ${
+                      attributeState[attribute.trait_type] ? 'h-auto' : 'h-0'
+                    }`}
+                  >
                     {attribute.values.map((value) => (
-                      <Checkbox key={value} label={value} type='attribute' traitType={attribute.trait_type} onCheckboxChange={handleAttributeChange} />
+                      <Checkbox
+                        key={value}
+                        label={value}
+                        type='attribute'
+                        traitType={attribute.trait_type}
+                        onCheckboxChange={handleAttributeChange}
+                      />
                       // <Checkbox key={value} label={value} onChange={() => handleAttributeChange(attribute.trait_type, value)} />
                     ))}
                   </div>
