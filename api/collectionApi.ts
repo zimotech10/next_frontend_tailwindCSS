@@ -1,5 +1,4 @@
 import createAxiosClient from './axiosClient';
-import axiosClient from './axiosClient';
 import { Collection2 } from '@/models/Collection';
 
 export const CollectionApi = {
@@ -34,6 +33,30 @@ export const CollectionApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching collection:', error);
+      throw error;
+    }
+  },
+  getFeaturedCollection: async () => {
+    try {
+      const axiosClient = await createAxiosClient();
+      const response = await axiosClient.get('/collection/featured');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching featured collections', error);
+      throw error;
+    }
+  },
+  getTopCollection: async () => {
+    try {
+      const axiosClient = await createAxiosClient();
+      const response = await axiosClient.get('/collection/top', {
+        params: {
+          limit: 10,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching featured collections', error);
       throw error;
     }
   },
