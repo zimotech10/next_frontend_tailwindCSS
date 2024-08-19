@@ -103,7 +103,7 @@ export default function Deposit() {
           />
           <p className='me-2'>Input Amount</p>
           <input
-            className='bg-black text-white text-[20px] leading-6 outline-none border rounded-md border-white p-3'
+            className='bg-black text-white text-[20px] outline-none border rounded-md border-white p-2'
             type='number'
             value={depositAmount}
             onChange={(e) => handleDepositAmountChange(e)}

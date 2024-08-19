@@ -548,6 +548,10 @@ export const deposit = async (
     const isNative = treasuryMint == NATIVE_MINT;
     const auctionHouse = findAuctionHouse(authority, treasuryMint);
     const escrowWallet = findEscrowWallet(wallet.publicKey, auctionHouse);
+    const walletAta = await getAssociatedTokenAddress(
+      treasuryMint,
+      wallet.publicKey
+    );
     // const walletAta = (
     //   await getOrCreateAssociatedTokenAccount(
     //     program.provider.connection,
@@ -563,8 +567,8 @@ export const deposit = async (
         wallet: wallet.publicKey,
         authority: authority,
         treasuryMint: treasuryMint,
-        paymentAccount: wallet.publicKey,
-        // paymentAccount: isNative ? wallet.publicKey : walletAta,
+        // paymentAccount: wallet.publicKey,
+        paymentAccount: isNative ? wallet.publicKey : walletAta,
         escrowPaymentAccount: escrowWallet,
         auctionHouse: auctionHouse,
         systemProgram: anchor.web3.SystemProgram.programId,
