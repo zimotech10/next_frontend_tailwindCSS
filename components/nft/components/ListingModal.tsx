@@ -19,6 +19,7 @@ type ListingType = 'listing-fixed' | 'listing-auction';
 import { useRouter } from 'next/navigation';
 import CoinSelect from '@/components/CoinSelect';
 import coinList from '@/utils/coinInfoList';
+import { Icon } from '@iconify-icon/react/dist/iconify.js';
 
 interface ListingModalProps {
   name: string;
@@ -302,7 +303,23 @@ export const ListingModal: React.FC<ListingModalProps> = ({
             className='absolute top-4 right-4 text-white'
             onClick={onClose}
           >
-            X
+            <div
+              style={{
+                backgroundColor: '#D3D3D3', // Light gray background
+                borderRadius: '50%', // Circular shape
+                display: 'inline-flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '24px', // Adjust size as needed
+                height: '24px',
+                border: '2px solid black', // Black border around the circle
+              }}
+            >
+              <Icon
+                icon='mdi-close'
+                style={{ color: 'black', fontSize: '16px' }}
+              />
+            </div>
           </button>
           <div className='flex flex-col gap-6 w-full md:w-[576px]'>
             <div className='text-base md:text-2xl'>
