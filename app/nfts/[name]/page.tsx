@@ -23,6 +23,7 @@ export default function NFTDetailsPage() {
   const image = searchParams.get('image');
   const mintAddress = searchParams.get('mintAddress');
   const price = searchParams.get('price');
+  const symbol = searchParams.get('symbol');
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState('');
@@ -36,56 +37,56 @@ export default function NFTDetailsPage() {
   const [description, setDescription] = useState();
   const [attributes, setAttributes] = useState();
 
-  // useEffect(() => {
-  //   if (uri) {
-  //     getMetadata(uri)
-  //       .then((metadata: NFTMetadata) => {
-  //         setMetadata(metadata);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error fetching metadata:', error);
-  //         setLoading(false);
-  //       });
-  //   }
-  // }, [uri]);
-
   useEffect(() => {
     const fetchNFTStatus = async () => {
       if (mintAddress) {
         await NftApi.getNFTStatus(mintAddress)
-          .then(({ isOwner, listStatus, isOffered, owner, bids, creators, startTime, endTime, description, attributes }) => {
-            if (isOwner) {
-              setIsOwner(isOwner);
+          .then(
+            ({
+              isOwner,
+              listStatus,
+              isOffered,
+              owner,
+              bids,
+              creators,
+              startTime,
+              endTime,
+              description,
+              attributes,
+            }) => {
+              if (isOwner) {
+                setIsOwner(isOwner);
+              }
+              if (listStatus) {
+                setlistStatus(listStatus);
+              }
+              if (bids) {
+                setOffers(bids);
+              }
+              if (isOffered) {
+                setIsOffered(isOffered);
+              }
+              if (owner) {
+                setOwner(owner);
+              }
+              if (creators) {
+                setCreators(creators);
+              }
+              if (startTime) {
+                setStartTime(startTime);
+              }
+              if (endTime) {
+                setEndTime(endTime);
+              }
+              if (description) {
+                setDescription(description);
+              }
+              if (attributes) {
+                setAttributes(attributes);
+              }
+              setLoading(false);
             }
-            if (listStatus) {
-              setlistStatus(listStatus);
-            }
-            if (bids) {
-              setOffers(bids);
-            }
-            if (isOffered) {
-              setIsOffered(isOffered);
-            }
-            if (owner) {
-              setOwner(owner);
-            }
-            if (creators) {
-              setCreators(creators);
-            }
-            if (startTime) {
-              setStartTime(startTime);
-            }
-            if (endTime) {
-              setEndTime(endTime);
-            }
-            if (description) {
-              setDescription(description);
-            }
-            if (attributes) {
-              setAttributes(attributes);
-            }
-            setLoading(false);
-          })
+          )
           .catch((error) => {
             console.error('Error fetching NFT owner:', error);
             setLoading(false);
@@ -107,6 +108,7 @@ export default function NFTDetailsPage() {
           name={String(name)}
           owner={owner?.toString()}
           image={String(image)}
+          symbol={String(symbol)}
           // uri={uri}
           // attributes={metadata.attributes}
           attributes={attributes}

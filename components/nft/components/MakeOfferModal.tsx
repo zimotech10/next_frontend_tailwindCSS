@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import solanaIcon from '@/public/images/solana-logo.png';
 import walletIcon from '@/public/images/wallet_logo.png';
 import alertIcon from '@/public/images/gridicons_notice-outline.png';
-import { ItemSummary } from '@/components/ItemSummary';
 import { offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
@@ -20,8 +18,7 @@ import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import PopUp from '@/components/PopUp';
 import Notification from '@/components/Notification';
 import useScreen from '@/hooks/useScreen';
-
-import { NATIVE_MINT } from '@solana/spl-token';
+import coinList from '@/utils/coinInfoList';
 
 interface MakeOfferModalProps {
   name: string;
@@ -29,6 +26,7 @@ interface MakeOfferModalProps {
   mintAddress?: string | null;
   listStatus?: number;
   listingPrice?: string | null;
+  symbol?: string;
   onClose: () => void;
 }
 
@@ -38,11 +36,13 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
   mintAddress,
   listStatus,
   listingPrice,
+  symbol,
   onClose,
 }) => {
   const [offerPrice, setOfferPrice] = useState<number | undefined>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const wallet = useAnchorWallet();
+  const [coin, setCoin] = useState<any>(coinList[0]);
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [modalMessage, setModalMessage] = useState(''); // State for modal message
@@ -58,6 +58,15 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
   } | null>(null);
   const isMobile = useScreen();
 
+  useEffect(() => {
+    try {
+      if (symbol) {
+        setCoin(coinList.find((coin) => coin.symbol === symbol));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [symbol]);
   useEffect(() => {
     // Disable background scrolling when modal is open
     if (isModalOpen) {
@@ -135,7 +144,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(coin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await offer(
@@ -213,7 +222,7 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(coin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await offerToAuction(
@@ -323,17 +332,6 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                 <span className='text-white font-bold'>x1</span>
               </div>
 
-              {/* <div
-                style={{
-                  width: '84%',
-                  height: '0.8px',
-                  backgroundColor: '#F5F5F5',
-                  opacity: 0.1,
-                  position: 'absolute',
-                  top: '320px', // Distance from the top of the container
-                }}
-              ></div> */}
-
               <div className='flex flex-col gap-2 pt-4'>
                 <div className='flex justify-between'>
                   <span className='text-[#afafaf]'>
@@ -354,18 +352,32 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                 <div className='flex items-center justify-between gap-2 border border-[#353840] rounded-lg p-2'>
                   <div className='flex items-center gap-2'>
                     <Image
-                      src={solanaIcon}
-                      width={24}
-                      height={24}
-                      alt='sol'
+                      src={coin.image}
+                      width={16}
+                      height={16}
+                      alt='solanaIcon'
+                      style={{ width: '16px' }}
                     />
-                    <input
-                      type='number'
-                      className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
-                      placeholder='Enter Amount'
-                      value={offerPrice}
-                      onChange={handlePriceChange}
-                    />
+                    {listStatus == 1 ? (
+                      <input
+                        type='number'
+                        className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
+                        placeholder='Enter Amount'
+                        value={offerPrice}
+                        onChange={handlePriceChange}
+                        max={Number(listingPrice)}
+                        min={0}
+                      />
+                    ) : (
+                      <input
+                        type='number'
+                        className='bg-[#0B0A0A] text-white leading-9 outline-none md:w-[400px] w-[200px]'
+                        placeholder='Enter Amount'
+                        value={offerPrice}
+                        onChange={handlePriceChange}
+                        min={Number(listingPrice)}
+                      />
+                    )}
                   </div>
                   {listStatus == 1 && !isMobile && (
                     <div className='flex gap-2'>
@@ -397,7 +409,9 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
                     <span className='text-[#afafaf]'>Buy Now Price</span>
                     <div className='flex justify-center items-center gap-1'>
                       <Image
-                        src={solanaIcon}
+                        src={coin.image}
+                        width={16}
+                        height={16}
                         alt='solanaIcon'
                         style={{ width: '16px' }}
                       ></Image>

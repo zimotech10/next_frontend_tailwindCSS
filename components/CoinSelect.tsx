@@ -1,12 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-const options = [
-  { value: '12312', label: 'SOL', image: '/images/solana-logo.png' },
-  { value: 'USDT', label: 'USDT', image: '/images/usdt-logo.png' },
-  { value: 'USDC', label: 'USDC', image: '/images/usdc-logo.png' },
-  { value: 'WIF', label: 'WIF', image: '/images/wif-logo.png' },
-  { value: 'JUP', label: 'JUP', image: '/images/jup-logo.png' },
-];
+import React, { useState } from 'react';
+import coinList from '@/utils/coinInfoList';
 
 const CoinSelect = ({
   selectedCoin,
@@ -15,9 +9,6 @@ const CoinSelect = ({
   selectedCoin: any;
   setSelectedCoin: any;
 }) => {
-  useEffect(() => {
-    setSelectedCoin(options[0]);
-  }, []);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,26 +23,42 @@ const CoinSelect = ({
             alt=''
             className='w-6 h-6 mr-2'
           />
-          <span>{selectedCoin.label}</span>
+          <span>{selectedCoin.symbol}</span>
         </div>
+        <svg
+          className={`w-4 h-4 transition-transform ${
+            isOpen ? 'transform rotate-180' : ''
+          }`}
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth='2'
+            d='M19 9l-7 7-7-7'
+          ></path>
+        </svg>
       </div>
       {isOpen && (
         <div className='absolute z-10 w-full mt-2 bg-[#0b0a0a] border rounded-lg shadow-lg'>
-          {options.map((option) => (
+          {coinList.map((coin) => (
             <div
-              key={option.value}
+              key={coin.address}
               onClick={() => {
-                setSelectedCoin(option);
+                setSelectedCoin(coin);
                 setIsOpen(false);
               }}
               className='flex items-center p-2 cursor-pointer hover:bg-gray-700 hover:rounded-lg'
             >
               <img
-                src={option.image}
+                src={coin.image}
                 alt=''
                 className='w-6 h-6 mr-2'
               />
-              <span>{option.label}</span>
+              <span>{coin.symbol}</span>
             </div>
           ))}
         </div>

@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
-import solanaIcon from '@/public/images/solana-logo.png';
 import Image from 'next/image';
 import Accordion from '@/components/Accordion';
 import { formatAddress } from '@/hooks/useFormatAddress';
 import { AnchorWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
-import { acceptBuy, cancelAuction, cancelBuy, cancelOfferFromAuction, instantBuy, unlisting, winPrize } from '@/web3/contract';
+import {
+  acceptBuy,
+  cancelAuction,
+  cancelBuy,
+  cancelOfferFromAuction,
+  unlisting,
+  winPrize,
+} from '@/web3/contract';
 import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
 import * as anchor from '@coral-xyz/anchor';
 import { web3 } from '@coral-xyz/anchor';
-import { NATIVE_MINT } from '@solana/spl-token';
 import { useRouter } from 'next/navigation';
 import { ItemImage } from './ItemImage';
 import { PublicKey } from '@metaplex-foundation/js';
 import ConnectModal from '@/components/modals/Connect';
-import HeartIcon from '@/public/images/heart-filled.png';
 import useScreen from '@/hooks/useScreen';
 import CountdownTimer from '@/components/CountdownTimer';
 import Notification from '@/components/Notification';
 import SolanaImg from '@/public/images/solana-logo.png';
+import coinList from '@/utils/coinInfoList';
 
 export const DetailsCard = (
   props: React.PropsWithChildren<{
@@ -38,6 +43,7 @@ export const DetailsCard = (
     isOffered?: boolean;
     offers?: any;
     creators?: any;
+    symbol?: string;
     mintAddress?: string | null;
     startTime?: number;
     endTime?: number;
@@ -49,6 +55,7 @@ export const DetailsCard = (
   const wallet = useAnchorWallet();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [coin, setCoin] = useState<any>(coinList[0]);
 
   const [connectModal, setConnectModal] = useState(false);
   const [isWinner, setIsWinner] = useState(false);
@@ -63,10 +70,24 @@ export const DetailsCard = (
 
   useEffect(() => {
     try {
+      if (props.symbol) {
+        setCoin(coinList.find((coin) => coin.symbol === props.symbol));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [props.symbol]);
+
+  useEffect(() => {
+    try {
       if (props.offers && props.offers.length != 0) {
-        const topOffer = props.offers.reduce((maxOffer: any, currentOffer: any) => {
-          return currentOffer.offerPrice > maxOffer.offerPrice ? currentOffer : maxOffer;
-        });
+        const topOffer = props.offers.reduce(
+          (maxOffer: any, currentOffer: any) => {
+            return currentOffer.offerPrice > maxOffer.offerPrice
+              ? currentOffer
+              : maxOffer;
+          }
+        );
         setIsWinner(topOffer.walletAddress == wallet?.publicKey.toString());
       }
     } catch (err) {
@@ -81,17 +102,29 @@ export const DetailsCard = (
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new PublicKey(String(coin?.address));
       const nftMint = new web3.PublicKey(props.mintAddress as string);
 
-      const tx = await unlisting(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
+      const tx = await unlisting(
+        program,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        nftMint
+      );
 
       if (tx) {
         setNotification({
@@ -121,19 +154,37 @@ export const DetailsCard = (
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new web3.PublicKey(String(coin?.address));
       const nftMint = new web3.PublicKey(props.mintAddress as string);
 
-      const buyer = new web3.PublicKey(props.offers.find((offer: any) => offer.id === id).walletAddress);
-      const creators = props.creators.map((creator: string) => new PublicKey(creator));
-      const tx = await acceptBuy(program, buyer, wallet as AnchorWallet, authority, treasuryMint, nftMint, creators);
+      const buyer = new web3.PublicKey(
+        props.offers.find((offer: any) => offer.id === id).walletAddress
+      );
+      const creators = props.creators.map(
+        (creator: string) => new PublicKey(creator)
+      );
+      const tx = await acceptBuy(
+        program,
+        buyer,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        nftMint,
+        creators
+      );
 
       if (tx) {
         setNotification({
@@ -161,17 +212,29 @@ export const DetailsCard = (
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new web3.PublicKey(String(coin?.address));
       const nftMint = new web3.PublicKey(props.mintAddress as string);
 
-      const tx = await cancelBuy(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
+      const tx = await cancelBuy(
+        program,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        nftMint
+      );
 
       if (tx) {
         setNotification({
@@ -208,17 +271,29 @@ export const DetailsCard = (
 
         return;
       }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new web3.PublicKey(String(coin?.address));
       const nftMint = new web3.PublicKey(props.mintAddress as string);
 
-      const tx = await cancelOfferFromAuction(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
+      const tx = await cancelOfferFromAuction(
+        program,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        nftMint
+      );
 
       if (tx) {
         setNotification({
@@ -247,17 +322,29 @@ export const DetailsCard = (
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new web3.PublicKey(String(coin?.address));
       const nftMint = new web3.PublicKey(props.mintAddress as string);
 
-      const tx = await cancelAuction(program, wallet as AnchorWallet, authority, treasuryMint, nftMint);
+      const tx = await cancelAuction(
+        program,
+        wallet as AnchorWallet,
+        authority,
+        treasuryMint,
+        nftMint
+      );
 
       if (tx) {
         setNotification({
@@ -286,19 +373,35 @@ export const DetailsCard = (
         return;
       }
 
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new web3.PublicKey(String(coin?.address));
       const nftMint = new web3.PublicKey(props.mintAddress as string);
       const seller = new web3.PublicKey(props.owner as string);
 
-      const creators = props.creators.map((creator: string) => new PublicKey(creator));
-      const tx = await winPrize(program, wallet as AnchorWallet, seller, authority, treasuryMint, nftMint, creators);
+      const creators = props.creators.map(
+        (creator: string) => new PublicKey(creator)
+      );
+      const tx = await winPrize(
+        program,
+        wallet as AnchorWallet,
+        seller,
+        authority,
+        treasuryMint,
+        nftMint,
+        creators
+      );
 
       if (tx) {
         setNotification({
@@ -346,9 +449,17 @@ export const DetailsCard = (
   const isMobile = useScreen();
   return (
     <div className='flex flex-col w-full h-full justify-center'>
-      {connectModal && <ConnectModal handleConnectModal={handleConnectModal} isOpen={connectModal} />}
+      {connectModal && (
+        <ConnectModal
+          handleConnectModal={handleConnectModal}
+          isOpen={connectModal}
+        />
+      )}
       <div className='w-full mb-4'>
-        <button className='hover:underline md:pl-[160px] flex items-center gap-1' onClick={handleBackClick}>
+        <button
+          className='hover:underline md:pl-[160px] flex items-center gap-1'
+          onClick={handleBackClick}
+        >
           <Icon icon='mdi:arrow-left'></Icon>
           Back
         </button>
@@ -361,7 +472,10 @@ export const DetailsCard = (
           {props.detailsProfile && (
             <Accordion title='Details'>
               <div className='flex md:flex-row flex-col md:gap-16 gap-4 pb-4'>
-                <div>Creator Royalty Fee : {props.detailsProfile.creatorRoyaltyFee}%</div>
+                <div>
+                  Creator Royalty Fee : {props.detailsProfile.creatorRoyaltyFee}
+                  %
+                </div>
                 <div>Item Content : {props.detailsProfile.itemContent}</div>
               </div>
             </Accordion>
@@ -370,37 +484,58 @@ export const DetailsCard = (
         <div className='flex flex-col md:py-10 md:px-8 md:gap-12 gap-4 w-full md:w-1/2'>
           <div className='flex flex-col gap-6'>
             <div className='flex flex-row justify-between items-center w-full'>
-              <span className='font-semibold text-2xl md:text-3xl'>{props.name}</span>
+              <span className='font-semibold text-2xl md:text-3xl'>
+                {props.name}
+              </span>
             </div>
           </div>
           {props.listingPrice ? (
             <div className='flex flex-col gap-2'>
-              <div className='font-normal text-sm text-[#AFAFAF]'>Listing Price</div>
+              <div className='font-normal text-sm text-[#AFAFAF]'>
+                Listing Price
+              </div>
               <div className='flex flex-row gap-1 items-center'>
-                <Image src={solanaIcon} width={16} height={16} alt='solana' />
-                <div className='font-semibold text-base'>{props.listingPrice} SOL</div>
+                <Image
+                  src={String(coin?.image)}
+                  width={16}
+                  height={16}
+                  alt='solana'
+                />
+                <div className='font-semibold text-base'>
+                  {props.listingPrice} {props.symbol}
+                </div>
               </div>
             </div>
           ) : null}
-          {props.listStatus == 2 && props.startTime != 0 && props.endTime != 0 && <CountdownTimer startTime={props.startTime} endTime={props.endTime} />}
+          {props.listStatus == 2 &&
+            props.startTime != 0 &&
+            props.endTime != 0 && (
+              <CountdownTimer
+                startTime={props.startTime}
+                endTime={props.endTime}
+              />
+            )}
           {props.isOwner ? (
             <div className='flex flex-col font-semibold text-base md:flex-row gap-2 w-full'>
               {props.listStatus == 1 ? (
                 <button
                   className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                   style={{
-                    background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                    background:
+                      'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                   }}
                   onClick={() => handleUnlisting()} // Call openModal when clicked
                 >
                   Unlist
                 </button>
               ) : props.listStatus == 2 ? (
-                props.startTime && props.startTime * 1000 > new Date().getTime() ? (
+                props.startTime &&
+                props.startTime * 1000 > new Date().getTime() ? (
                   <button
                     className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                     style={{
-                      background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      background:
+                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={() => handleCancelAuction()} // Call openModal when clicked
                   >
@@ -411,7 +546,8 @@ export const DetailsCard = (
                     <button
                       className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                       style={{
-                        background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                        background:
+                          'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                       }}
                       onClick={() => handleCancelAuction()} // Call openModal when clicked
                     >
@@ -424,7 +560,8 @@ export const DetailsCard = (
                   <button
                     className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                     style={{
-                      background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      background:
+                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={props.openListModal} // Call openModal when clicked
                   >
@@ -452,12 +589,14 @@ export const DetailsCard = (
                   </button>
                 ) : (
                   props.listStatus == 2 &&
-                  (props.endTime && new Date().getTime() - props.endTime * 1000 > 0 ? (
+                  (props.endTime &&
+                  new Date().getTime() - props.endTime * 1000 > 0 ? (
                     isWinner ? (
                       <button
                         className='py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center text-black'
                         style={{
-                          background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                          background:
+                            'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                         }}
                         onClick={() => handleWinPrize()} // Call openModal when clicked
                       >
@@ -482,9 +621,14 @@ export const DetailsCard = (
                     new Date().getTime() < props.endTime * 1000 && (
                       <button
                         className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
-                        ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
+                        ${
+                          loading
+                            ? 'opacity-75 cursor-not-allowed'
+                            : 'hover:bg-opacity-90 active:bg-opacity-80'
+                        }`}
                         style={{
-                          background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                          background:
+                            'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                         }}
                         onClick={props.openOfferModal}
                       >
@@ -497,9 +641,14 @@ export const DetailsCard = (
                 <>
                   <button
                     className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
-                                ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
+                                ${
+                                  loading
+                                    ? 'opacity-75 cursor-not-allowed'
+                                    : 'hover:bg-opacity-90 active:bg-opacity-80'
+                                }`}
                     style={{
-                      background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      background:
+                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={props.openBuyModal}
                     disabled={loading} // Disable the button while loading
@@ -508,8 +657,11 @@ export const DetailsCard = (
                       <span className='animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full'></span>
                     ) : (
                       <>
-                        <Icon icon='ph:lightning' style={{ color: 'black' }} />
-                        Buy now for {props.listingPrice} SOL
+                        <Icon
+                          icon='ph:lightning'
+                          style={{ color: 'black' }}
+                        />
+                        Buy now for {props.listingPrice} {props.symbol}
                       </>
                     )}
                   </button>
@@ -531,9 +683,14 @@ export const DetailsCard = (
                 new Date().getTime() < props.endTime * 1000 && (
                   <button
                     className={`py-3 w-full rounded-3xl flex flex-row items-center gap-1 justify-center font-semibold text-black 
-                    ${loading ? 'opacity-75 cursor-not-allowed' : 'hover:bg-opacity-90 active:bg-opacity-80'}`}
+                    ${
+                      loading
+                        ? 'opacity-75 cursor-not-allowed'
+                        : 'hover:bg-opacity-90 active:bg-opacity-80'
+                    }`}
                     style={{
-                      background: 'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
+                      background:
+                        'linear-gradient(175deg, #FFEA7F 9.83%, #AB5706 95.76%)',
                     }}
                     onClick={props.openOfferModal}
                   >
@@ -554,24 +711,38 @@ export const DetailsCard = (
               <div className='font-normal text-sm text-[#AFAFAF]'>Creator:</div>
               {props.creators &&
                 props.creators.map((creator: any, index: number) => (
-                  <div key={index} className='font-semibold text-base'>
+                  <div
+                    key={index}
+                    className='font-semibold text-base'
+                  >
                     {formatAddress(creator)}
                   </div>
                 ))}
             </div>
             <div className='flex flex-col gap-2'>
-              <div className='font-normal text-sm text-[#AFAFAF]'>Owned by:</div>
-              <div className='font-semibold text-base'>{formatAddress(props.owner)}</div>
+              <div className='font-normal text-sm text-[#AFAFAF]'>
+                Owned by:
+              </div>
+              <div className='font-semibold text-base'>
+                {formatAddress(props.owner)}
+              </div>
             </div>
           </div>
           {props.attributes?.length ? (
             <Accordion title='Attributes'>
               <div className='flex flex-wrap gap-3 justify-center'>
                 {props.attributes?.map((attribute, index) => (
-                  <div key={index} className='flex flex-col gap-1 justify-center items-center  p-[1px] bg-gradient-to-r from-[#FFCA43] to-[#F88430] rounded-md'>
+                  <div
+                    key={index}
+                    className='flex flex-col gap-1 justify-center items-center  p-[1px] bg-gradient-to-r from-[#FFCA43] to-[#F88430] rounded-md'
+                  >
                     <div className='bg-[#0b0a0a] rounded-md p-4'>
-                      <div className='text-xs font-normal text-[#afafaf]'>{attribute.trait_type}</div>
-                      <div className='text-sm font-semibold'>{attribute.value}</div>
+                      <div className='text-xs font-normal text-[#afafaf]'>
+                        {attribute.trait_type}
+                      </div>
+                      <div className='text-sm font-semibold'>
+                        {attribute.value}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -590,44 +761,87 @@ export const DetailsCard = (
             ) : (
               <div className='grid grid-cols-12 text-[#AFAFAF] justify-between'>
                 <div className='col-span-1 py-2 text-center'>S/N</div>
-                <div className='col-span-6 py-2 text-center'>From</div>
+                <div className='col-span-5 py-2 text-center'>From</div>
                 <div className='col-span-2 py-2 text-right'>Price</div>
-                <div className={`${props.listStatus == 1 ? 'col-span-2' : 'col-span-3'} py-2 text-center`}>Timestamp</div>
-                {props.listStatus == 1 && props.isOwner && <div className='col-span-1 py-2 text-center'>Action</div>}
+                <div
+                  className={`${
+                    props.listStatus == 1 ? 'col-span-2' : 'col-span-3'
+                  } py-2 text-center`}
+                >
+                  Timestamp
+                </div>
+                {props.listStatus == 1 && props.isOwner && (
+                  <div className='col-span-2 py-2 text-center'>Action</div>
+                )}
               </div>
             )}
             <div className='py-6 '>
               {props.offers.map((row: any, index: number) =>
                 isMobile ? (
-                  <div key={row.id} className='bg-black text-white p-4 rounded-lg max-w-sm gap-4 md:gap-0 border border-[#333] mb-6 py-6'>
+                  <div
+                    key={row.id}
+                    className='bg-black text-white p-4 rounded-lg max-w-sm gap-4 md:gap-0 border border-[#333] mb-6 py-6'
+                  >
                     <div className='flex justify-between items-center'>
                       <div className='flex items-center'>
                         <span className='font-semibold'>Offer Received</span>
                       </div>
                       {props.listStatus == 1 && props.isOwner && (
-                        <button className='bg-transparent border border-green-400 text-green-400 rounded-lg px-4 py-1'>Accept</button>
+                        <button
+                          className='bg-transparent border border-green-400 text-green-400 rounded-lg px-4 py-1'
+                          onClick={() => handleAcceptOffer(row.id)}
+                        >
+                          Accept
+                        </button>
                       )}
                     </div>
                     <div className='mt-4'>
                       <p>From</p>
-                      <p className='text-white'>@heyimjoe</p>
+                      <p className='text-white'>
+                        {formatAddress(row.walletAddress)}
+                      </p>
                     </div>
                     <div className='flex justify-between items-center mt-4'>
                       <div className='flex items-center gap-1'>
-                        <Image src={SolanaImg} alt='solana' width={18}></Image>
-                        <span className='text-white text-lg'> {row.offerPrice} Sol</span>
+                        <Image
+                          src={coin.image}
+                          alt='solana'
+                          width={18}
+                          height={18}
+                        ></Image>
+                        <span className='text-white text-lg'>
+                          {' '}
+                          {row.offerPrice} {props.symbol}
+                        </span>
                       </div>
-                      <p className='text-gray-500'>{timeOffset(row.updatedAt)}</p>
+                      <p className='text-gray-500'>
+                        {timeOffset(row.updatedAt)}
+                      </p>
                     </div>
                   </div>
                 ) : (
-                  <div key={row.id} className='grid grid-cols-12 gap-4 md:gap-0 rounded-lg border border-[#333] mb-6 py-6'>
-                    <div className='col-span-12 md:col-span-1 py-2 text-center'>{index + 1}</div>
-                    <div className='col-span-12 md:col-span-6 py-2 text-center'>{row.walletAddress}</div>
-                    <div className='col-span-12 md:col-span-2 py-2 text-right'>{row.offerPrice}</div>
-                    <div className={`${props.listStatus == 1 ? 'col-span-2' : 'col-span-3'} py-2 text-center`}>{timeOffset(row.updatedAt)}</div>
+                  <div
+                    key={row.id}
+                    className='grid grid-cols-12 gap-4 md:gap-0 rounded-lg border border-[#333] mb-6 py-6'
+                  >
+                    <div className='col-span-12 md:col-span-1 py-2 text-center'>
+                      {index + 1}
+                    </div>
+                    <div className='col-span-12 md:col-span-5 py-2 text-center'>
+                      {row.walletAddress}
+                    </div>
+                    <div className='col-span-12 md:col-span-2 py-2 text-right'>
+                      {row.offerPrice}
+                    </div>
+                    <div
+                      className={`${
+                        props.listStatus == 1 ? 'col-span-2' : 'col-span-3'
+                      } py-2 text-center`}
+                    >
+                      {timeOffset(row.updatedAt)}
+                    </div>
                     {props.listStatus == 1 && props.isOwner && (
-                      <div className='col-span-12 md:col-span-1 text-center'>
+                      <div className='col-span-12 md:col-span-2 text-center'>
                         <button
                           className='py-2 px-6 rounded-3xl text-white border-[1px] border-[#AFAFAF] md:w-auto w-full'
                           onClick={() => handleAcceptOffer(row.id)}

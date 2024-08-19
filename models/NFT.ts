@@ -13,6 +13,8 @@ export interface NFT {
   offers?: any;
   creators?: any;
   gridType?: Number;
+  status?: string;
+  symbol?: string;
 }
 
 export interface NFTMetadata {

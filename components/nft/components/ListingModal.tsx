@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import solanaIcon from '@/public/images/solana-logo.png';
 import { ItemSummary } from '@/components/ItemSummary';
 import { createAuction, listing } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
@@ -18,9 +16,9 @@ import Notification from '@/components/Notification';
 import PopUp from '@/components/PopUp';
 
 type ListingType = 'listing-fixed' | 'listing-auction';
-import { NATIVE_MINT } from '@solana/spl-token';
 import { useRouter } from 'next/navigation';
 import CoinSelect from '@/components/CoinSelect';
+import coinList from '@/utils/coinInfoList';
 
 interface ListingModalProps {
   name: string;
@@ -52,7 +50,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
     'success'
   );
 
-  const [selectedCoin, setSelectedCoin] = useState();
+  const [selectedCoin, setSelectedCoin] = useState(coinList[0]);
 
   const [notification, setNotification] = useState<{
     variant: 'default' | 'success' | 'warning' | 'danger';
@@ -135,7 +133,8 @@ export const ListingModal: React.FC<ListingModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+
+      const treasuryMint = new web3.PublicKey(selectedCoin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await listing(
@@ -235,7 +234,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
-      const treasuryMint = NATIVE_MINT;
+      const treasuryMint = new web3.PublicKey(selectedCoin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 
       const tx = await createAuction(
@@ -353,7 +352,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                   <div className='flex flex-col gap-[10px] w-full'>
                     <span className='font-semibold text-base'>Price</span>
                     <div className='text-[#afafaf] font-normal text-sm'>
-                      Enter the price for 1 item (in SOL).
+                      Enter the price for 1 item (in {selectedCoin?.symbol}).
                     </div>
                     <div className='flex flex-row gap-3 items-center'>
                       <CoinSelect
@@ -362,10 +361,11 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                       />
                       <input
                         type='number'
-                        className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-full'
+                        className='p-2 border-[0.5px] outline-none bg-[#0B0A0A] text-white rounded-lg w-full'
                         placeholder='Enter Amount'
                         value={fixedPrice ?? ''}
                         onChange={handlePriceChange}
+                        min={0}
                       />
                     </div>
                   </div>
@@ -376,18 +376,17 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                       Set the minimum bid you want to consider.
                     </div>
                     <div className='flex flex-row gap-3 items-center'>
-                      <Image
-                        src={solanaIcon}
-                        width={24}
-                        height={24}
-                        alt='sol'
+                      <CoinSelect
+                        selectedCoin={selectedCoin}
+                        setSelectedCoin={setSelectedCoin}
                       />
                       <input
                         type='number'
-                        className='p-2 border-[0.5px] bg-[#0B0A0A] text-white rounded-lg w-full'
+                        className='p-2 border-[0.5px] outline-none bg-[#0B0A0A] text-white rounded-lg w-full'
                         placeholder='Enter Amount'
                         value={minimumBid ?? ''}
                         onChange={handleBidChange}
+                        min={0}
                       />
                     </div>
                     <span className='font-semibold text-base'>
@@ -465,7 +464,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                     Price:
                   </span>
                   <span className='text-base font-semibold'>
-                    {fixedPrice} SOL
+                    {fixedPrice} {selectedCoin.symbol}
                   </span>
                 </div>
                 <button
@@ -499,7 +498,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
                     Minimum Bid:
                   </span>
                   <span className='text-base font-semibold'>
-                    {minimumBid} SOL
+                    {minimumBid} {selectedCoin.symbol}
                   </span>
                 </div>
                 <div className='flex flex-row justify-between w-full'>

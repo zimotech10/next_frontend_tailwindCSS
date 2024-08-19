@@ -19,6 +19,7 @@ interface NFTDetails extends NFT {
   price?: string | null;
   startTime?: number;
   endTime?: number;
+  symbol?: string;
 }
 
 export const NFTDetail: React.FC<NFTDetails> = ({
@@ -27,6 +28,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
   description,
   owner,
   image,
+  symbol,
   attributes,
   detailsProfile,
   mintAddress,
@@ -82,6 +84,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           isOffered={isOffered}
           mintAddress={mintAddress}
           offers={offers}
+          symbol={symbol}
           creators={creators}
           startTime={startTime}
           endTime={endTime}
@@ -105,6 +108,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           listStatus={listStatus}
           listingPrice={price}
           mintAddress={mintAddress}
+          symbol={symbol}
           onClose={closeOfferModal}
         />
       )}
@@ -115,6 +119,7 @@ export const NFTDetail: React.FC<NFTDetails> = ({
           owner={owner}
           listingPrice={price}
           creators={creators}
+          symbol={symbol}
           mintAddress={mintAddress}
           onClose={closeBuyModal}
         />

@@ -8,7 +8,12 @@ import { ItemSummary } from '@/components/ItemSummary';
 import { instantBuy, offer, offerToAuction } from '@/web3/contract';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
-import { connection, PROGRAM_ID, PROGRAM_INTERFACE, commitmentLevel } from '@/web3/utils';
+import {
+  connection,
+  PROGRAM_ID,
+  PROGRAM_INTERFACE,
+  commitmentLevel,
+} from '@/web3/utils';
 import { web3 } from '@coral-xyz/anchor';
 import { AnchorWallet, useAnchorWallet } from '@solana/wallet-adapter-react';
 import { Icon } from '@iconify-icon/react/dist/iconify.js';
@@ -19,6 +24,7 @@ import useScreen from '@/hooks/useScreen';
 import { NATIVE_MINT } from '@solana/spl-token';
 import { useRouter } from 'next/navigation';
 import { PublicKey } from '@solana/web3.js';
+import coinList from '@/utils/coinInfoList';
 
 interface BuyModalProps {
   name: string;
@@ -27,19 +33,31 @@ interface BuyModalProps {
   owner?: string;
   creators?: any;
   listingPrice?: string | null;
+  symbol?: string;
   onClose: () => void;
 }
 
-export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, creators, owner, listingPrice, onClose }) => {
-  const [offerPrice, setOfferPrice] = useState<number | undefined>(undefined);
+export const BuyModal: React.FC<BuyModalProps> = ({
+  name,
+  image,
+  mintAddress,
+  creators,
+  owner,
+  listingPrice,
+  symbol,
+  onClose,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const wallet = useAnchorWallet();
 
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [modalMessage, setModalMessage] = useState(''); // State for modal message
   const [connectModal, setConnectModal] = useState(false);
-  const [modalVariant, setModalVariant] = useState<'error' | 'success'>('success');
+  const [modalVariant, setModalVariant] = useState<'error' | 'success'>(
+    'success'
+  );
   const modalRef = useRef<HTMLDivElement>(null);
+  const [coin, setCoin] = useState<any>(coinList[0]);
 
   const [notification, setNotification] = useState<{
     variant: 'default' | 'success' | 'warning' | 'danger';
@@ -53,6 +71,16 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
   const handleConnectModal = () => {
     setConnectModal(!connectModal);
   };
+
+  useEffect(() => {
+    try {
+      if (symbol) {
+        setCoin(coinList.find((coin) => coin.symbol === symbol));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [symbol]);
 
   useEffect(() => {
     // Disable background scrolling when modal is open
@@ -89,18 +117,34 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
         handleConnectModal();
         return;
       }
-      const provider = new anchor.AnchorProvider(connection, wallet as AnchorWallet, {
-        preflightCommitment: commitmentLevel,
-      });
+      const provider = new anchor.AnchorProvider(
+        connection,
+        wallet as AnchorWallet,
+        {
+          preflightCommitment: commitmentLevel,
+        }
+      );
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const authority = new web3.PublicKey(process.env.NEXT_PUBLIC_AUTHORITY as string);
-      const treasuryMint = NATIVE_MINT;
+      const authority = new web3.PublicKey(
+        process.env.NEXT_PUBLIC_AUTHORITY as string
+      );
+      const treasuryMint = new web3.PublicKey(String(coin.address));
       const nftMint = new web3.PublicKey(mintAddress as string);
       const seller = new web3.PublicKey(owner as string);
-      const creatorList = creators.map((creator: string) => new PublicKey(creator));
-      const tx = await instantBuy(program, wallet as AnchorWallet, seller, authority, treasuryMint, nftMint, creatorList);
+      const creatorList = creators.map(
+        (creator: string) => new PublicKey(creator)
+      );
+      const tx = await instantBuy(
+        program,
+        wallet as AnchorWallet,
+        seller,
+        authority,
+        treasuryMint,
+        nftMint,
+        creatorList
+      );
 
       if (tx) {
         setNotification({
@@ -109,7 +153,6 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
           content: 'Your purchase was completed successfully.',
         });
         router.refresh();
-        router.back();
       } else {
         setNotification({
           variant: 'danger',
@@ -127,9 +170,17 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
   const topHeight = isMobile ? '30px' : '70px';
   return (
     <>
-      <PopUp isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} message={modalMessage} variant={modalVariant} />
+      <PopUp
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        message={modalMessage}
+        variant={modalVariant}
+      />
       <div className='fixed inset-0 flex justify-center items-center z-50 md:p-16 p-8'>
-        <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm' onClick={onClose}></div>
+        <div
+          className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm'
+          onClick={onClose}
+        ></div>
         <motion.div
           className='relative bg-[#0B0A0A] p-4 md:p-16 rounded-lg shadow-lg max-w-[800px] w-full flex flex-col gap-6'
           initial={{ opacity: 0, y: -50 }}
@@ -139,7 +190,10 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
           style={{ top: topHeight, maxHeight: '90vh', overflowY: 'hidden' }}
           ref={modalRef}
         >
-          <button className='absolute top-4 right-4 text-white' onClick={onClose}>
+          <button
+            className='absolute top-4 right-4 text-white'
+            onClick={onClose}
+          >
             <div
               style={{
                 backgroundColor: '#D3D3D3', // Light gray background
@@ -152,7 +206,10 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
                 border: '2px solid black', // Black border around the circle
               }}
             >
-              <Icon icon='mdi-close' style={{ color: 'black', fontSize: '16px' }} />
+              <Icon
+                icon='mdi-close'
+                style={{ color: 'black', fontSize: '16px' }}
+              />
             </div>
           </button>
           <h2 className='text-3xl font-bold text-white'>Buy NFT</h2>
@@ -161,7 +218,11 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
           <div className='flex flex-col md:flex-row gap-6'>
             <div className='flex flex-col gap-4 w-full'>
               <div className='flex items-center'>
-                <img src={image} alt={name} className='w-20 h-20 md:w-24 md:h-24 rounded-md' />
+                <img
+                  src={image}
+                  alt={name}
+                  className='w-20 h-20 md:w-24 md:h-24 rounded-md'
+                />
                 <div className='ml-4'>
                   <h3 className='text-lg font-bold text-white'>{name}</h3>
                   <p className='text-sm text-[#afafaf]'>#{3578}</p>
@@ -177,7 +238,13 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
                 <div className='flex justify-between'>
                   <span className='text-[#afafaf]'>Price:</span>
                   <div className='flex justify-center items-center gap-1'>
-                    <Image src={solanaIcon} alt='solanaIcon' style={{ width: '16px' }}></Image>
+                    <Image
+                      src={coin.image}
+                      width={16}
+                      height={16}
+                      alt='solanaIcon'
+                      style={{ width: '16px' }}
+                    ></Image>
                     <div className='flex justify-center items-center'>
                       <span className='text-white'>{Number(listingPrice)}</span>
                     </div>
@@ -186,9 +253,17 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
                 <div className='flex justify-between'>
                   <span className='text-[#afafaf]'>Marketplace Fee;</span>
                   <div className='flex justify-center items-center gap-1'>
-                    <Image src={solanaIcon} alt='solanaIcon' style={{ width: '16px' }}></Image>
+                    <Image
+                      src={coin.image}
+                      width={16}
+                      height={16}
+                      alt='solanaIcon'
+                      style={{ width: '16px' }}
+                    ></Image>
                     <div className='flex justify-center items-center'>
-                      <span className='text-white'>{Number(listingPrice) * 0.02}(2%)</span>
+                      <span className='text-white'>
+                        {Number(listingPrice) * 0.02}(2%)
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -214,7 +289,7 @@ export const BuyModal: React.FC<BuyModalProps> = ({ name, image, mintAddress, cr
                 }}
                 onClick={handleInstantBuy}
               >
-                Buy Now for {listingPrice} SOL
+                Buy Now for {listingPrice} {symbol}
               </button>
             </div>
           </div>

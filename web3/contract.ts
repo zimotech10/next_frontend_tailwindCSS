@@ -1,7 +1,6 @@
 import * as anchor from '@coral-xyz/anchor';
 import {
   SYSVAR_RENT_PUBKEY,
-  Keypair,
   PublicKey,
   SYSVAR_INSTRUCTIONS_PUBKEY,
 } from '@solana/web3.js';
@@ -10,10 +9,8 @@ import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   NATIVE_MINT,
   getAssociatedTokenAddress,
-  getOrCreateAssociatedTokenAccount,
   createAssociatedTokenAccountInstruction,
 } from '@solana/spl-token';
-// import  {BictoryMarketplace}  from "../stores/idl";
 import {
   AUTHORIZATION_RULES_PROGRAM_ID,
   findAuctionAccount,
@@ -29,6 +26,55 @@ import {
   METADATA_PROGRAM_ID,
 } from './utils';
 import { AnchorWallet } from '@solana/wallet-adapter-react';
+
+export async function createAuctionHouse(
+  program: anchor.Program,
+  payer: AnchorWallet,
+  authority: PublicKey,
+  treasuryMint: PublicKey,
+  treasuryWithdrawOwner: PublicKey,
+  discountCollection: PublicKey,
+  sellerFeeBasispoints: number,
+  discountBasisPoints: number
+) {
+  try {
+    const auctionHouse = findAuctionHouse(authority, treasuryMint);
+    const auctionHouseTreasury = findAuctionHouseTreasury(auctionHouse);
+
+    let treasuryWithdraw = treasuryWithdrawOwner;
+    if (treasuryMint != NATIVE_MINT) {
+      treasuryWithdraw = await getAssociatedTokenAddress(
+        treasuryMint,
+        treasuryWithdrawOwner
+      );
+    }
+    const tx = await program.methods
+      .createAuctionHouse(
+        sellerFeeBasispoints,
+        discountCollection,
+        discountBasisPoints
+      )
+      .accounts({
+        payer: payer.publicKey,
+        authority: authority,
+        treasuryMint: treasuryMint,
+        treasuryWithdrawalDestination: treasuryWithdraw,
+        treasuryWithdrawalDestinationOwner: treasuryWithdrawOwner,
+        auctionHouse: auctionHouse,
+        auctionHouseTreasury: auctionHouseTreasury,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: SYSVAR_RENT_PUBKEY,
+        ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      })
+      .rpc({ commitment: 'confirmed', maxRetries: 10 });
+    return tx;
+  } catch (error) {
+    console.log('create auction house error', error);
+  }
+
+  return null;
+}
 
 export const listing = async (
   program: anchor.Program,
@@ -280,6 +326,11 @@ export const instantBuy = async (
     : await getAssociatedTokenAddress(treasuryMint, seller);
 
   const escrowWallet = findEscrowWallet(buyer.publicKey, auctionHouse);
+  // const escrowWallet = await getAssociatedTokenAddress(
+  //   treasuryMint,
+  //   buyer.publicKey
+  // );
+
   const listingAccount = findListingAccount(nftMint);
   const nftToAccountInfo = await program.provider.connection.getAccountInfo(
     nftToAccount
@@ -326,6 +377,15 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
+  console.log({
+    buyer: buyer.publicKey,
+    seller: seller,
+    escrowPaymentAccount: escrowWallet,
+    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
+    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+    authority: authority,
+    treasuryMint: treasuryMint,
+  });
   try {
     const tx = await program.methods
       .instantBuy()
@@ -497,6 +557,10 @@ export const deposit = async (
     const isNative = treasuryMint == NATIVE_MINT;
     const auctionHouse = findAuctionHouse(authority, treasuryMint);
     const escrowWallet = findEscrowWallet(wallet.publicKey, auctionHouse);
+    const walletAta = await getAssociatedTokenAddress(
+      treasuryMint,
+      wallet.publicKey
+    );
     // const walletAta = (
     //   await getOrCreateAssociatedTokenAccount(
     //     program.provider.connection,
@@ -512,8 +576,8 @@ export const deposit = async (
         wallet: wallet.publicKey,
         authority: authority,
         treasuryMint: treasuryMint,
-        paymentAccount: wallet.publicKey,
-        // paymentAccount: isNative ? wallet.publicKey : walletAta,
+        // paymentAccount: wallet.publicKey,
+        paymentAccount: isNative ? wallet.publicKey : walletAta,
         escrowPaymentAccount: escrowWallet,
         auctionHouse: auctionHouse,
         systemProgram: anchor.web3.SystemProgram.programId,
