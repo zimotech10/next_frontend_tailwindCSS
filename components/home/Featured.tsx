@@ -64,7 +64,7 @@ const Featured = () => {
         </div>
         <Image src={Vector} alt='vector'></Image>
       </div>
-      <div className='flex md:flex-row flex-col items-center justify-center gap-16'>
+      <div className='flex md:flex-row flex-col items-center justify-center gap-16 pr-12'>
         {featuredItems.map((item, index) => (
           <FeaturedCard
             key={index}

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import localFont from 'next/font/local';
 
-const electronica = localFont({ src: '../../fonts/Electronica.otf' });
+const ethnocentric = localFont({ src: '../../fonts/ethnocentric.otf' });
 
 const LaunchItem = (
   props: React.PropsWithChildren<{
@@ -15,9 +15,9 @@ const LaunchItem = (
 ) => {
   return (
     <div className='flex flex-col justify-center items-center pt-6 bg-[#1a1a1a] text-white rounded-[24px] overflow-hidden w-72 shadow-lg'>
-      <div className={`relative  ${electronica.className}`}>
+      <div className={`relative  ${ethnocentric.className}`}>
         <Image src={props.image} alt='Image' width={props.imgWidth} height={props.imgHeight} className='object-cover' />
-        <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-center py-2 px-4 rounded-md w-[200px]'>
+        <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-center py-2 px-4 rounded-md w-[220px]'>
           <span className='font-bold'>{props.timeLeft}</span>
         </div>
       </div>
