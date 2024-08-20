@@ -15,6 +15,7 @@ export interface NFT {
   gridType?: Number;
   status?: string;
   symbol?: string;
+  offered?: string;
 }
 
 export interface NFTMetadata {

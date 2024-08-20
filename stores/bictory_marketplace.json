@@ -1284,6 +1284,11 @@
           "relations": ["auction_house"]
         },
         {
+          "name": "payment_account",
+          "docs": ["User SPL account to transfer funds from."],
+          "writable": true
+        },
+        {
           "name": "escrow_payment_account",
           "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
@@ -2022,6 +2027,11 @@
           "relations": ["auction_house"]
         },
         {
+          "name": "payment_account",
+          "docs": ["User SPL account to transfer funds from."],
+          "writable": true
+        },
+        {
           "name": "escrow_payment_account",
           "docs": ["Buyer escrow payment account PDA."],
           "writable": true,
@@ -2452,6 +2462,10 @@
             "type": "pubkey"
           },
           {
+            "name": "treasury_mint",
+            "type": "pubkey"
+          },
+          {
             "name": "mint",
             "type": "pubkey"
           },
@@ -2666,6 +2680,10 @@
             "type": "pubkey"
           },
           {
+            "name": "treasury_mint",
+            "type": "pubkey"
+          },
+          {
             "name": "price",
             "type": "u64"
           },
@@ -2696,7 +2714,7 @@
             "type": "pubkey"
           },
           {
-            "name": "escrow",
+            "name": "treasury_mint",
             "type": "pubkey"
           },
           {
@@ -2732,6 +2750,10 @@
             "type": "u64"
           },
           {
+            "name": "treasury_mint",
+            "type": "pubkey"
+          },
+          {
             "name": "timestamp",
             "type": "u64"
           }
@@ -2749,6 +2771,10 @@
           },
           {
             "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_mint",
             "type": "pubkey"
           },
           {

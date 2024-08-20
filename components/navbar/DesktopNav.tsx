@@ -93,8 +93,10 @@ const DesktopNav = (
   }, [isLoggedIn, wallet.connected]);
 
   const disConnectWallet = async () => {
-    CookieRepository.removeAccessToken();
-    CookieRepository.removeRefreshToken();
+    if (CookieRepository.getAccessToken()) CookieRepository.removeAccessToken();
+
+    if (CookieRepository.getRefreshToken())
+      CookieRepository.removeRefreshToken();
     await wallet.disconnect();
     setLoggedIn(false);
     previousPublicKey.current = null;

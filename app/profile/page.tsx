@@ -121,18 +121,44 @@ export default function ProfilePage() {
           );
         }
         return (
-          <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
-            {nfts.map((nft: NFT) => (
-              <ItemCard
-                key={nft.id}
-                name={nft.name}
-                image={nft.image}
-                price={nft.price}
-                mintAddress={nft.mintAddress?.toString()}
-                symbol={nft.symbol}
-              />
-            ))}
-          </div>
+          <>
+            <div className=''>
+              <p>Offered</p>
+              <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
+                {nfts.map(
+                  (nft: NFT) =>
+                    nft.offered == 'Offered' && (
+                      <ItemCard
+                        key={nft.id}
+                        name={nft.name}
+                        image={nft.image}
+                        price={nft.price}
+                        mintAddress={nft.mintAddress?.toString()}
+                        symbol={nft.symbol}
+                      />
+                    )
+                )}
+              </div>
+            </div>
+            <div className=''>
+              <p>Received</p>
+              <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
+                {nfts.map(
+                  (nft: NFT) =>
+                    nft.offered == 'Received' && (
+                      <ItemCard
+                        key={nft.id}
+                        name={nft.name}
+                        image={nft.image}
+                        price={nft.price}
+                        mintAddress={nft.mintAddress?.toString()}
+                        symbol={nft.symbol}
+                      />
+                    )
+                )}
+              </div>
+            </div>
+          </>
         );
       case 'On Sale':
         if (!nfts || nfts.length === 0) {

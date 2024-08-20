@@ -235,6 +235,7 @@ export const ListingModal: React.FC<ListingModalProps> = ({
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string
       );
+      console.log(selectedCoin.address);
       const treasuryMint = new web3.PublicKey(selectedCoin.address);
       const nftMint = new web3.PublicKey(mintAddress as string);
 

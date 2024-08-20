@@ -324,7 +324,10 @@ export const instantBuy = async (
   const sellerPaymentReceiptAccount = isNative
     ? seller
     : await getAssociatedTokenAddress(treasuryMint, seller);
-
+  const paymentAccount = await getAssociatedTokenAddress(
+    treasuryMint,
+    buyer.publicKey
+  );
   const escrowWallet = findEscrowWallet(buyer.publicKey, auctionHouse);
   // const escrowWallet = await getAssociatedTokenAddress(
   //   treasuryMint,
@@ -350,16 +353,24 @@ export const instantBuy = async (
     );
   }
 
-  const remainingAccounts = creators
-    ? creators.map((creator) => {
-        return {
-          pubkey: creator,
+  const remainingAccounts = [];
+  if (creators) {
+    for (let i = 0; i < creators?.length; i++) {
+      remainingAccounts.push({
+        pubkey: creators[i],
+        isSigner: false,
+        isWritable: true,
+      });
+      if (!isNative) {
+        const ata = await getAssociatedTokenAddress(treasuryMint, creators[i]);
+        remainingAccounts.push({
+          pubkey: ata,
           isSigner: false,
           isWritable: true,
-        };
-      })
-    : [];
-
+        });
+      }
+    }
+  }
   if (discountMint && discountTokenAccount && discountMetadata) {
     remainingAccounts.push({
       pubkey: discountMint,
@@ -377,15 +388,6 @@ export const instantBuy = async (
       isWritable: false,
     });
   }
-  console.log({
-    buyer: buyer.publicKey,
-    seller: seller,
-    escrowPaymentAccount: escrowWallet,
-    sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
-    buyerReceiptTokenAccount: buyerReceiptTokenAccount,
-    authority: authority,
-    treasuryMint: treasuryMint,
-  });
   try {
     const tx = await program.methods
       .instantBuy()
@@ -395,6 +397,7 @@ export const instantBuy = async (
         escrowPaymentAccount: escrowWallet,
         sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
         buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+        paymentAccount: isNative ? buyer.publicKey : paymentAccount,
         authority: authority,
         treasuryMint: treasuryMint,
         auctionHouse: auctionHouse,
@@ -478,16 +481,24 @@ export const acceptBuy = async (
     );
   }
 
-  const remainingAccounts = creators
-    ? creators.map((creator) => {
-        return {
-          pubkey: creator,
+  const remainingAccounts = [];
+  if (creators) {
+    for (let i = 0; i < creators?.length; i++) {
+      remainingAccounts.push({
+        pubkey: creators[i],
+        isSigner: false,
+        isWritable: true,
+      });
+      if (!isNative) {
+        const ata = await getAssociatedTokenAddress(treasuryMint, creators[i]);
+        remainingAccounts.push({
+          pubkey: ata,
           isSigner: false,
           isWritable: true,
-        };
-      })
-    : [];
-
+        });
+      }
+    }
+  }
   if (discountMint && discountTokenAccount && discountMetadata) {
     remainingAccounts.push({
       pubkey: discountMint,
@@ -846,7 +857,10 @@ export const winPrize = async (
   const sellerPaymentReceiptAccount = isNative
     ? seller
     : await getAssociatedTokenAddress(treasuryMint, seller);
-
+  const paymentAccount = await getAssociatedTokenAddress(
+    treasuryMint,
+    buyer.publicKey
+  );
   const escrowWallet = findEscrowWallet(buyer.publicKey, auctionHouse);
   const nftToAccountInfo = await program.provider.connection.getAccountInfo(
     nftToAccount
@@ -864,16 +878,24 @@ export const winPrize = async (
     );
   }
 
-  const remainingAccounts = creators
-    ? creators.map((creator) => {
-        return {
-          pubkey: creator,
+  const remainingAccounts = [];
+  if (creators) {
+    for (let i = 0; i < creators?.length; i++) {
+      remainingAccounts.push({
+        pubkey: creators[i],
+        isSigner: false,
+        isWritable: true,
+      });
+      if (!isNative) {
+        const ata = await getAssociatedTokenAddress(treasuryMint, creators[i]);
+        remainingAccounts.push({
+          pubkey: ata,
           isSigner: false,
           isWritable: true,
-        };
-      })
-    : [];
-
+        });
+      }
+    }
+  }
   if (discountMint && discountTokenAccount && discountMetadata) {
     remainingAccounts.push({
       pubkey: discountMint,
@@ -900,6 +922,7 @@ export const winPrize = async (
         escrowPaymentAccount: escrowWallet,
         sellerPaymentReceiptAccount: sellerPaymentReceiptAccount,
         buyerReceiptTokenAccount: buyerReceiptTokenAccount,
+        paymentAccount: isNative ? buyer.publicKey : paymentAccount,
         authority: authority,
         treasuryMint: treasuryMint,
         auctionHouse: auctionHouse,
