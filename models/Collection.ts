@@ -25,4 +25,6 @@ export interface Collection2 {
   logoImage: string;
   description: string;
   isVerified: boolean;
+  floor?: string;
+  monthFloor?: string;
 }

@@ -159,6 +159,8 @@ const Collections = () => {
                     description={collection.description}
                     logoImage={`${collection.logoImage}`}
                     coverImage={`${collection.baseImage}`}
+                    floor={`${collection.floor}`}
+                    average={`${collection.monthFloor}`}
                     isVerified={collection.isVerified}
                     gridType={gridType}
                   />

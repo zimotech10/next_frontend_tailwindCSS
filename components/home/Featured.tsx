@@ -63,6 +63,8 @@ const Featured = () => {
                 symbol={item.symbol}
                 logoImage={String(item.logoImage)}
                 coverImage={String(item.baseImage)}
+                floor={`${item.floor}`}
+                average={`${item.monthFloor}`}
                 isVerified={item.isVerified}
                 gridType={0}
               />
