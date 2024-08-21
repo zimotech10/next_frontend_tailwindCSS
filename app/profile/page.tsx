@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IBM_Plex_Sans } from 'next/font/google';
 import { useWallet } from '@solana/wallet-adapter-react';
 import solanaIcon from '@/public/images/solana-logo.png';
@@ -14,6 +14,7 @@ import { NFT } from '@/models/NFT';
 import { BigSpinner } from '@/components/Spinner';
 import Notification from '@/components/profileNotification';
 import Deposit from '@/components/Deposit';
+import { ActivityApi } from '@/api/activityApi';
 
 const ibmSans = IBM_Plex_Sans({
   weight: ['400', '500', '600', '700'],
@@ -27,8 +28,69 @@ export default function ProfilePage() {
   const [nfts, setNFTs] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState<
-    'NFTs' | 'Offers' | 'On Sale' | 'Deposit'
+    'NFTs' | 'Offers' | 'On Sale' | 'Deposit' | 'Activity'
   >('NFTs');
+  const [activities, setActivities] = useState<any[]>([]);
+  const [sortModal, setSortModal] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [type, setType] = useState('all');
+  const sortRef = useRef<HTMLDivElement>(null);
+
+  const selectSort = (method: string) => {
+    setType(method);
+    setSortModal(false);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+      setSortModal(false);
+    }
+  };
+
+  const fetchActivities = async (
+    limit: number,
+    offset: number,
+    type: string
+  ) => {
+    try {
+      setLoading(true);
+      const newActivities = await ActivityApi.getWalletActivity(
+        limit,
+        offset,
+        type
+      );
+      if (newActivities)
+        setActivities((prevActivities) => [
+          ...prevActivities,
+          ...newActivities,
+        ]);
+      setLoading(false);
+    } catch (error) {
+      console.log('Error Fetching Activities:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleExploreMore = () => {
+    const newOffset = activities.length;
+    setOffset(newOffset);
+    fetchActivities(10, newOffset, type);
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (selectedTab == 'Activity') {
+      setOffset(0);
+      setActivities([]);
+      fetchActivities(10, 0, type);
+    }
+  }, [selectedTab, , type]);
 
   useEffect(() => {
     if (address) {
@@ -65,6 +127,25 @@ export default function ProfilePage() {
       const solscanUrl = `https://solscan.io/account/${address}`;
       window.open(solscanUrl, '_blank');
     }
+  };
+
+  const timeOffset = (isoString: string) => {
+    const offerTime = new Date(isoString);
+    const offerUnixTime = Math.floor(offerTime.getTime() / 1000);
+    const currentUnixTime = Math.floor(Date.now() / 1000);
+
+    const differenceInSeconds = currentUnixTime - offerUnixTime;
+
+    const days = Math.floor(differenceInSeconds / (3600 * 24));
+    const hours = Math.floor((differenceInSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+    if (days != 0) {
+      return `${days} days ago`;
+    } else if (hours != 0) {
+      return `${hours} hours ago`;
+    } else if (minutes != 0) {
+      return `${minutes} mins ago`;
+    } else return `a minute ago`;
   };
 
   const formattedAddress = formatAddress(address);
@@ -183,6 +264,218 @@ export default function ProfilePage() {
             ))}
           </div>
         );
+
+      case 'Activity':
+        if (!activities || activities.length === 0) {
+          return (
+            <Notification
+              message1='Nothing found'
+              message2='No Activities of This NFT'
+              icon='pajamas:folder'
+            />
+          );
+        }
+        return (
+          <div className='flex w-full py-3 md:py-0'>
+            {activities && activities.length !== 0 && (
+              <div className='flex flex-col justify-center w-full'>
+                <div className='flex justify-end'>
+                  <div
+                    className='flex flex-row items-center justify-center cursor-pointer w-fit relative py-2 h-11 px-3 md:px-8 rounded-2xl md:rounded-[32px] gap-2 md:gap-4 border-[1px] border-[#191C1F]'
+                    style={{ backgroundColor: '#0B0A0A' }}
+                    onClick={() => setSortModal(!sortModal)}
+                    ref={sortRef}
+                  >
+                    <span style={{ fontSize: '14px', color: '#CDD4E6' }}>
+                      {type.toUpperCase()}
+                    </span>
+                    <Icon
+                      icon='mingcute:down-line'
+                      width={20}
+                    />
+                    {sortModal && (
+                      <div
+                        className='absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start'
+                        style={{ width: '170px', backgroundColor: '#0B0A0A' }}
+                      >
+                        <div
+                          onClick={() => selectSort('all')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>All</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('list')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>List</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('unlist')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Unlist</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('offer')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Offer</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('cancel offer')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Cancel Offer</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('accept offer')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Accept Offer</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('auction')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Auction</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('cancel auction')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Cancel Auction</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('auction offer')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Auction Offer</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('cancel auction offer')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Cancel Auction Offer</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('win prize')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Win Prize</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  {activities && activities.length !== 0 && (
+                    <div className='my-8 md:pl-16 pl-4'>
+                      <div className='w-full py-8'>
+                        <div className='grid grid-cols-12 text-[#AFAFAF] justify-between'>
+                          <div className='col-span-1 py-2 text-center'>S/N</div>
+                          <div className='col-span-2 py-2 text-center'>
+                            Type
+                          </div>
+                          <div className='col-span-3 py-2 text-center'>
+                            From
+                          </div>
+                          <div className='col-span-3 py-2 text-center'>To</div>
+                          <div className='col-span-1 py-2 text-right'>
+                            Price
+                          </div>
+                          <div className={`col-span-2 py-2 text-center`}>
+                            Timestamp
+                          </div>
+                        </div>
+
+                        <div className='py-6 '>
+                          {activities.map((row: any, index: number) => (
+                            <div
+                              key={row.id}
+                              className='grid grid-cols-12 gap-4 md:gap-0 rounded-lg border border-[#333] mb-6 py-6'
+                            >
+                              <div className='col-span-12 md:col-span-1 py-2 text-center'>
+                                {index + 1}
+                              </div>
+                              <div className='col-span-12 md:col-span-2 py-2 text-center'>
+                                {row.type}
+                              </div>
+                              <div className='col-span-12 md:col-span-3 py-2 text-center'>
+                                {formatAddress(row.from)}
+                              </div>
+                              <div className='col-span-12 md:col-span-3 py-2 text-center'>
+                                {formatAddress(row.to)}
+                              </div>
+                              <div className='col-span-12 md:col-span-1 py-2 text-right'>
+                                {row.price}
+                              </div>
+                              <div className={`col-span-2 py-2 text-center`}>
+                                {timeOffset(row.updatedAt)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className='flex justify-center items-center'>
+                  <button
+                    className='w-fit px-8 py-2 border-white border rounded-full'
+                    onClick={() => handleExploreMore()}
+                  >
+                    Explore more
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
       case 'Deposit':
         return <Deposit />;
       default:
@@ -259,6 +552,16 @@ export default function ProfilePage() {
             onClick={() => setSelectedTab('On Sale')}
           >
             On Sale
+          </li>
+          <li
+            className={`${
+              selectedTab === 'Activity'
+                ? 'bg-gradient-to-r from-[#1f1f1f] to-[#2B2B2B] shadow-lg transform scale-105 transition duration-300 ease-in-out'
+                : ''
+            } rounded-full px-6 py-2 cursor-pointer`}
+            onClick={() => setSelectedTab('Activity')}
+          >
+            Activity
           </li>
           <li
             className={`${

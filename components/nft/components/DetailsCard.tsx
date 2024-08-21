@@ -148,7 +148,7 @@ export const DetailsCard = (
   }, [props.offers]);
 
   const handleExploreMore = () => {
-    const newOffset = offset + limit;
+    const newOffset = activities.length;
     setOffset(newOffset);
     fetchActivities(limit, newOffset, type);
   };
@@ -528,57 +528,59 @@ export const DetailsCard = (
         return (
           <div className='flex gap-4 md:gap-6 flex-wrap py-3 md:py-0'>
             {activities && activities.length !== 0 && (
-              <div>
-                <div
-                  className='flex flex-row items-center cursor-pointer w-fit relative py-2 h-11 px-3 md:px-8 rounded-2xl md:rounded-[32px] gap-2 md:gap-4 border-[1px] border-[#191C1F]'
-                  style={{ backgroundColor: '#0B0A0A' }}
-                  onClick={() => setSortModal(!sortModal)}
-                  ref={sortRef}
-                >
-                  <span style={{ fontSize: '14px', color: '#CDD4E6' }}>
-                    {type}
-                  </span>
-                  <Icon
-                    icon='mingcute:down-line'
-                    width={20}
-                  />
-                  {sortModal && (
-                    <div
-                      className='absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start'
-                      style={{ width: '170px', backgroundColor: '#0B0A0A' }}
-                    >
+              <div className='flex flex-col justify-center w-full'>
+                <div className='flex justify-end'>
+                  <div
+                    className='flex flex-row items-center cursor-pointer w-fit relative py-2 h-11 px-3 md:px-8 rounded-2xl md:rounded-[32px] gap-2 md:gap-4 border-[1px] border-[#191C1F]'
+                    style={{ backgroundColor: '#0B0A0A' }}
+                    onClick={() => setSortModal(!sortModal)}
+                    ref={sortRef}
+                  >
+                    <span style={{ fontSize: '14px', color: '#CDD4E6' }}>
+                      {type}
+                    </span>
+                    <Icon
+                      icon='mingcute:down-line'
+                      width={20}
+                    />
+                    {sortModal && (
                       <div
-                        onClick={() => selectSort('buy')}
-                        style={{
-                          width: '100%',
-                          cursor: 'pointer',
-                          pointerEvents: 'auto',
-                        }}
+                        className='absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start'
+                        style={{ width: '170px', backgroundColor: '#0B0A0A' }}
                       >
-                        <span>Instant Buy</span>
+                        <div
+                          onClick={() => selectSort('buy')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Instant Buy</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('accept offer')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Accept Offer</span>
+                        </div>
+                        <div
+                          onClick={() => selectSort('win prize')}
+                          style={{
+                            width: '100%',
+                            cursor: 'pointer',
+                            pointerEvents: 'auto',
+                          }}
+                        >
+                          <span>Win Prize</span>
+                        </div>
                       </div>
-                      <div
-                        onClick={() => selectSort('accept offer')}
-                        style={{
-                          width: '100%',
-                          cursor: 'pointer',
-                          pointerEvents: 'auto',
-                        }}
-                      >
-                        <span>Accept Offer</span>
-                      </div>
-                      <div
-                        onClick={() => selectSort('win prize')}
-                        style={{
-                          width: '100%',
-                          cursor: 'pointer',
-                          pointerEvents: 'auto',
-                        }}
-                      >
-                        <span>Win Prize</span>
-                      </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
                 <div>
                   {activities && activities.length !== 0 && (
@@ -683,12 +685,14 @@ export const DetailsCard = (
                     </div>
                   )}
                 </div>
-                <button
-                  className='px-4 py-2 border-white border rounded-full'
-                  onClick={() => handleExploreMore()}
-                >
-                  Explore more
-                </button>
+                <div className='flex justify-center items-center'>
+                  <button
+                    className='w-fit px-16 py-8 border-white border rounded-full'
+                    onClick={() => handleExploreMore()}
+                  >
+                    Explore more
+                  </button>
+                </div>
               </div>
             )}
           </div>
