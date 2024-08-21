@@ -6,104 +6,45 @@ import Vector from '@/public/images/Vector-red.png';
 import Image from 'next/image';
 import localFont from 'next/font/local';
 import Link from 'next/link';
+import { CollectionApi } from '@/api/collectionApi';
 
 const electronica = localFont({ src: '../../fonts/Electronica.otf' });
-const featuredItems = [
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/collection-avatar-1.png',
-    price: 960.62,
-    isVerified: true,
-  },
-];
 
 const TopCollection = () => {
-  const [sort, setSort] = useState('Most Recent');
-  const [sortModal, setSortModal] = useState(false);
-  const sortRef = useRef<HTMLDivElement>(null);
+  // const [sort, setSort] = useState('Most Recent');
+  // const [sortModal, setSortModal] = useState(false);
+  // const sortRef = useRef<HTMLDivElement>(null);
 
-  const selectSort = (method: string, orderBy: string, orderDir: string) => {
-    setSort(method);
-    setSortModal(false);
-  };
+  // const selectSort = (method: string, orderBy: string, orderDir: string) => {
+  //   setSort(method);
+  //   setSortModal(false);
+  // };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
-      setSortModal(false);
-    }
-  };
+  // const handleClickOutside = (event: MouseEvent) => {
+  //   if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+  //     setSortModal(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
+
+  const [featuredItems, setFeaturedItems] = useState<any>();
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+    const fetchFeaturedItems = async () => {
+      try {
+        const items = await CollectionApi.getTopCollection();
+        if (items) setFeaturedItems(items);
+      } catch (error) {
+        console.log('Error Fetching Featured Collections:', error);
+      }
     };
+    fetchFeaturedItems();
   }, []);
 
   return (
@@ -129,7 +70,7 @@ const TopCollection = () => {
             alt='vector'
           ></Image>
         </div>
-        <div
+        {/* <div
           className='flex flex-row items-center cursor-pointer w-fit relative py-2 h-11 px-3 md:px-8 rounded-2xl md:rounded-[32px] gap-2 md:gap-4 border-[1px] border-[#191C1F]'
           style={{ backgroundColor: '#0B0A0A' }}
           onClick={() => setSortModal(!sortModal)}
@@ -189,19 +130,22 @@ const TopCollection = () => {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
       <div className='flex flex-wrap md:flex-row flex-col items-center justify-center gap-16 pt-8'>
-        {featuredItems.map((item, index) => (
-          <TopCollectionItem
-            key={index}
-            id={index + 1}
-            name={item.name}
-            image={`${item.image}`}
-            imgWidth={96}
-            imgHeight={21}
-          />
-        ))}
+        {featuredItems &&
+          featuredItems.map((item: any, index: any) => (
+            <TopCollectionItem
+              key={index}
+              id={index + 1}
+              name={item.name}
+              symbol={item.symbol}
+              image={`${item.logoimage}`}
+              price={`${item.avg_nft_value}`}
+              imgWidth={96}
+              imgHeight={21}
+            />
+          ))}
       </div>
       <div className='flex justify-center pt-8'>
         <Link

@@ -1,59 +1,58 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import DiscoverCard from './DiscoverItem';
-import { Icon } from '@iconify-icon/react/dist/iconify.js';
 import Vector from '@/public/images/Vector-green.png';
 import Image from 'next/image';
 import localFont from 'next/font/local';
 import Link from 'next/link';
+import { NftApi } from '@/api/nftApi';
 
 const electronica = localFont({ src: '../../fonts/Electronica.otf' });
-const featuredItems = [
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/nft3.png',
-    price: '960.62',
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/nft1.png',
-    price: '960.62',
-  },
-  {
-    name: 'Antisocial Ape Club:YKTV',
-    image: '/images/nft2.png',
-    price: '960.62',
-  },
-];
 
 const DiscoverLatest = () => {
-  const [sort, setSort] = useState('Most Recent');
-  const [sortModal, setSortModal] = useState(false);
-  const sortRef = useRef<HTMLDivElement>(null);
+  // const [sort, setSort] = useState('Most Recent');
+  // const [sortModal, setSortModal] = useState(false);
+  // const sortRef = useRef<HTMLDivElement>(null);
 
-  const selectSort = (method: string, orderBy: string, orderDir: string) => {
-    setSort(method);
-    setSortModal(false);
-  };
+  // const selectSort = (method: string, orderBy: string, orderDir: string) => {
+  //   setSort(method);
+  //   setSortModal(false);
+  // };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
-      setSortModal(false);
-    }
-  };
+  // const handleClickOutside = (event: MouseEvent) => {
+  //   if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+  //     setSortModal(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
+  const [featuredItems, setFeaturedItems] = useState<any>();
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+    const fetchFeaturedItems = async () => {
+      try {
+        const items = await NftApi.getLatestNFT();
+        if (items) setFeaturedItems(items);
+      } catch (error) {
+        console.log('Error Fetching Featured Collections:', error);
+      }
     };
+    fetchFeaturedItems();
   }, []);
   return (
     <div className='md:pl-28 md:pt-14'>
       <div className='flex md:flex-row flex-col  md:justify-between justify-center md:items-start items-center md:pr-20 pr-0 md:mt-0 mt-10'>
         <div className='flex md:flex-row flex-col items-center gap-8'>
           <div className='flex '>
-            <Image src={Vector} alt='vector'></Image>
+            <Image
+              src={Vector}
+              alt='vector'
+            ></Image>
             <div
               className={`text-[24px] md:text-[32px]  ${electronica.className}`}
               style={{
@@ -63,9 +62,12 @@ const DiscoverLatest = () => {
             >
               DISCOVER THE LATEST
             </div>
-            <Image src={Vector} alt='vector'></Image>
+            <Image
+              src={Vector}
+              alt='vector'
+            ></Image>
           </div>
-          <div
+          {/* <div
             className='flex flex-row items-center cursor-pointer w-fit relative py-2 h-11 px-3 md:px-8 rounded-2xl md:rounded-[32px] gap-2 md:gap-4 border-[1px] border-[#191C1F]'
             style={{ backgroundColor: '#0B0A0A' }}
             onClick={() => setSortModal(!sortModal)}
@@ -117,7 +119,7 @@ const DiscoverLatest = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
         <Link
           href={'/explorer'}
@@ -131,9 +133,17 @@ const DiscoverLatest = () => {
         </Link>
       </div>
       <div className='flex flex-wrap md:flex-row flex-col items-center justify-center gap-16 pt-8'>
-        {featuredItems.map((item, index) => (
-          <DiscoverCard key={index} id={index + 1} name={item.name} image={`${item.image}`} price={item.price} gridType={0} />
-        ))}
+        {featuredItems &&
+          featuredItems.map((item: any, index: any) => (
+            <DiscoverCard
+              key={index}
+              id={index + 1}
+              name={item.name}
+              image={`${item.image}`}
+              price={item.price}
+              gridType={0}
+            />
+          ))}
       </div>
       <div className='flex justify-center pt-8'></div>
     </div>

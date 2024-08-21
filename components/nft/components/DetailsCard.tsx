@@ -687,7 +687,7 @@ export const DetailsCard = (
                 </div>
                 <div className='flex justify-center items-center'>
                   <button
-                    className='w-fit px-16 py-8 border-white border rounded-full'
+                    className='w-fit px-16 py-4 border-white border rounded-full'
                     onClick={() => handleExploreMore()}
                   >
                     Explore more

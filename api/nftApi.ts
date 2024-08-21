@@ -22,7 +22,7 @@ export const NftApi = {
         limit,
         price,
         attributes,
-        status
+        status,
       });
       const data = response.data;
       return data;
@@ -35,26 +35,61 @@ export const NftApi = {
     try {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.get(`/nft/item/${mintAddress}`);
-      const { isOwner, listStatus, isOffered, owner, bids, nftInfo, price, startTime,endTime } =
-        response.data;
+      const {
+        isOwner,
+        listStatus,
+        isOffered,
+        owner,
+        bids,
+        nftInfo,
+        price,
+        startTime,
+        endTime,
+      } = response.data;
       const creators = nftInfo.creators.map((creator: any) => creator.address);
       const description = nftInfo.json.description;
       const attributes = nftInfo.json.attributes;
-      return { isOwner, listStatus, isOffered, owner, bids, creators, price, description, attributes, startTime, endTime, };
+      return {
+        isOwner,
+        listStatus,
+        isOffered,
+        owner,
+        bids,
+        creators,
+        price,
+        description,
+        attributes,
+        startTime,
+        endTime,
+      };
     } catch (error) {
       console.error('Error fetching NFT Status', error);
       throw error;
     }
   },
   getNFTAttributes: async (symbol: string) => {
-    try{
+    try {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.get(`/collection/attribute/${symbol}`);
       const attributes = response.data;
       return attributes;
-    } catch(error){
+    } catch (error) {
       console.error('Error fetching Attributes Status', error);
       throw error;
     }
-  } 
+  },
+  getLatestNFT: async () => {
+    try {
+      const axiosClient = await createAxiosClient();
+      const response = await axiosClient.get(`/nft/latest`, {
+        params: {
+          limit: 5,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error Fetching Latest NFT:', error);
+      throw error;
+    }
+  },
 };
