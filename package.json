@@ -21,6 +21,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.92.2",
     "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.0.25",
     "jwt-decode": "^4.0.0",

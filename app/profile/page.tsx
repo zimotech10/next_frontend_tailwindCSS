@@ -13,7 +13,6 @@ import ItemCard from '@/components/ItemCard';
 import { NFT } from '@/models/NFT';
 import { BigSpinner } from '@/components/Spinner';
 import Notification from '@/components/profileNotification';
-import Link from 'next/link';
 import Deposit from '@/components/Deposit';
 
 const ibmSans = IBM_Plex_Sans({

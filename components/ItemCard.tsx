@@ -91,6 +91,16 @@ const ItemCard: React.FC<NFT> = ({
             className='overflow-hidden'
             style={{ maxWidth: imageStyle.width }}
           >
+            {status == 'Auction' && (
+              <div className='absolute m-2 bg-[#FFB3211A] text-[#FFB321] text-xs px-2 py-1 rounded-full z-10'>
+                Auction
+              </div>
+            )}
+            {status == 'Fixed price' && (
+              <div className='absolute m-2 bg-[#21FF871A] text-[#21FF87] text-xs px-2 py-1 rounded-full z-10'>
+                Fixed Price
+              </div>
+            )}
             <img
               src={image}
               alt='image'
@@ -99,11 +109,6 @@ const ItemCard: React.FC<NFT> = ({
                 e.currentTarget.src = defaultImage.src; // Replace with the default image if the original fails
               }}
             />
-            {status == 'Auction' && (
-              <div className='absolute top-0 right-0 m-2 bg-red-500 text-white text-xs px-2 py-1 rounded'>
-                Auction
-              </div>
-            )}
           </div>
           {showButton && (
             <Link
