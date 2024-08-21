@@ -138,7 +138,9 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const price = new BN(offerPrice * web3.LAMPORTS_PER_SOL);
+      const multiplier = new BN(10 ** coin.decimals);
+
+      const price = new BN(offerPrice).mul(multiplier);
       const expiry = null;
 
       const authority = new web3.PublicKey(
@@ -216,8 +218,8 @@ export const MakeOfferModal: React.FC<MakeOfferModalProps> = ({
       });
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
-
-      const price = new BN(offerPrice * web3.LAMPORTS_PER_SOL);
+      const multiplier = new BN(10 ** coin.decimals);
+      const price = new BN(offerPrice).mul(multiplier);
 
       const authority = new web3.PublicKey(
         process.env.NEXT_PUBLIC_AUTHORITY as string

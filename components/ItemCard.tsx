@@ -92,12 +92,12 @@ const ItemCard: React.FC<NFT> = ({
             style={{ maxWidth: imageStyle.width }}
           >
             {status == 'Auction' && (
-              <div className='absolute m-2 bg-[#FFB3211A] text-[#FFB321] text-xs px-2 py-1 rounded-full z-10'>
+              <div className='absolute m-2 font-bold border border-[#FFB321] badge-gradient-yellow text-[#FFB321] text-xs px-2 py-1 rounded-full z-10'>
                 Auction
               </div>
             )}
             {status == 'Fixed price' && (
-              <div className='absolute m-2 bg-[#21FF871A] text-[#21FF87] text-xs px-2 py-1 rounded-full z-10'>
+              <div className='absolute m-2 font-bold border border-[#21FF87] badge-gradient-green text-[#5CFFA7] text-xs px-2 py-1 rounded-full z-10'>
                 Fixed Price
               </div>
             )}

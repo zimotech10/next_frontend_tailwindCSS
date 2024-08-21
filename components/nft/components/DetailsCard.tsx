@@ -60,6 +60,7 @@ export const DetailsCard = (
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [type, setType] = useState('');
+  const [totalCount, setTotalCount] = useState(0);
 
   const [connectModal, setConnectModal] = useState(false);
   const [activities, setActivities] = useState<any[]>([]);
@@ -95,13 +96,21 @@ export const DetailsCard = (
     offset: number,
     type: string
   ) => {
-    const newActivities = await ActivityApi.getNFTActivity(
-      String(props.mintAddress),
-      limit,
-      offset,
-      type
-    );
-    setActivities((prevActivities) => [...prevActivities, ...newActivities]);
+    try {
+      setLoading(true);
+      const { rows, totalCount } = await ActivityApi.getNFTActivity(
+        String(props.mintAddress),
+        limit,
+        offset,
+        type
+      );
+      setActivities((prevActivities) => [...prevActivities, ...rows]);
+      setTotalCount(totalCount);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error Fetching Activities:', error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -685,14 +694,16 @@ export const DetailsCard = (
                     </div>
                   )}
                 </div>
-                <div className='flex justify-center items-center'>
-                  <button
-                    className='w-fit px-16 py-4 border-white border rounded-full'
-                    onClick={() => handleExploreMore()}
-                  >
-                    Explore more
-                  </button>
-                </div>
+                {activities && activities.length < totalCount && (
+                  <div className='flex justify-center items-center'>
+                    <button
+                      className='w-fit px-16 py-4 border-white border rounded-full'
+                      onClick={() => handleExploreMore()}
+                    >
+                      Explore more
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

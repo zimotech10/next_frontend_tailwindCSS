@@ -11,28 +11,6 @@ import { CollectionApi } from '@/api/collectionApi';
 const electronica = localFont({ src: '../../fonts/Electronica.otf' });
 
 const TopCollection = () => {
-  // const [sort, setSort] = useState('Most Recent');
-  // const [sortModal, setSortModal] = useState(false);
-  // const sortRef = useRef<HTMLDivElement>(null);
-
-  // const selectSort = (method: string, orderBy: string, orderDir: string) => {
-  //   setSort(method);
-  //   setSortModal(false);
-  // };
-
-  // const handleClickOutside = (event: MouseEvent) => {
-  //   if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
-  //     setSortModal(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
-
   const [featuredItems, setFeaturedItems] = useState<any>();
 
   useEffect(() => {
@@ -70,67 +48,6 @@ const TopCollection = () => {
             alt='vector'
           ></Image>
         </div>
-        {/* <div
-          className='flex flex-row items-center cursor-pointer w-fit relative py-2 h-11 px-3 md:px-8 rounded-2xl md:rounded-[32px] gap-2 md:gap-4 border-[1px] border-[#191C1F]'
-          style={{ backgroundColor: '#0B0A0A' }}
-          onClick={() => setSortModal(!sortModal)}
-          ref={sortRef}
-        >
-          <span style={{ fontSize: '14px', color: '#CDD4E6' }}>{sort}</span>
-          <Icon
-            icon='mingcute:down-line'
-            width={20}
-          />
-          {sortModal && (
-            <div
-              className='absolute top-12 z-50 p-3 flex flex-col gap-3 rounded-md items-start'
-              style={{ width: '170px', backgroundColor: '#0B0A0A' }}
-            >
-              <div
-                onClick={() => selectSort('Most Recent', 'date', 'desc')}
-                style={{
-                  width: '100%',
-                  cursor: 'pointer',
-                  pointerEvents: 'auto',
-                }}
-              >
-                <span>Most Recent</span>
-              </div>
-              <div
-                onClick={() => selectSort('Oldest', 'date', 'asc')}
-                style={{
-                  width: '100%',
-                  cursor: 'pointer',
-                  pointerEvents: 'auto',
-                }}
-              >
-                <span>Oldest</span>
-              </div>
-              <div
-                onClick={() => selectSort('Price: Low to High', 'price', 'asc')}
-                style={{
-                  width: '100%',
-                  cursor: 'pointer',
-                  pointerEvents: 'auto',
-                }}
-              >
-                <span>Price: Low to High</span>
-              </div>
-              <div
-                onClick={() =>
-                  selectSort('Price: High to Low', 'price', 'desc')
-                }
-                style={{
-                  width: '100%',
-                  cursor: 'pointer',
-                  pointerEvents: 'auto',
-                }}
-              >
-                <span>Price: High to Low</span>
-              </div>
-            </div>
-          )}
-        </div> */}
       </div>
       <div className='flex flex-wrap md:flex-row flex-col items-center justify-center gap-16 pt-8'>
         {featuredItems &&
@@ -141,7 +58,12 @@ const TopCollection = () => {
               name={item.name}
               symbol={item.symbol}
               image={`${item.logoimage}`}
-              price={`${item.avg_nft_value}`}
+              price={
+                Number(item.avg_nft_value) % 1 !== 0 &&
+                item.avg_nft_value.toString().split('.')[1]?.length > 4
+                  ? parseFloat(item.avg_nft_value).toFixed(4)
+                  : item.avg_nft_value
+              }
               imgWidth={96}
               imgHeight={21}
             />

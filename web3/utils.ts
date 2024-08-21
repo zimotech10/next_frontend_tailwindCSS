@@ -1,11 +1,6 @@
 import * as anchor from '@coral-xyz/anchor';
 // import { findProgramAddressSync } from '@coral-xyz/anchor/dist/cjs/utils/pubkey';
-import {
-  PublicKey,
-  LAMPORTS_PER_SOL,
-  clusterApiUrl,
-  Connection,
-} from '@solana/web3.js';
+import { PublicKey, LAMPORTS_PER_SOL, Connection } from '@solana/web3.js';
 import idl from '@/stores/bictory_marketplace.json';
 
 export const PREFIX = 'bictory_marketplace';

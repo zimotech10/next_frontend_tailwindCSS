@@ -27,6 +27,7 @@ export default function ProfilePage() {
   const [copied, setCopied] = useState(false);
   const [nfts, setNFTs] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
   const [selectedTab, setSelectedTab] = useState<
     'NFTs' | 'Offers' | 'On Sale' | 'Deposit' | 'Activity'
   >('NFTs');
@@ -54,16 +55,13 @@ export default function ProfilePage() {
   ) => {
     try {
       setLoading(true);
-      const newActivities = await ActivityApi.getWalletActivity(
+      const { rows, totalCount } = await ActivityApi.getWalletActivity(
         limit,
         offset,
         type
       );
-      if (newActivities)
-        setActivities((prevActivities) => [
-          ...prevActivities,
-          ...newActivities,
-        ]);
+      if (rows) setActivities((prevActivities) => [...prevActivities, ...rows]);
+      setTotalCount(totalCount);
       setLoading(false);
     } catch (error) {
       console.log('Error Fetching Activities:', error);
@@ -464,14 +462,16 @@ export default function ProfilePage() {
                     </div>
                   )}
                 </div>
-                <div className='flex justify-center items-center'>
-                  <button
-                    className='w-fit px-16 py-4 border-white border rounded-full'
-                    onClick={() => handleExploreMore()}
-                  >
-                    Explore more
-                  </button>
-                </div>
+                {activities && activities.length < totalCount && (
+                  <div className='flex justify-center items-center'>
+                    <button
+                      className='w-fit px-16 py-4 border-white border rounded-full'
+                      onClick={() => handleExploreMore()}
+                    >
+                      Explore more
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

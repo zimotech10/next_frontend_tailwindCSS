@@ -129,7 +129,10 @@ export const ListingModal: React.FC<ListingModalProps> = ({
 
       const program = new anchor.Program(PROGRAM_INTERFACE, provider);
 
-      const price = new BN(fixedPrice * web3.LAMPORTS_PER_SOL);
+      const multiplier = new BN(10 ** selectedCoin.decimals);
+
+      const price = new BN(fixedPrice).mul(multiplier);
+
       const expiry = null;
 
       const authority = new web3.PublicKey(

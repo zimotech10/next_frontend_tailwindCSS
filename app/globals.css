@@ -18,7 +18,12 @@
 
 body {
   color: white;
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
   overflow-x: hidden;
 }
 
@@ -132,6 +137,26 @@ button.wallet-adapter-button-trigger:hover {
 
 button.wallet-adapter-button-trigger:hover::before {
   background: none; /* Remove the gradient border on hover */
+}
+
+.badge-gradient-green {
+  @apply bg-gradient-to-t from-black/70 to-black/70;
+  background-image: linear-gradient(
+      0deg,
+      rgba(33, 255, 135, 0.1),
+      rgba(33, 255, 135, 0.1)
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+}
+
+.badge-gradient-yellow {
+  @apply bg-gradient-to-t from-black/70 to-black/70;
+  background-image: linear-gradient(
+      0deg,
+      rgba(255, 179, 33, 0.1),
+      rgba(255, 179, 33, 0.1)
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
 }
 
 /* Responsive padding adjustments */

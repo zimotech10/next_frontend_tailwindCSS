@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import { commitmentLevel, connection, PROGRAM_INTERFACE } from '@/web3/utils';
 import * as anchor from '@coral-xyz/anchor';
 import { BN } from '@coral-xyz/anchor';
-import { NATIVE_MINT } from '@solana/spl-token';
 import { deposit } from '@/web3/contract';
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 import createAxiosClient from '@/api/axiosClient';
 import Notification from './Notification';
@@ -77,13 +75,13 @@ export default function Deposit() {
       const treasuryMint = new anchor.web3.PublicKey(
         String(selectedCoin.address)
       );
-
+      const multiplier = new BN(10 ** selectedCoin.decimals);
       const tx = await deposit(
         program,
         wallet as AnchorWallet,
         authority,
         treasuryMint,
-        new anchor.BN(depositAmount * LAMPORTS_PER_SOL)
+        new anchor.BN(depositAmount).mul(multiplier)
       );
 
       if (tx) {

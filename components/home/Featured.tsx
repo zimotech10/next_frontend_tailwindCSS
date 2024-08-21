@@ -63,8 +63,18 @@ const Featured = () => {
                 symbol={item.symbol}
                 logoImage={String(item.logoImage)}
                 coverImage={String(item.baseImage)}
-                floor={`${item.floor}`}
-                average={`${item.monthFloor}`}
+                floor={
+                  Number(item.floor) % 1 !== 0 &&
+                  item.floor.toString().split('.')[1]?.length > 4
+                    ? parseFloat(item.floor).toFixed(4)
+                    : item.floor
+                }
+                average={
+                  Number(item.monthFloor) % 1 !== 0 &&
+                  item.monthFloor.toString().split('.')[1]?.length > 4
+                    ? parseFloat(item.monthFloor).toFixed(4)
+                    : item.monthFloor
+                }
                 isVerified={item.isVerified}
                 gridType={0}
               />

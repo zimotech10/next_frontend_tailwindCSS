@@ -159,8 +159,18 @@ const Collections = () => {
                     description={collection.description}
                     logoImage={`${collection.logoImage}`}
                     coverImage={`${collection.baseImage}`}
-                    floor={`${collection.floor}`}
-                    average={`${collection.monthFloor}`}
+                    floor={
+                      Number(collection.floor) % 1 !== 0 &&
+                      collection.floor.toString().split('.')[1]?.length > 4
+                        ? parseFloat(collection.floor).toFixed(4)
+                        : collection.floor
+                    }
+                    average={
+                      Number(collection.monthFloor) % 1 !== 0 &&
+                      collection.monthFloor.toString().split('.')[1]?.length > 4
+                        ? parseFloat(collection.monthFloor).toFixed(4)
+                        : collection.monthFloor
+                    }
                     isVerified={collection.isVerified}
                     gridType={gridType}
                   />

@@ -6,31 +6,11 @@ import Image from 'next/image';
 import localFont from 'next/font/local';
 import Link from 'next/link';
 import { NftApi } from '@/api/nftApi';
+import ItemCard from '../ItemCard';
 
 const electronica = localFont({ src: '../../fonts/Electronica.otf' });
 
 const DiscoverLatest = () => {
-  // const [sort, setSort] = useState('Most Recent');
-  // const [sortModal, setSortModal] = useState(false);
-  // const sortRef = useRef<HTMLDivElement>(null);
-
-  // const selectSort = (method: string, orderBy: string, orderDir: string) => {
-  //   setSort(method);
-  //   setSortModal(false);
-  // };
-
-  // const handleClickOutside = (event: MouseEvent) => {
-  //   if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
-  //     setSortModal(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
   const [featuredItems, setFeaturedItems] = useState<any>();
 
   useEffect(() => {
@@ -135,12 +115,20 @@ const DiscoverLatest = () => {
       <div className='flex flex-wrap md:flex-row flex-col items-center justify-center gap-16 pt-8'>
         {featuredItems &&
           featuredItems.map((item: any, index: any) => (
-            <DiscoverCard
+            <ItemCard
               key={index}
               id={index + 1}
               name={item.name}
               image={`${item.image}`}
+              symbol={item.symbol}
               price={item.price}
+              status={
+                item.status == 1
+                  ? 'Fixed price'
+                  : item.status == 11
+                  ? 'Auction'
+                  : ''
+              }
               gridType={0}
             />
           ))}

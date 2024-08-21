@@ -83,7 +83,7 @@ export const NftApi = {
       const axiosClient = await createAxiosClient();
       const response = await axiosClient.get(`/nft/latest`, {
         params: {
-          limit: 5,
+          limit: 4,
         },
       });
       return response.data;
